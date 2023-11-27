@@ -4,8 +4,8 @@ from models.utils import load_model
 import evaluation as eval
 import utils
 import utils.constants as keys
-import attacks.standard_attacks as std_atk
-import attacks.bayesian_attacks as eot_atk
+import attacks.standard_attacks
+import attacks.bayesian_attacks
 import numpy as np
 import argparse
 import os
@@ -99,7 +99,7 @@ def main(root=keys.ROOT,
         Logger setup section
     '''
     from utils.loggers import set_up_logger
-    logger = set_up_logger(adv_examples_path, cuda, kwargs)
+    logger = set_up_logger(experiment_path, cuda, kwargs)
     
 
     '''
@@ -127,14 +127,7 @@ def main(root=keys.ROOT,
     test_subset_loader = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False, num_workers=2)
     test_subset_loader_during_attack = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False, num_workers=16)
 
-    # Setting up the Bayesian attack
-    # atk_optimizer, atk_goal = atk_type.split('-')
-    if attack_update_strategy == 'pgd':
-        bayesian_attack = eot_atk.PGDBayesianAttack
-    elif attack_update_strategy == 'fgsm':
-        bayesian_attack = eot_atk.FGSMBayesianAttack
-    else:
-        raise Exception(f"{attack_update_strategy} is not supported yet.")
+    
 
     '''
         --- Bayesian Model's Baseline ---
@@ -159,6 +152,7 @@ def main(root=keys.ROOT,
         logger.debug("Already evaluated and saved.")
         results = utils.utils.my_load(clean_results_path)                           # Loading the results
 
+    # TODO: Forse sta roba si può incorporare dopo
     # Logging the results
     accuracy = (results['preds'].numpy() == results['ground_truth'].numpy()).mean()
     if uq_technique == 'deterministic_uq':
@@ -169,13 +163,9 @@ def main(root=keys.ROOT,
         logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
 
-    # NOTE: Da qui sotto devo ancora passare a pulire, per ora metto un exit...
-    exit(1)
-
     '''
         --- Bayesian Model Under Attack ---
         Computing (or loading) the results of the Bayesian model with the selected epsilon perturbation.
-        
     '''
 
     # We compute the adverarial example generation / valutation only if the epsilon is not 0; otherwise we skip.
@@ -183,21 +173,27 @@ def main(root=keys.ROOT,
         logger.debug("----------------")
         logger.debug(attack_loss)
         
-        # Creating (if it does not exist) the folder for storing the adversarial examples
-        advx_ds_path = utils.utils.join(adv_examples_path, 'advx')  # TODO: Refactor this variable name
-        if not os.path.isdir(advx_ds_path):
-            os.makedirs(advx_ds_path)
+        file_count = len(os.listdir(adv_examples_path))
         
-        # Counting how many adversarial examples have been already saved
-        file_count = 0
-        for path in os.scandir(advx_ds_path):
-            if path.is_file():
-                file_count += 1
-
-        # Instantiating the attack
-        attack = bayesian_attack(epsilon=epsilon,
-                                 step_size=step_size,
-                                 mc_sample_size_during_attack=mc_samples_attack)
+        attack_kwargs = {'model': model,
+                         'device': device,
+                         'epsilon': epsilon,
+                         'update_strategy': attack_update_strategy,
+                         'step_size': step_size,
+                         'mc_sample_size_during_attack': mc_samples_attack}
+        if attack_loss == 'MinVar':
+            attack = attacks.bayesian_attacks.MinVarAttack(**attack_kwargs)
+        if attack_loss == 'MaxVar':
+            attack = attacks.bayesian_attacks.MaxVarAttack(**attack_kwargs)
+        elif attack_loss == 'AutoTarget':
+            attack = attacks.bayesian_attacks.AutoTargetAttack(**attack_kwargs)
+        elif attack_loss == 'Stab':
+            attack = attacks.bayesian_attacks.StabilizingAttack(**attack_kwargs)
+        else:
+            raise Exception(attack_loss, "attack loss is not supported.")
+        
+        # TODO: Sono arrivato fin qui col refactoring; qui in basso è da considerare ancora work in progress
+        exit(1)
 
         clean_preds = results['preds'].to(device)
         if uq_technique == 'deterministic_uq':

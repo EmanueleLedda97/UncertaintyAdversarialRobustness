@@ -1,5 +1,5 @@
 from attacks import constants as keys
-from attacks.standard_attacks import keys
+from attacks.standard_attacks import DEVICE, keys
 from .standard_attacks import *
 # Queste sono import assolute presumendo che gli script partano dalla root
 import metrics
@@ -14,33 +14,67 @@ class BaseBayesianAttack(BaseAttack):
         super().__init__(**kwargs)
         self.mc_sample_size_during_attack = mc_sample_size_during_attack
 
-    def init_duq_loss(self):
-        self.loss_fn = loss_functions.RBFLoss()
-
     def init_loss(self):
-        self.loss_fn = loss_functions.PredictionUncertaintyLoss(pred_w=self.attack_pred, unc_w=self.attack_unc)
+        self.loss_fn = loss_functions.BayesianCrossEntropyLoss()
     
-    def compute_loss(self, duq=False):
+    def compute_loss(self):
         output = self.model(self.x_adv, 
                             mc_sample_size=self.mc_sample_size_during_attack,
                             get_mc_output=True)
-        
-        # If I am using deterministic UQ I need to mantain the target unchanged (maybe?)
-        if duq:
-            loss = self.loss_fn(output, self.target)
-        else:
-            loss = self.loss_fn(output, self.target.long(), targeted=self.targeted)
-            
+        loss = self.loss_fn(output, self.target)
         return loss
         
+
+class StabilizingAttack(BaseBayesianAttack):
+    def __init__(self, mc_sample_size_during_attack=20, **kwargs) -> None:
+        super().__init__(mc_sample_size_during_attack, **kwargs)
+    
+    def init_loss(self):
+        self.loss_fn = loss_functions.BayesianCrossEntropyLoss()
+    
+    # Get the most likely class
+    def get_target_from_output(self):
+        pass
+
+
+class AutoTargetAttack(BaseBayesianAttack):
+    def __init__(self, mc_sample_size_during_attack=20, **kwargs) -> None:
+        super().__init__(mc_sample_size_during_attack, **kwargs)
+    
+    def init_loss(self):
+        self.loss_fn = loss_functions.BayesianCrossEntropyLoss()
+
+    # Get the most likely wrong class
+    def get_target_from_output(self):
+        pass
+
+
+class MinVarAttack(BaseBayesianAttack):
+    def __init__(self, mc_sample_size_during_attack=20, **kwargs) -> None:
+        super().__init__(mc_sample_size_during_attack, **kwargs)
+    
+    def init_loss(self):
+        self.loss_fn = loss_functions.VarianceLoss(beta=1)
+
+
+class MaxVarAttack(BaseBayesianAttack):
+    def __init__(self, mc_sample_size_during_attack=20, **kwargs) -> None:
+        super().__init__(mc_sample_size_during_attack, **kwargs)
+    
+    def init_loss(self):
+        self.loss_fn = loss_functions.VarianceLoss(beta=-1)
     
 
 
 
-class FGSMBayesianAttack(BaseBayesianAttack):
-    def __init__(self, epsilon=keys.EPSILON, step_size=1, **kwargs) -> None:
-        super().__init__(**kwargs)
-        self.optimizer = update_functions.FGSMUpdateAndProject(epsilon=epsilon)
+
+
+#####################################################################
+
+# class FGSMBayesianAttack(BaseBayesianAttack):
+#     def __init__(self, epsilon=keys.EPSILON, **kwargs) -> None:
+#         super().__init__(**kwargs)
+#         self.optimizer = update_functions.FGSMUpdateAndProject(epsilon=epsilon)
 
 
 class PGDBayesianAttack(BaseBayesianAttack):
@@ -50,6 +84,14 @@ class PGDBayesianAttack(BaseBayesianAttack):
         
 
 
+
+
+
+
+
+'''
+    TODO: Fix this section when refactoring the semantic segmentation part
+'''
 class PGDSemanticSegmentationAttack(PGDBayesianAttack):
     def __init__(self,
                  epsilon=keys.EPSILON,
