@@ -14,6 +14,7 @@ models/pretrained_baselines/*
 
 experiments/*
 datasets/*
+bash_scripts/*
 
 __pycache__
 attacks/__pycache__
