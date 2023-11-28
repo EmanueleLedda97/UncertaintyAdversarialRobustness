@@ -7,12 +7,12 @@ import utils.constants as keys
 import attacks.standard_attacks
 import attacks.bayesian_attacks
 import numpy as np
-import argparse
 import os
 import json
 import matplotlib.pyplot as plt
 from utils.paths import get_full_experiment_path
 from utils.parsers import parse_main_classification, add_seceval_parsing, add_ood_parsing
+from utils.loggers import set_up_logger
 
 
 '''
@@ -58,20 +58,6 @@ def main(root=keys.ROOT,
          kwargs=None,
          ):
 
-        
-    
-
-    # TODO: Add this logic when parsing as default values
-    # Choosing the correct batch sizes and hyperparameters
-    # # TODO: Refactoring in 'eval_batch_size' ed 'attack_batch_size'
-    # if uq_technique == 'deterministic_uq':
-    #     batch_size, atk_batch_size = keys.BATCH_FOR_EACH_BACKBONE_DUQ[backbone]
-    #     step_size, atk_iter = keys.LAST_HYPERPARAMETERS_CHOICES_DUQ
-    # else:
-    #     batch_size, atk_batch_size = keys.BATCH_FOR_EACH_BACKBONE[backbone]
-    #     step_size, atk_iter = keys.LAST_HYPERPARAMETERS_CHOICES
-
-
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
 
@@ -95,16 +81,9 @@ def main(root=keys.ROOT,
     if not os.path.isdir(adv_examples_path):
         os.makedirs(adv_examples_path)     
 
-    '''
-        Logger setup section
-    '''
-    from utils.loggers import set_up_logger
+    # Setting up the logger
     logger = set_up_logger(experiment_path, cuda, kwargs)
     
-
-    '''
-        Model setup section
-    '''
     # Loading the model and sending to device
     logger.debug("Loading model...")
     device = utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
@@ -127,14 +106,9 @@ def main(root=keys.ROOT,
     test_subset_loader = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False, num_workers=2)
     test_subset_loader_during_attack = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False, num_workers=16)
 
-    
-
-    '''
-        --- Bayesian Model's Baseline ---
-        Computing (or loading) the results of the baseline (i.e., epsilon=0)
-    '''
-    logger.debug("----------------")
-    logger.debug("BASELINE BAYESIAN MODEL")
+    logger.debug("-------------------------")
+    logger.debug("----- Clean Results -----")
+    logger.debug("-------------------------\n")
 
     # If the results file does not exist, compute the results, otherwise directly load them
     if not os.path.exists(clean_results_path) or re_evaluation_mode:                       
@@ -179,27 +153,19 @@ def main(root=keys.ROOT,
                          'device': device,
                          'epsilon': epsilon,
                          'update_strategy': attack_update_strategy,
-                         'step_size': step_size,
-                         'mc_sample_size_during_attack': mc_samples_attack}
+                         'step_size': step_size}
         if attack_loss == 'MinVar':
-            attack = attacks.bayesian_attacks.MinVarAttack(**attack_kwargs)
-        if attack_loss == 'MaxVar':
-            attack = attacks.bayesian_attacks.MaxVarAttack(**attack_kwargs)
+            attack = attacks.bayesian_attacks.MinVarAttack(mc_sample_size_during_attack=mc_samples_attack, **attack_kwargs)
+        elif attack_loss == 'MaxVar':
+            attack = attacks.bayesian_attacks.MaxVarAttack(mc_sample_size_during_attack=mc_samples_attack, **attack_kwargs)
         elif attack_loss == 'AutoTarget':
-            attack = attacks.bayesian_attacks.AutoTargetAttack(**attack_kwargs)
+            attack = attacks.bayesian_attacks.AutoTargetAttack(mc_sample_size_during_attack=mc_samples_attack, **attack_kwargs)
         elif attack_loss == 'Stab':
-            attack = attacks.bayesian_attacks.StabilizingAttack(**attack_kwargs)
+            attack = attacks.bayesian_attacks.StabilizingAttack(mc_sample_size_during_attack=mc_samples_attack, **attack_kwargs)
+        elif attack_loss == 'Centroid':
+            attack = attacks.bayesian_attacks.DUQAttack(**attack_kwargs)
         else:
             raise Exception(attack_loss, "attack loss is not supported.")
-        
-        # TODO: Sono arrivato fin qui col refactoring; qui in basso è da considerare ancora work in progress
-        exit(1)
-
-        clean_preds = results['preds'].to(device)
-        if uq_technique == 'deterministic_uq':
-            centroids = results['centroids'].to(device)
-        else:
-            mean_probs = results['mean_probs'].to(device)
 
 
         # If some adversarial example is missing, compute the remaining ones
@@ -214,60 +180,29 @@ def main(root=keys.ROOT,
             # Generating iteratively the adversarial examples from the selected test set
             for batch_i, (x, y) in enumerate(test_subset_loader_during_attack):
 
-                # TODO: Refactor this logic!
-                if is_an_ood_experiment:
-                    y = torch.zeros(y.shape[0], dtype=int).to(device)
+                # Sending the data to device
+                x, y = x.to(device), y.to(device)                       
 
-                x, y = x.to(device), y.to(device)                       # Sending the data to device
-
-                # NOTE: Non e' elegantissimo, ma sembra il compromesso tra efficienza e leggibilita'
-                #       Ricalcolarlo sarebbe sicuramente piu' ordinato, ma appesantisce notevolemente tutto
-                predicted_y = clean_preds[batch_size*batch_i:batch_size*(batch_i+1)]
-                
-                target = y
-                # TODO: REFACTOR!!!!
-                # NOTE: I am constructing a specific target for attacking the DUQ
-                if (uq_technique == 'deterministic_uq'):
-                    target = predicted_y
-                    my_mask = target == y
-                    target[my_mask] = centroids[batch_size*batch_i:batch_size*(batch_i+1)].argsort(dim=1)[:,-2][my_mask]
-                    # target = (y+1)%10 if uq_technique=='deterministic_uq' else y
-
-                # TODO: REFACTOR!
-                # If it is a targeted attack change the formulation
-                if targeted:
-                    target = predicted_y
-                    if not is_targeted_uncertainty:
-                        my_mask = target == y
-                        target[my_mask] = mean_probs[batch_size*batch_i:batch_size*(batch_i+1)].argsort(dim=1)[:,-2][my_mask]
-
-               
-                x_adv = attack.run(x=x,
-                                   target=target,
-                                   model=model,
-                                   iterations=atk_iter,
-                                   device=device,
-                                   duq=(uq_technique=='deterministic_uq'))
-                
-                logger.debug(f"Attack Took {attack.elapsed_time:.3f} seconds ({attack.elapsed_time/atk_iter:.3f} per iter)")
+                # Computing the adversarial examples for the current batch
+                adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                logger.debug(f"Attack Took {attack.elapsed_time:.3f} seconds ({attack.elapsed_time/num_attack_iterations:.3f} per iter)")
 
                 # Saving each adversarial example on the batch
-                for i in range(x_adv.shape[0]):
-                    fname = f"{str(k).zfill(10)}.png"                   # Setting the adversarial image filename
-                    file_path = os.path.join(advx_ds_path, fname)       # Creating the path for the adversarial image
-                    fname_to_target[fname] = y[i].item()                # Adding the correspondence to the dictionary
-                    torchvision.utils.save_image(x_adv[i], file_path)   # Saving the adversarial example
-                    k += 1                                              # Incrementing the sample's index
-            
-            
+                for i in range(adv_examples.shape[0]):
+                    fname = f"{str(k).zfill(10)}.png"                           # Setting the adversarial image filename
+                    file_path = os.path.join(adv_examples_path, fname)          # Creating the path for the adversarial image
+                    fname_to_target[fname] = y[i].item()                        # Adding the correspondence to the dictionary
+                    torchvision.utils.save_image(adv_examples[i], file_path)    # Saving the adversarial example
+                    k += 1                                                      # Incrementing the sample's index
+
             # Dumping the filename dictionary
-            with open(utils.join(advx_ds_path, 'fname_to_target.json'), 'w') as f:
+            with open(utils.utils.join(adv_examples_path, 'fname_to_target.json'), 'w') as f:   # TODO: Review logic of name dict
                 json.dump(fname_to_target, f)
         else:
             logger.debug("Adversarial examples already generated.")
         
         # Loading the adversarial set from the precomputed examples folder
-        adv_test_subset_dataset = utils.AdversarialDataset(advx_ds_path)
+        adv_test_subset_dataset = utils.utils.AdversarialDataset(adv_examples_path)
         adv_test_subset_loader = torch.utils.data.DataLoader(adv_test_subset_dataset, 
                                                         batch_size=batch_size, 
                                                         shuffle=False, 
@@ -277,17 +212,17 @@ def main(root=keys.ROOT,
         
         
         # Evaluating the Bayesian model on the adversarial dataset
-        if not os.path.exists(advx_results_path) or re_evaluation_mode:        
+        if not os.path.exists(adv_results_path) or re_evaluation_mode:        
             logger.debug("Computing evaluation...")
             if uq_technique == 'deterministic_uq':
                 adv_results = eval.evaluate_deterministic(model, adv_test_subset_loader,     # Evaluating the results on the clean set
                                                     device=device, seed=seed)
             else:
-                adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_eval, seed=seed, device=device)
-            utils.my_save(adv_results, advx_results_path)
+                adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval, seed=seed, device=device)
+            utils.utils.my_save(adv_results, adv_results_path)
         else:
             logger.debug("Already evaluated and saved.")
-            adv_results = utils.my_load(advx_results_path)                     # Loading the results
+            adv_results = utils.utils.my_load(adv_results_path)                     # Loading the results
         
         # Logging the results
         accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
@@ -301,23 +236,7 @@ def main(root=keys.ROOT,
             mi = adv_results['mutual_information'].mean().item()
             logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
-        print('done!')
-        # print(adv_results['true_var'])
-        
-   
-
-
-
-
-
-
-
-
-
-
-####################################################
-# SCRIPTS
-####################################################
+        print("done!")
 
 
 '''
@@ -344,14 +263,11 @@ def main_seceval(parser):
 def main_single(parser):
 
     # Parsing the arguments
-    # parser.add_argument('-eps', default=keys.EPS_BASE, type=float, help='epsilon, the perturbation budget')
     args = parser.parse_args()
     kwargs = {key: value for (key, value) in args._get_kwargs()}
 
     # Running the main
     main(**kwargs, kwargs=kwargs)
-
-
 
 
 if __name__ == '__main__':

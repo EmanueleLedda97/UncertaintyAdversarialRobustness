@@ -223,7 +223,7 @@ def __compose_attack_setup_string(epsilon, norm, strategy, step_size, forward_pa
         raise Exception(strategy, "is not a supported attack update strategy.")
     if norm not in keys.SUPPORTED_NORMS:
         raise Exception(norm, "is not a supported norm.")
-    setup_string = f"epsilon-{epsilon}___norm-{norm}___strategy-{strategy}___step-{step_size}___forwards-{forward_passes}"
+    setup_string = f"epsilon-{epsilon:.2}___norm-{norm}___strategy-{strategy}___step-{step_size}___forwards-{forward_passes}"
     
     return setup_string
 

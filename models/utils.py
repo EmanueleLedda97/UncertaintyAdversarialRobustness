@@ -19,9 +19,6 @@ import os
 '''
 def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian=False, ensemble_size=5, transform=None, device='cpu'):
 
-    # Warning print
-    # print("WARNING! The function needs to be implemented. It will, for now, return fake models not trained on the chosen dataset.")
-
     # Guard for the supported network architectures
     if backbone not in keys.SUPPORTED_BACKBONES:
         raise Exception(f"{backbone} is not a supported network architecture")
@@ -42,11 +39,15 @@ def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian
         # Loading the correct MCD ResNet
         if backbone in keys.SUPPORTED_RESNETS:
 
+            # NOTE: For now we are not using calibration
+            #       For this reason, I will set temperature to 1
             # Obtaining the correct temperature
-            if uq_technique == 'embedded_dropout':
-                temperature = keys.INJECTED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
-            elif uq_technique == 'injected_dropout':
-                temperature = keys.EMBEDDED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
+            # if uq_technique == 'embedded_dropout':
+            #     temperature = keys.INJECTED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
+            # elif uq_technique == 'injected_dropout':
+            #     temperature = keys.EMBEDDED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
+            
+            temperature = 1.0   # TODO: Find a more elegant solution
 
             # Creating the MCD ResNet
             model = ResNetMCD(backbone, pretrained=True, 
@@ -68,7 +69,7 @@ def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian
         # Preparing the network dropout layers
         set_model_to_eval_activating_dropout(model)
     elif uq_technique == 'deep_ensemble':
-        temperature = 1                                     # TODO: Modularize using constants
+        temperature = 1.0
         model = ResNetEnsemble(backbone, ensemble_size, transform=transform)
         model.eval()
     elif uq_technique == 'deterministic_uq':

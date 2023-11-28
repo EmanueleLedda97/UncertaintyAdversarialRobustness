@@ -1,8 +1,9 @@
 import torch
-from . import constants as keys
+# from . import constants as keys
+import utils.constants as keys
 
 class BaseUpdateAndProject:
-    def __init__(self, epsilon=keys.EPSILON) -> None:
+    def __init__(self, epsilon=keys.BASE_EPSILON) -> None:
         self.epsilon = epsilon
     
     def _update_and_project(self, x_adv, x):
@@ -39,7 +40,7 @@ class FGSMUpdateAndProject(BaseUpdateAndProject):
 '''
 class PGDUpdateAndProject(BaseUpdateAndProject):
 
-    def __init__(self, epsilon=keys.EPSILON, step_size=1e-1) -> None:
+    def __init__(self, epsilon=keys.BASE_EPSILON, step_size=1e-1) -> None:
         super().__init__(epsilon)
         self.gradients = []
         self.step_size = step_size

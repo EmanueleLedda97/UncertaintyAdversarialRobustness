@@ -14,7 +14,7 @@ EXPERIMENT_CATEGORIES = ['classification_id', 'classification_ood', 'semantic_se
 
 # Lists of supported attacks
 SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar']
-SUPPORTED_OVERCONFIDENCE_ATTACKS = ['MinVar', 'AutoTarget', 'Stab', 'UST']
+SUPPORTED_OVERCONFIDENCE_ATTACKS = ['MinVar', 'AutoTarget', 'Stab', 'Centroid', 'UST']
 SUPPORTED_ATTACKS = SUPPORTED_UNDERCONFIDENCE_ATTACKS + SUPPORTED_OVERCONFIDENCE_ATTACKS
 SUPPORTED_UPDATE_STRATEGIES = ['pgd', 'fgsm']
 
@@ -51,18 +51,13 @@ SUPPORTED_CUDAS = [0, 1]
 
 # Attack constants
 ROOT = 'experiments_correct'
-EPS_BASE = 0.031 #8/255
-BASE_EPSILON = 0.031    # Just a refactoring of the upper constant
+EPS_BASE = 0.031                    # 8/255
+BASE_EPSILON = 0.031                # Just a refactoring of the upper constant
 OPTIM_ATK_TYPE = ('fgsm', 'pgd')
 
 SEL_LOSS_TERMS = {'pred': (1, 0),
                   'unc': (0, 1),
                   'both': (1, 1)}
-
-# TODO: Remove this (old stuff)
-# ATK_NAMES = {'pred': 'Predictions Attack',
-#             'unc': 'Uncertainty Attack',
-#             'both': 'Predictions + Uncertainty Attack'}
 
 # Dictionary containing all the normalization vectors for each data set
 NORMALIZATION_DICT = {

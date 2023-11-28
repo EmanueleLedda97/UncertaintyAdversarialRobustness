@@ -2,18 +2,15 @@ import torch
 from torch.linalg import norm
 from time import time
 
-from attacks import constants as keys
-from . import constants as keys
+import utils.constants as keys
 from . import loss_functions
 from . import update_functions
 # Queste sono import assolute presumendo che gli script partano dalla root
-from . import constants as keys
 from utils.utils import get_device
 import matplotlib.pyplot as plt
 from metrics import var, entropy
 
-DEVICE = get_device()
-EPSILON = keys.EPSILON
+DEVICE = get_device()       # Refactor this in using constants
 
 """
     This class just define:
@@ -23,12 +20,14 @@ EPSILON = keys.EPSILON
 """
 class BaseAttack:
     
-    def __init__(self, model, device=DEVICE, epsilon=keys.EPSILON, update_strategy='pgd', step_size=None) -> None:
+    def __init__(self, model, device=DEVICE, epsilon=keys.BASE_EPSILON, update_strategy='pgd', step_size=None) -> None:
 
         # Setting up the base attack parameters
         self.device = device
         self.model = model
         self.epsilon = epsilon
+        self._reset_attack_data()
+        self.init_loss()
 
         # Choosing a suitable optimizer based on the selected update strategy
         if update_strategy == 'pgd':
@@ -40,46 +39,82 @@ class BaseAttack:
             raise Exception(update_strategy, "is not a supported update strategy")
         
         # Defining some parameters for managing the seceval history
-        self.loss_fn = None
+        # self.loss_fn = None
         self.loss = None
+        
     
-    def run(self, x, target, iterations=1):
-        self.x, self.target = x, target
+    def run(self, x, y=None, iterations=3):
+
+        # Resetting the parameters of the attack
+        self._reset_attack_data()
+
+        # Setting up (x,y)
+        self.x, self.y = x, y
         self.x_adv = torch.clone(x)
 
+        # Start the evaluation mode and activating the gradients for the adv x
         self.model.eval()
+        self.x_adv.requires_grad = True
+
+        # Start the attack iteration
         start = time()
-        for i in range(iterations):
-            self.x_adv.requires_grad = True
-            loss = self.compute_loss()
-            loss.backward()
-            self.update_and_project()
-            # self.x_adv = self.x_adv.detach()          # NOTE: ho messo il detach() sotto in update_and_project() 
+        for _ in range(iterations):
+            self.x_adv.requires_grad = True     # TODO: Check if can be removed
+            loss = self.compute_loss()          # Compute the loss
+            loss.backward()                     # Backpropagate
+            self.update_and_project()           # Update x and project onto the epsilon ball
         end = time()
         
+        # Saving the attack time
         self.elapsed_time = (end - start)
-        # print(f"Attack Took {self.elapsed_time:.3f} seconds ({self.elapsed_time/iterations:.3f} per iter)")
 
+        # Returning the adversarial example
         return self.x_adv.detach()
     
+    def compute_loss(self):
+        self.output = self.model(self.x_adv)
+
+        # At the first iteration we compute the target (which may require the clean output)
+        if (self.x == self.x_adv).all():
+            self.clean_output = self.output
+            self._set_target()
+
+        # loss = self.loss_fn(self.output, self.target)   # TODO: Find a solution for loss without targets
+        loss = self._feed_loss()
+        return loss
+
     def init_loss(self):
         self.loss_fn = loss_functions.MyCrossEntropyLoss()
-    
-    def compute_loss(self):
-        output = self.model(self.x_adv)
-        loss = self.loss_fn(output, self.target.long())
-        return loss
     
     def update_and_project(self):
         self.x_adv = self.optimizer._update_and_project(self.x_adv, self.x).detach()
 
+    def _reset_attack_data(self):
+        self.x, self.x_adv = None, None
+        self.output, self.clean_output = None, None
+        self.y, self.target = None, None
+    
+    def _set_target(self):
+        self.target = None
+    
+    def _feed_loss(self):
+        return self.loss_fn(self.output, self.target)
 
-# TODO: Check if the implementation works, because maybe the ".long()" in compute_loss function generates errors
+
+'''
+    TODO: Add documentation
+'''
 class DUQAttack(BaseAttack):
-    def __init__(self, model, device=DEVICE, epsilon=keys.EPSILON, update_strategy='pgd', step_size=None) -> None:
+    def __init__(self, model, device=DEVICE, epsilon=keys.BASE_EPSILON, update_strategy='pgd', step_size=None) -> None:
         super().__init__(model, device, epsilon, update_strategy, step_size)
         
     def init_loss(self):
         self.loss_fn = loss_functions.RBFLoss()
+
+    def _set_target(self):
+        centroids = self.clean_output
+        self.target = centroids.argmax(dim=1, keepdim=True).flatten()
+        mask = (self.target == self.y)
+        self.target[mask] = (centroids).argsort(dim=1)[:,-2][mask]
 
 

@@ -6,10 +6,9 @@ def set_up_logger(root, cuda, kwargs):
     logger = __init_logger(root, common_logger_path=join(root, f"logger-cuda-{cuda}.log"))
     
     # Write kwargs on in exp_path/info.txt and then write also on logger before running the rest
-    logger.debug('#'*40)
-    logger.debug('#'*40)
+    logger.debug('#'*40 + '\n' + '#'*40 + '\n' '#'*40)
     logger.debug('\n' + __write_kwargs(kwargs, root, 'info'))
-    logger.debug('#'*40)
+    logger.debug('#'*40 + '\n' + '#'*40 + '\n' '#'*40)
 
     return logger
 

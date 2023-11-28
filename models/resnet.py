@@ -536,6 +536,7 @@ class ResNet_DUQ(nn.Module):
         length_scale=0.1,
         gamma=0.999,
         transform=None,
+        device='cpu'
     ):
         super().__init__()
 
@@ -564,7 +565,7 @@ class ResNet_DUQ(nn.Module):
         self.sigma = length_scale
 
         # Loading the model
-        self.load_state_dict(torch.load(os.path.join('models', 'deterministic_uq', 'resnet18.pt')))
+        self.load_state_dict(torch.load(os.path.join('models', 'deterministic_uq', 'resnet18.pt'), map_location=torch.device(device)))
 
     def rbf(self, z):
         z = torch.einsum("ij,mnj->imn", z, self.W)

@@ -44,6 +44,8 @@ __ood_size_help_message = ''
         I) Set dropout rate up to 0.5 when using a dropout-based UQ Technique
         II) Set step size up to a default value when using a pgd update policy
         III) Set iid and ood sizes, along with ood dataset name when performing a 'classification_ood' experiment
+        IV) Se si tratta di un ood experiment bisogna impedire l'utilizzo di AutoTargetAttack
+        V) Se si usa modello deterministico consentire solo l'attacco "Centroid"
 '''
 __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('experiment_type', 'classification_id', keys.EXPERIMENT_CATEGORIES, __experiment_type_help_message),
@@ -52,10 +54,10 @@ __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('backbone', 'resnet18', keys.SUPPORTED_BACKBONES, __backbone_help_message),
                         ('uq_technique', 'embedded_dropout', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message),
                         ('dropout_rate', 0.3, keys.SUPPORTED_DROPOUT_RATES, __dropout_rate_help_message),
-                        ('attack_loss', 'Stab', keys.SUPPORTED_ATTACKS, __attack_loss_help_message),
+                        ('attack_loss', 'MaxVar', keys.SUPPORTED_ATTACKS, __attack_loss_help_message),
                         ('attack_update_strategy', 'pgd', keys.SUPPORTED_UPDATE_STRATEGIES, __attack_update_strategy_help_message),
                         ('norm', 'Linf', keys.SUPPORTED_NORMS, __norm_help_message),
-                        ('num_attack_iterations', 150, None, __num_attack_iterations_help_message),
+                        ('num_attack_iterations', 5, None, __num_attack_iterations_help_message),
                         ('mc_samples_eval', 100, None, __mc_samples_eval_help_message),
                         ('mc_samples_attack', 30, None, __mc_samples_attack_help_message),
                         ('num_adv_examples', 100, None, __num_adv_examples_help_message),
@@ -66,7 +68,7 @@ __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('batch_size_eval', 100, None, __batch_size_eval_help_message),
 
                         ('seed', 0, None, __seed_help_message),
-                        ('cuda', 1, keys.SUPPORTED_CUDAS, __cuda_help_message)]
+                        ('cuda', 0, keys.SUPPORTED_CUDAS, __cuda_help_message)]
 
 # List of arguments used for the seceval
 __num_epsilon_steps_help_message = ''
