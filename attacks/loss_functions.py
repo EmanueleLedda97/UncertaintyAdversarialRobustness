@@ -90,7 +90,7 @@ class VarianceLoss(BaseLoss):
 
         # Returning the loss
         return loss
-    
+
 
 '''
     TODO: Add documentation
@@ -117,4 +117,32 @@ class BayesianCrossEntropyLoss(BaseLoss):
 
         # Returning the loss
         return loss
+
+
+class UncertaintyDivergenceLoss(BaseLoss):
+    def __init__(self, alpha=0.5, beta=0.5, keep_loss_path=True):
+        super().__init__(keep_loss_path)
+
+        # Setting up learning hyperparameters
+        self.alpha = alpha
+        self.beta = beta
+
+        # Setting up the visualization variables
+        self._add_loss_term(('CE', 'KL-div'))
+        self.loss_keys = tuple(self.loss_path.keys())
+        self.loss_ce_fn = nn.CrossEntropyLoss()
+        self.loss_kl_fn = nn.KLDivLoss(reduction="batchmean", log_target=True)
     
+    def forward(self, clean_input: Tensor, adv_input: Tensor, target: Tensor) -> Tensor:
+
+        # Computing the loss terms
+        cross_entropy_term = self.loss_ce_fn(adv_input, target.long())
+        kl_divergence = self.loss_kl_fn(F.log_softmax(clean_input), F.log_softmax(adv_input))
+        loss = self.alpha * cross_entropy_term + self.beta * kl_divergence
+
+        # Updating the loss path for further visualization
+        if self.keep_loss_path:
+            self._update_loss_path((loss, cross_entropy_term, kl_divergence), self.loss_keys)
+
+        # Returning the loss
+        return loss

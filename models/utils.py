@@ -5,6 +5,7 @@ import torch
 import utils.constants as keys
 import os
 
+# TODO: IMplementare un parametro per caricare un modello robusto con AT
 # REFACTORING-FALL: TODO: Add a parameter for the semantic segmentation
 '''
     name: load_model
@@ -32,21 +33,12 @@ def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian
         
         # Obtaining the correct dropout rate
         if dropout_rate == None:
-            dropout_rate = keys.SAVED_INJECTED_DROPOUT_RATES[dataset][backbone] if uq_technique == 'injected_dropout' else keys.SAVED_INJECTED_DROPOUT_RATES[dataset][backbone]
+            dropout_rate = keys.DEFAULT_DROPOUT_RATE
         elif dropout_rate not in keys.SUPPORTED_DROPOUT_RATES:
             raise Exception(f"You should select one of the following dropout rates {keys.SUPPORTED_DROPOUT_RATES}")
         
         # Loading the correct MCD ResNet
-        if backbone in keys.SUPPORTED_RESNETS:
-
-            # NOTE: For now we are not using calibration
-            #       For this reason, I will set temperature to 1
-            # Obtaining the correct temperature
-            # if uq_technique == 'embedded_dropout':
-            #     temperature = keys.INJECTED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
-            # elif uq_technique == 'injected_dropout':
-            #     temperature = keys.EMBEDDED_DROPOUT_TEMPERATURE_DICT[dataset][backbone][dropout_rate]
-            
+        if backbone in keys.SUPPORTED_RESNETS:     
             temperature = 1.0   # TODO: Find a more elegant solution
 
             # Creating the MCD ResNet

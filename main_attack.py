@@ -86,7 +86,7 @@ def main(root=keys.ROOT,
     
     # Loading the model and sending to device
     logger.debug("Loading model...")
-    device = utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
+    device = utils.utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
     model = load_model(backbone, uq_technique,                              # Loading the model
                        dataset, transform=utils.utils.get_normalizer(dataset),
                        dropout_rate=dropout_rate,
