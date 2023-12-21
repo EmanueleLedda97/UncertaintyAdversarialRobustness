@@ -20,3 +20,11 @@ __pycache__
 attacks/__pycache__
 models/__pycache__
 utils/__pycache__
+
+models/*.zip
+models/*.rar
+
+
+zzzz_junk/
+scode_exp/
+scode_exp copy/

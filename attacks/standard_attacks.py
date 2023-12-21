@@ -69,6 +69,7 @@ class BaseAttack:
         self.elapsed_time = (end - start)
 
         # Returning the adversarial example
+        self.model.train() # IMPORTANTE
         return self.x_adv.detach()
     
     def compute_loss(self):

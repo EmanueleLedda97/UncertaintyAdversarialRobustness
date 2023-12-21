@@ -42,7 +42,7 @@ def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian
             temperature = 1.0   # TODO: Find a more elegant solution
 
             # Creating the MCD ResNet
-            model = ResNetMCD(backbone, pretrained=True, 
+            model = ResNetMCD(backbone, pretrained=True, # default = pretrained TRUE
                               dropout_rate=dropout_rate,
                               full_bayesian=full_bayesian,
                               temperature=temperature,
@@ -53,7 +53,7 @@ def load_model(backbone, uq_technique, dataset, dropout_rate=None, full_bayesian
                 embedding_type = 'embedded_dropout_full_bayes' if full_bayesian else 'embedded_dropout'
                 dropout_id = int(dropout_rate * 10)
                 embedded_path = os.path.join('models', embedding_type, backbone, f"model_dr{dropout_id}.pt")
-                model.backbone.load_state_dict(torch.load(embedded_path, map_location=torch.device(device)))
+                # model.backbone.load_state_dict(torch.load(embedded_path, map_location=torch.device(device)))
 
         elif backbone in keys.SUPPORTED_VGGS:
             raise Exception("Vgg are not implemented yet!")

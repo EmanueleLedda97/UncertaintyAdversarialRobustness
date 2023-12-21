@@ -39,6 +39,11 @@ __ood_dataset_help_message = ''
 __iid_size_help_message = ''
 __ood_size_help_message = ''
 
+
+__alpha_help_message = ''
+__beta_help_message = ''
+
+
 '''
     TODO: Implement class 'argument' for manage the default logic of some parameters.
         I) Set dropout rate up to 0.5 when using a dropout-based UQ Technique
@@ -80,6 +85,12 @@ __seceval_argument_list = [('epsilon_min', 1/255, None, __epsilon_min_help_messa
 __ood_argument_list = [('ood_dataset', 'cifar100', keys.SUPPORTED_DATASETS, __ood_dataset_help_message),
                        ('iid_size', 900, None, __iid_size_help_message),
                        ('ood_size', 600, None, __ood_size_help_message)]
+
+
+# List of arguments used for the adv training
+__advtraining_argument_list = [('alpha', 1, None, __alpha_help_message),
+                               ('beta', 1, None, __beta_help_message),
+                               ]
 
 
 '''

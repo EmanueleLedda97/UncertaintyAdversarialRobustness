@@ -77,7 +77,7 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
 
     # Defining the training data-preprocesser with data augmentation
     train_preprocess = [
-        transforms.RandomCrop(32, padding=4),
+        # transforms.RandomCrop(32, padding=4), # REMOVED RANDOM CROP
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor()
     ]

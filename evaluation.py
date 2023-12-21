@@ -150,7 +150,9 @@ def evaluate_batch_bayesian(model, x, y, mc_sample_size=50, correct_mask=None, n
                             logger=None):
     torch.cuda.empty_cache()
     # Magheggio per liberare tutta la memoria direttamente qui
-    results = _eval(model, x, y, mc_sample_size, correct_mask, non_correct_mask, logger)
+    # results = _eval(model, x, y, mc_sample_size, correct_mask, non_correct_mask, logger)
+    results = _eval(model, x, y, mc_sample_size)
+    
     torch.cuda.empty_cache()
     return results
 

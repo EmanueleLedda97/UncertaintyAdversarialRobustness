@@ -50,7 +50,7 @@ class PGDUpdateAndProject(BaseUpdateAndProject):
         gradient = x_adv.grad.data
         self.gradients.append(gradient.abs().max().item())
         gradient = gradient.sign()
-        x_adv = x_adv - self.step_size * gradient
+        x_adv = x_adv - self.step_size * gradient # mettere + o - ?
         
         # Project
         perturb = x_adv - x
