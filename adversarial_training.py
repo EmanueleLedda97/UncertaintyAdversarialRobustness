@@ -95,8 +95,7 @@ for b in [4, 7, 8, 10, 15]:
 
     print(json.dumps(parameters, indent=4))    
     
-    OUTPUT_FOLDER = f"scode_exp/batch_{parameters['batch_size']}/epoch_{parameters['epochs']}\
-                                /lr_{parameters['lr']}/alpha{parameters['alpha']}_beta{parameters['beta']}/"
+    OUTPUT_FOLDER = f"scode_exp/batch_{parameters['batch_size']}/epoch_{parameters['epochs']}/lr_{parameters['lr']}/alpha{parameters['alpha']}_beta{parameters['beta']}/"
 
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
