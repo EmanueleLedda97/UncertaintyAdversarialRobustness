@@ -93,6 +93,11 @@ def main(root=keys.ROOT,
                        full_bayesian=full_bayesian,
                        device=device)
     
+
+    # LOAD DICT MODEL
+
+
+
     model.to(device)                                                        # ... and sending the model to device
 
     # Loading the dataset

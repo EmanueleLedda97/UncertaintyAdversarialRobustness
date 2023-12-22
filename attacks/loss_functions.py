@@ -139,7 +139,7 @@ class UncertaintyDivergenceLoss(BaseLoss):
         cross_entropy_term = self.loss_ce_fn(adv_output, target.long())
         kl_divergence = self.loss_kl_fn(F.log_softmax(clean_output, dim = 1), F.log_softmax(adv_output, dim = 1))
         # loss = (self.alpha * cross_entropy_term + self.beta * kl_divergence)/(self.alpha+self.beta)
-        loss = cross_entropy_term + self.beta * kl_divergence
+        loss = (cross_entropy_term + self.beta * kl_divergence)/(1+ self.beta)
         # Updating the loss path for further visualization
         if self.keep_loss_path:
             self._update_loss_path((loss, cross_entropy_term, kl_divergence), self.loss_keys)

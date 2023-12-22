@@ -199,7 +199,7 @@ for b in [4, 7, 8, 10, 15]:
 
             training_metrics["model_loss_path"].append(loss.item())
 
-            acc = (((F.softmax(clean_out, dim = 1).argmax(dim=1) == y).sum() / parameters["batch_size"]) * 100).item()
+            acc = (((F.softmax(clean_out, dim = 1).argmax(dim=1) == y).sum() / x.size(0)) * 100).item()
             # print(acc)
             training_metrics["accuracy_path"].append(acc)
             
