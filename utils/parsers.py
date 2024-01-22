@@ -40,8 +40,9 @@ __iid_size_help_message = ''
 __ood_size_help_message = ''
 
 
-__alpha_help_message = ''
-__beta_help_message = ''
+
+__robust_model_help_message = ""
+
 
 
 '''
@@ -57,14 +58,15 @@ __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('robustness_level', 'naive_robust', keys.ROBUSTNESS_LEVELS, __robustness_level_help_message),
                         ('dataset', 'cifar10', keys.SUPPORTED_DATASETS, __dataset_help_message),
                         ('backbone', 'resnet18', keys.SUPPORTED_BACKBONES, __backbone_help_message),
-                        ('uq_technique', 'embedded_dropout', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message),
+                        ('uq_technique', 'None', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message), # CHANGED
                         ('dropout_rate', 0.3, keys.SUPPORTED_DROPOUT_RATES, __dropout_rate_help_message),
                         ('attack_loss', 'Stab', keys.SUPPORTED_ATTACKS, __attack_loss_help_message),
                         ('attack_update_strategy', 'pgd', keys.SUPPORTED_UPDATE_STRATEGIES, __attack_update_strategy_help_message),
                         ('norm', 'Linf', keys.SUPPORTED_NORMS, __norm_help_message),
                         ('num_attack_iterations', 5, None, __num_attack_iterations_help_message),
-                        ('mc_samples_eval', 100, None, __mc_samples_eval_help_message),
-                        ('mc_samples_attack', 30, None, __mc_samples_attack_help_message),
+                        ('robust_model', 'addepalli2022', None, __robust_model_help_message),       # ADDED
+                        ('mc_samples_eval', 5, None, __mc_samples_eval_help_message),
+                        ('mc_samples_attack', 5, None, __mc_samples_attack_help_message),
                         ('num_adv_examples', 100, None, __num_adv_examples_help_message),
                         ('batch_size', 100, None, __batch_size_help_message),
                         ('epsilon', keys.BASE_EPSILON * 5, None, __epsilon_help_message),
@@ -73,7 +75,7 @@ __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('batch_size_eval', 100, None, __batch_size_eval_help_message),
 
                         ('seed', 0, None, __seed_help_message),
-                        ('cuda', 0, keys.SUPPORTED_CUDAS, __cuda_help_message)]
+                        ('cuda', 1, keys.SUPPORTED_CUDAS, __cuda_help_message)]
 
 # List of arguments used for the seceval
 __num_epsilon_steps_help_message = ''
@@ -85,12 +87,6 @@ __seceval_argument_list = [('epsilon_min', 1/255, None, __epsilon_min_help_messa
 __ood_argument_list = [('ood_dataset', 'cifar100', keys.SUPPORTED_DATASETS, __ood_dataset_help_message),
                        ('iid_size', 900, None, __iid_size_help_message),
                        ('ood_size', 600, None, __ood_size_help_message)]
-
-
-# List of arguments used for the adv training
-__advtraining_argument_list = [('alpha', 1, None, __alpha_help_message),
-                               ('beta', 1, None, __beta_help_message),
-                               ]
 
 
 '''

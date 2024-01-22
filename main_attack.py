@@ -29,38 +29,41 @@ def main(root=keys.ROOT,
          robustness_level='naive_robust',
          dataset='cifar10',
          backbone='resnet18',
-         uq_technique='injected_dropout',
-         dropout_rate=None,
+         uq_technique='injected_dropout',       # ---> NOTE: To be ignored
+         dropout_rate=None,                     # ---> NOTE: To be ignored
          
          attack_loss='Stab',
          attack_update_strategy='pgd',
          norm='Linf',
          num_attack_iterations=10,
+         robust_model = 'addepalli2022',
          
-         mc_samples_attack=30,
+         mc_samples_attack=30,                  # ---> NOTE: To be ignored
          num_adv_examples=100,
-         batch_size=100,            # TODO: Refactor in "attack_batch_size"
+         batch_size=100,                        # TODO: Refactor in "attack_batch_size"
          epsilon=(8/255)*5,
          step_size=None,
 
-         mc_samples_eval=100,
+         mc_samples_eval=100,                   # ---> NOTE: To be ignored
          batch_size_eval=100,
 
-         re_evaluation_mode=False,  # TODO: Add to dynamic argument selection when parsing
-         full_bayesian=True,        # TODO: Add to dynamic argument selection when parsing
+         re_evaluation_mode=False,              # TODO: Add to dynamic argument selection when parsing
+         full_bayesian=True,                    # TODO: Add to dynamic argument selection when parsing
 
          ood_dataset=None,
          iid_size=None,
          ood_size=None,
 
          seed=0,
-         cuda=0,
+         cuda=1,
          kwargs=None,
          ):
 
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
 
+    # print(json.dumps(kwargs, indent=4))
+    # exit(1)
 
     # Setting up the experiment paths
     attack_parameters = (epsilon, norm, attack_update_strategy, step_size, mc_samples_attack)
@@ -87,6 +90,8 @@ def main(root=keys.ROOT,
     # Loading the model and sending to device
     logger.debug("Loading model...")
     device = utils.utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
+    
+    
     model = load_model(backbone, uq_technique,                              # Loading the model
                        dataset, transform=utils.utils.get_normalizer(dataset),
                        dropout_rate=dropout_rate,
@@ -272,6 +277,15 @@ def main_single(parser):
     kwargs = {key: value for (key, value) in args._get_kwargs()}
 
     # Running the main
+
+    if kwargs['uq_technique'] == 'None':
+        kwargs["dropout_rate"] = 0.0
+        kwargs["mc_samples_eval"] = 1
+        kwargs["mc_samples_attack"] = 1
+        kwargs["full_bayesian"] = False
+
+
+
     main(**kwargs, kwargs=kwargs)
 
 
@@ -285,5 +299,7 @@ if __name__ == '__main__':
     if args.experiment_type == 'classification_ood':
         parser = add_ood_parsing(parser)
 
-    main_seceval(parser)
+    # main_seceval(parser)
+    main_single(parser)
+    
 

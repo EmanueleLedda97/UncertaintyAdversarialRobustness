@@ -5,8 +5,8 @@ SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
 # Lists of supported data sets and UQ methods
-SUPPORTED_DATASETS = ['cifar10', 'cifar100']
-SUPPORTE_UQ_METHODS = ['embedded_dropout', 'injected_dropout', 'deep_ensemble', 'deterministic_uq']
+SUPPORTED_DATASETS = ['cifar10', 'cifar100', "imagenet"]
+SUPPORTE_UQ_METHODS = ["None", 'embedded_dropout', 'injected_dropout', 'deep_ensemble', 'deterministic_uq']
 
 # Lists of supported experiments
 ROBUSTNESS_LEVELS = ['naive_robust', 'semi_robust', 'full_robust']
@@ -66,3 +66,7 @@ NORMALIZATION_DICT = {
 }
 
 DEFAULT_DROPOUT_RATE = 0.3
+
+CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019']
+
+IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
