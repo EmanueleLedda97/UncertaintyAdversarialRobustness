@@ -1,6 +1,6 @@
 
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn"]
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet']
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
@@ -68,5 +68,7 @@ NORMALIZATION_DICT = {
 DEFAULT_DROPOUT_RATE = 0.3
 
 CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019']
-
 IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
+
+L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
+LINF_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']

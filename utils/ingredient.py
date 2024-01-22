@@ -88,9 +88,6 @@ Salman2020R50 = {
 
 
 
-
-
-
 _local_imagenet_models = {
     'salman2020R18': partial(load_robustbench_model, name=salman_2020R18['name'], dataset=salman_2020R18['dataset'], threat_model=salman_2020R18['threat_model']),
     'wong2020': partial(load_robustbench_model, name=wong_2020['name'], dataset=wong_2020['dataset'], threat_model=wong_2020['threat_model']),

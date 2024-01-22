@@ -3,7 +3,6 @@
 import utils.constants as keys
 import argparse
 
-
 __root_help_message = "The name of the root folder used for containing the experiments." \
                       "By default, the root is set to 'experiments'.\n"
 
@@ -39,11 +38,7 @@ __ood_dataset_help_message = ''
 __iid_size_help_message = ''
 __ood_size_help_message = ''
 
-
-
 __robust_model_help_message = ""
-
-
 
 '''
     TODO: Implement class 'argument' for manage the default logic of some parameters.
@@ -53,18 +48,20 @@ __robust_model_help_message = ""
         IV) Se si tratta di un ood experiment bisogna impedire l'utilizzo di AutoTargetAttack
         V) Se si usa modello deterministico consentire solo l'attacco "Centroid"
 '''
-__main_argument_list = [('root','experiments', None, __root_help_message),
-                        ('experiment_type', 'classification_id', keys.EXPERIMENT_CATEGORIES, __experiment_type_help_message),
+__main_argument_list = [('root', 'experiments', None, __root_help_message),
+                        ('experiment_type', 'classification_id', keys.EXPERIMENT_CATEGORIES,
+                         __experiment_type_help_message),
                         ('robustness_level', 'naive_robust', keys.ROBUSTNESS_LEVELS, __robustness_level_help_message),
                         ('dataset', 'cifar10', keys.SUPPORTED_DATASETS, __dataset_help_message),
                         ('backbone', 'resnet18', keys.SUPPORTED_BACKBONES, __backbone_help_message),
-                        ('uq_technique', 'None', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message), # CHANGED
+                        ('uq_technique', 'None', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message),  # CHANGED
                         ('dropout_rate', 0.3, keys.SUPPORTED_DROPOUT_RATES, __dropout_rate_help_message),
                         ('attack_loss', 'Stab', keys.SUPPORTED_ATTACKS, __attack_loss_help_message),
-                        ('attack_update_strategy', 'pgd', keys.SUPPORTED_UPDATE_STRATEGIES, __attack_update_strategy_help_message),
+                        ('attack_update_strategy', 'pgd', keys.SUPPORTED_UPDATE_STRATEGIES,
+                         __attack_update_strategy_help_message),
                         ('norm', 'Linf', keys.SUPPORTED_NORMS, __norm_help_message),
                         ('num_attack_iterations', 5, None, __num_attack_iterations_help_message),
-                        ('robust_model', 'addepalli2022', None, __robust_model_help_message),       # ADDED
+                        ('robust_model', 'addepalli2022', (keys.CIFAR10_ROBUST_MODELS+keys.IMAGENET_ROBUST_MODELS), __robust_model_help_message),  # ADDED
                         ('mc_samples_eval', 5, None, __mc_samples_eval_help_message),
                         ('mc_samples_attack', 5, None, __mc_samples_attack_help_message),
                         ('num_adv_examples', 100, None, __num_adv_examples_help_message),
@@ -75,12 +72,13 @@ __main_argument_list = [('root','experiments', None, __root_help_message),
                         ('batch_size_eval', 100, None, __batch_size_eval_help_message),
 
                         ('seed', 0, None, __seed_help_message),
+                        ('re_evaluation_mode', True, None, 'Re_evaluation message'),
                         ('cuda', 1, keys.SUPPORTED_CUDAS, __cuda_help_message)]
 
 # List of arguments used for the seceval
 __num_epsilon_steps_help_message = ''
-__seceval_argument_list = [('epsilon_min', 1/255, None, __epsilon_min_help_message),
-                           ('epsilon_max', 8/255, None, __epsilon_max_help_message),
+__seceval_argument_list = [('epsilon_min', 1 / 255, None, __epsilon_min_help_message),
+                           ('epsilon_max', 8 / 255, None, __epsilon_max_help_message),
                            ('num_epsilon_steps', 8, None, __num_epsilon_steps_help_message)]
 
 # List of arguments used for the OOD setting
@@ -88,10 +86,11 @@ __ood_argument_list = [('ood_dataset', 'cifar100', keys.SUPPORTED_DATASETS, __oo
                        ('iid_size', 900, None, __iid_size_help_message),
                        ('ood_size', 600, None, __ood_size_help_message)]
 
-
 '''
     TODO: Add documentation
 '''
+
+
 def parse_main_classification():
     parser = argparse.ArgumentParser()
     return __add_list_of_arguments_to_parser(parser, __main_argument_list)
@@ -100,6 +99,8 @@ def parse_main_classification():
 '''
     TODO: Add documentation
 '''
+
+
 def add_seceval_parsing(parser):
     return __add_list_of_arguments_to_parser(parser, __seceval_argument_list)
 
@@ -107,6 +108,8 @@ def add_seceval_parsing(parser):
 '''
     TODO: Add documentation
 '''
+
+
 def add_ood_parsing(parser):
     return __add_list_of_arguments_to_parser(parser, __ood_argument_list)
 
@@ -114,8 +117,9 @@ def add_ood_parsing(parser):
 '''
     TODO: Add documentation
 '''
-def __choose_among_list_help_message(parameter_name, supported_values, default_value=None):
 
+
+def __choose_among_list_help_message(parameter_name, supported_values, default_value=None):
     help_message = "This script currently supports the following " \
                    "options for the '{parameter_name}' parameter: {supported_values}.\n" \
                    "If not specified, the default value is set to {default_value}"
@@ -125,6 +129,8 @@ def __choose_among_list_help_message(parameter_name, supported_values, default_v
 '''
     TODO: Add documentation
 '''
+
+
 def __add_list_of_arguments_to_parser(parser, argument_list):
     for argument in argument_list:
         name, default, choices, help = argument
@@ -135,5 +141,7 @@ def __add_list_of_arguments_to_parser(parser, argument_list):
 '''
     TODO: Implement this
 '''
+
+
 def __set_up_default_attack_settings():
     pass
