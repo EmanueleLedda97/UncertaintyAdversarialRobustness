@@ -1,16 +1,13 @@
-from models.resnet import ResNetMCD, ResNetEnsemble, ResNet_DUQ, resnet18, resnet34, resnet50
+from models.resnet import ResNetMCD, ResNetEnsemble, ResNet_DUQ
 
 from torchvision.models.resnet import ResNet18_Weights, ResNet34_Weights, ResNet50_Weights
 
-import utils.constants as keys
 import torch.nn as nn
 import torch
 import utils.constants as keys
 import os
 
-from utils.ingredient import get_local_model
-
-import utils.ingredient_2 as ingredient
+import models.ingredient_2 as ingredient
 
 # TODO: IMplementare un parametro per caricare un modello robusto con AT
 # REFACTORING-FALL: TODO: Add a parameter for the semantic segmentation
@@ -98,6 +95,7 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
                 # Using the pre-defined resnet as backbone architecture
                 if backbone == 'resnet18':
                     model = ResNetMCD(backbone, weights=ResNet18_Weights.DEFAULT, pretrained=False, transform=transform)
+                    # model.backbone.load_state_dict(ResNet18_Weights.DEFAULT.get_state_dict())
                 elif backbone == 'resnet34':
                     model = ResNetMCD(backbone, weights=ResNet34_Weights.DEFAULT, pretrained=False, transform=transform)
                 elif backbone == 'resnet50':
@@ -126,6 +124,7 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
 
             backbone_model = ingredient.get_local_model(robust_model, dataset, device)
             model = ResNetMCD(resnet_type='robust_resnet', weights=backbone_model, pretrained=False, transform=None)
+
             model.eval()
             return model
 

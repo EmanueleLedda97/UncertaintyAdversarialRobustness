@@ -402,6 +402,7 @@ class ResNetMCD(nn.Module):
         elif resnet_type == 'resnet_fcn':
             weights = FCN_ResNet50_Weights.DEFAULT
             self.backbone = fcn_mcd_resnet50(weights=weights, dropout_rate=dropout_rate, full_bayesian=full_bayesian)
+
         elif resnet_type == "robust_resnet":
             self.backbone = weights
 

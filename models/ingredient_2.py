@@ -4,6 +4,12 @@ from torch import nn
 
 from robustbench import load_model
 
+
+def load_robustbench_model(name: str, dataset: str, threat_model: str, device: str = "cpu", **kwargs) -> nn.Module:
+    model = load_model(model_name=name, dataset=dataset, threat_model=threat_model)
+    return model
+
+
 # ---------------- CIFAR-10 ----------------------
 
 cifar10_model_dict = dict(addepalli2022={
@@ -24,7 +30,7 @@ cifar10_model_dict = dict(addepalli2022={
     'name': 'Engstrom2019Robustness',  # RESNET50
     'source': 'robustbench',
     'dataset': 'cifar10',
-    'threat_model': 'L2',  # training threat model. Available [Linf, L2]
+    'threat_model': 'Linf',  # training threat model. Available [Linf, L2]
     'resnet_type': 'resnet50'
     },
     augustin2020={
@@ -35,11 +41,6 @@ cifar10_model_dict = dict(addepalli2022={
     'resnet_type': 'resnet50'
 
     })
-
-
-def load_robustbench_model(name: str, dataset: str, threat_model: str, device: str = "cpu", **kwargs) -> nn.Module:
-    model = load_model(model_name=name, dataset=dataset, threat_model=threat_model)
-    return model
 
 
 _local_cifar_models = {
@@ -97,4 +98,4 @@ def get_local_model(name: str, dataset: str, device: str = "cpu") -> nn.Module:
     if dataset == 'cifar10':
         return _local_cifar_models[name](device=device)
     elif dataset == 'imagenet':
-        return _local_imagenet_models[name](device)
+        return _local_imagenet_models[name](device=device)

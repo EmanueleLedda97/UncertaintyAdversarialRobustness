@@ -2,7 +2,6 @@ import torch
 import torchvision
 from models.utils import load_model
 import evaluation as eval
-import utils
 import utils.constants as keys
 import attacks.standard_attacks
 import attacks.bayesian_attacks
@@ -13,6 +12,10 @@ import matplotlib.pyplot as plt
 from utils.paths import get_full_experiment_path
 from utils.parsers import parse_main_classification, add_seceval_parsing, add_ood_parsing
 from utils.loggers import set_up_logger
+
+import utils.utils as utils
+
+import models.ingredient_2 as ingredient
 
 '''
     /* BASE PARAMETERS */
@@ -47,7 +50,7 @@ def main(root=keys.ROOT,
          mc_samples_eval=100,  # ---> NOTE: To be ignored
          batch_size_eval=100,
 
-         re_evaluation_mode=True,  # TODO: Add to dynamic argument selection when parsing
+         re_evaluation_mode=False,  # TODO: Add to dynamic argument selection when parsing
          full_bayesian=True,  # TODO: Add to dynamic argument selection when parsing
 
          ood_dataset=None,
@@ -73,6 +76,7 @@ def main(root=keys.ROOT,
                                                                                      uq_technique,
                                                                                      attack_loss,
                                                                                      attack_parameters,
+                                                                                     robust_model=robust_model,
                                                                                      dropout_rate=dropout_rate,
                                                                                      ood_dataset=ood_dataset,
                                                                                      iid_size=iid_size,
@@ -88,13 +92,13 @@ def main(root=keys.ROOT,
 
     # Loading the model and sending to device
     logger.debug("Loading model...")
-    device = utils.utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
+    device = utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
 
     model = load_model(backbone, uq_technique,  # Loading the model
                        dataset,
                        robust_model=robust_model,
                        robustness_level=robustness_level,
-                       transform=utils.utils.get_normalizer(dataset),
+                       transform=utils.get_normalizer(dataset),
                        dropout_rate=dropout_rate,
                        full_bayesian=full_bayesian,
                        device=device)
@@ -105,7 +109,7 @@ def main(root=keys.ROOT,
 
     # Loading the dataset
     logger.debug("Loading dataset ...")
-    test_subset_set = utils.utils.get_dataset_splits(dataset=dataset,  # Loading the 'dataset'...
+    test_subset_set = utils.get_dataset_splits(dataset=dataset,  # Loading the 'dataset'...
                                                      set_normalization=False,
                                                      # ... without normalization due to transform in forward...
                                                      ood=is_an_ood_experiment,  # ... choosing the ood...
@@ -133,10 +137,10 @@ def main(root=keys.ROOT,
             results = eval.evaluate_bayesian(model, test_subset_loader,  # Evaluating the results on the clean set
                                              mc_sample_size=mc_samples_eval,
                                              device=device, seed=seed)
-        utils.utils.my_save(results, clean_results_path)  # Saving the results
+        utils.my_save(results, clean_results_path)  # Saving the results
     else:
         logger.debug("Already evaluated and saved.")
-        results = utils.utils.my_load(clean_results_path)  # Loading the results
+        results = utils.my_load(clean_results_path)  # Loading the results
 
     # TODO: Forse sta roba si può incorporare dopo
     # Logging the results
@@ -187,7 +191,7 @@ def main(root=keys.ROOT,
             logger.debug("Generating adversarial examples...")
 
             # Set-up phase
-            utils.utils.set_all_seed(seed)  # Setting up the seed
+            utils.set_all_seed(seed)  # Setting up the seed
             fname_to_target = {}  # Dictionary associating file name with target
             k = 0  # Sample's index
 
@@ -211,14 +215,14 @@ def main(root=keys.ROOT,
                     k += 1  # Incrementing the sample's index
 
             # Dumping the filename dictionary
-            with open(utils.utils.join(adv_examples_path, 'fname_to_target.json'),
+            with open(utils.join(adv_examples_path, 'fname_to_target.json'),
                       'w') as f:  # TODO: Review logic of name dict
                 json.dump(fname_to_target, f)
         else:
             logger.debug("Adversarial examples already generated.")
 
         # Loading the adversarial set from the precomputed examples folder
-        adv_test_subset_dataset = utils.utils.AdversarialDataset(adv_examples_path)
+        adv_test_subset_dataset = utils.AdversarialDataset(adv_examples_path)
         adv_test_subset_loader = torch.utils.data.DataLoader(adv_test_subset_dataset,
                                                              batch_size=batch_size,
                                                              shuffle=False,
@@ -234,10 +238,10 @@ def main(root=keys.ROOT,
             else:
                 adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
                                                      seed=seed, device=device)
-            utils.utils.my_save(adv_results, adv_results_path)
+            utils.my_save(adv_results, adv_results_path)
         else:
             logger.debug("Already evaluated and saved.")
-            adv_results = utils.utils.my_load(adv_results_path)  # Loading the results
+            adv_results = utils.my_load(adv_results_path)  # Loading the results
 
         # Logging the results
         accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
@@ -250,6 +254,15 @@ def main(root=keys.ROOT,
         else:
             mi = adv_results['mutual_information'].mean().item()
             logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
+
+        mask = results["entropy_of_mean"].sort()[1]
+        plt.plot(adv_results["entropy_of_mean"][mask])
+        plt.plot(results["entropy_of_mean"][mask])
+        plt.xlabel("Sample ID (argsort entropy)")
+        plt.ylabel("Entropy")
+        plt.title(f"BACKBONE {robustness_level} {robust_model if robust_model != None else backbone}")
+        plt.legend(["Adv", "clean"])
+        plt.show()
 
         print("done!")
 
@@ -292,8 +305,12 @@ def main_single(parser):
         kwargs["mc_samples_attack"] = 1
         kwargs["full_bayesian"] = False
 
+    if kwargs['robustness_level'] == 'naive_robust':
+        kwargs["robust_model"] = None
+
     # THREAT - MODEL CHECK
     if kwargs['robustness_level'] == 'semi_robust':
+        kwargs["uq_technique"] = "None"
         if kwargs['norm'] == 'Linf':
             if kwargs['robust_model'] not in keys.LINF_ROBUST_MODELS:
                 raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
@@ -301,6 +318,9 @@ def main_single(parser):
         elif kwargs['norm'] == "L2":
             if kwargs['robust_model'] not in keys.L2_ROBUST_MODELS:
                 raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
+
+        # fare match di backbone
+
 
     main(**kwargs, kwargs=kwargs)
 

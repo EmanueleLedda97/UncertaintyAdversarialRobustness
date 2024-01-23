@@ -60,19 +60,19 @@ __main_argument_list = [('root', 'experiments', None, __root_help_message),
                         ('attack_update_strategy', 'pgd', keys.SUPPORTED_UPDATE_STRATEGIES,
                          __attack_update_strategy_help_message),
                         ('norm', 'Linf', keys.SUPPORTED_NORMS, __norm_help_message),
-                        ('num_attack_iterations', 5, None, __num_attack_iterations_help_message),
+                        ('num_attack_iterations', 150, None, __num_attack_iterations_help_message),
                         ('robust_model', 'addepalli2022', (keys.CIFAR10_ROBUST_MODELS+keys.IMAGENET_ROBUST_MODELS), __robust_model_help_message),  # ADDED
                         ('mc_samples_eval', 5, None, __mc_samples_eval_help_message),
                         ('mc_samples_attack', 5, None, __mc_samples_attack_help_message),
                         ('num_adv_examples', 100, None, __num_adv_examples_help_message),
                         ('batch_size', 100, None, __batch_size_help_message),
                         ('epsilon', keys.BASE_EPSILON * 5, None, __epsilon_help_message),
-                        ('step_size', 1.0, None, __step_size_help_message),
+                        ('step_size', 2e-3, None, __step_size_help_message),
 
                         ('batch_size_eval', 100, None, __batch_size_eval_help_message),
 
                         ('seed', 0, None, __seed_help_message),
-                        ('re_evaluation_mode', True, None, 'Re_evaluation message'),
+                        ('re_evaluation_mode', False, None, 'Re_evaluation message'),
                         ('cuda', 1, keys.SUPPORTED_CUDAS, __cuda_help_message)]
 
 # List of arguments used for the seceval

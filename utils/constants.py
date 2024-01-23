@@ -72,3 +72,5 @@ IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'sa
 
 L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
 LINF_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
+
+SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS+IMAGENET_ROBUST_MODELS
