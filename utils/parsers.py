@@ -51,7 +51,7 @@ __robust_model_help_message = ""
 __main_argument_list = [('root', 'experiments', None, __root_help_message),
                         ('experiment_type', 'classification_id', keys.EXPERIMENT_CATEGORIES,
                          __experiment_type_help_message),
-                        ('robustness_level', 'naive_robust', keys.ROBUSTNESS_LEVELS, __robustness_level_help_message),
+                        ('robustness_level', 'semi_robust', keys.ROBUSTNESS_LEVELS, __robustness_level_help_message),
                         ('dataset', 'cifar10', keys.SUPPORTED_DATASETS, __dataset_help_message),
                         ('backbone', 'resnet18', keys.SUPPORTED_BACKBONES, __backbone_help_message),
                         ('uq_technique', 'None', keys.SUPPORTE_UQ_METHODS, __uq_technique_help_message),  # CHANGED
@@ -61,15 +61,15 @@ __main_argument_list = [('root', 'experiments', None, __root_help_message),
                          __attack_update_strategy_help_message),
                         ('norm', 'Linf', keys.SUPPORTED_NORMS, __norm_help_message),
                         ('num_attack_iterations', 150, None, __num_attack_iterations_help_message),
-                        ('robust_model', 'addepalli2022', (keys.CIFAR10_ROBUST_MODELS+keys.IMAGENET_ROBUST_MODELS), __robust_model_help_message),  # ADDED
+                        ('robust_model', 'engstrom2019', (keys.CIFAR10_ROBUST_MODELS+keys.IMAGENET_ROBUST_MODELS), __robust_model_help_message),  # ADDED
                         ('mc_samples_eval', 5, None, __mc_samples_eval_help_message),
                         ('mc_samples_attack', 5, None, __mc_samples_attack_help_message),
-                        ('num_adv_examples', 100, None, __num_adv_examples_help_message),
-                        ('batch_size', 100, None, __batch_size_help_message),
+                        ('num_adv_examples', 1000, None, __num_adv_examples_help_message),
+                        ('batch_size', 256, None, __batch_size_help_message),
                         ('epsilon', keys.BASE_EPSILON * 5, None, __epsilon_help_message),
                         ('step_size', 2e-3, None, __step_size_help_message),
 
-                        ('batch_size_eval', 100, None, __batch_size_eval_help_message),
+                        ('batch_size_eval', 64, None, __batch_size_eval_help_message),
 
                         ('seed', 0, None, __seed_help_message),
                         ('re_evaluation_mode', False, None, 'Re_evaluation message'),

@@ -1,6 +1,6 @@
-from models.resnet import ResNetMCD, ResNetEnsemble, ResNet_DUQ
+from models.resnet import ResNetMCD, ResNetEnsemble, ResNet_DUQ, resnet18, resnet34, resnet50
 
-from torchvision.models.resnet import ResNet18_Weights, ResNet34_Weights, ResNet50_Weights
+import torchvision
 
 import torch.nn as nn
 import torch
@@ -37,6 +37,8 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
 
     if robustness_level not in keys.ROBUSTNESS_LEVELS:
         raise Exception(f"{robustness_level} is not a supported robustness_level")
+
+    model =None
 
     if robustness_level == "naive_robust":
         # Matching the UQ Technique
@@ -86,51 +88,37 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
                 raise Exception(f"{backbone} is not a supported ResNet.")
 
             if dataset == "cifar10":
-                # Using the pre-defined resnet as backbone architecture
-                model = ResNetMCD(backbone, pretrained=True, transform=transform)
-                # embedded_path = os.path.join('models', "pretrained_baselines", f"{backbone}.pt")
-                # model.backbone.load_state_dict(torch.load(embedded_path, map_location=torch.device(device)))
+                # Using the pre-trained resnet as backbone architecture, custom load
+                if backbone == 'resnet18':
+                    model = resnet18(pretrained=True)
+                elif backbone == 'resnet34':
+                    model = resnet34(pretrained=True)
+                elif backbone == 'resnet50':
+                    model = resnet50(pretrained=True)
 
             if dataset == "imagenet":
                 # Using the pre-defined resnet as backbone architecture
                 if backbone == 'resnet18':
-                    model = ResNetMCD(backbone, weights=ResNet18_Weights.DEFAULT, pretrained=False, transform=transform)
+                    model = torchvision.models.resnet18(weights=torchvision.models.ResNet18_Weights.IMAGENET1K_V1, progress=False)
                     # model.backbone.load_state_dict(ResNet18_Weights.DEFAULT.get_state_dict())
                 elif backbone == 'resnet34':
-                    model = ResNetMCD(backbone, weights=ResNet34_Weights.DEFAULT, pretrained=False, transform=transform)
+                    model = torchvision.models.resnet34(weights=torchvision.models.ResNet34_Weights.IMAGENET1K_V1, progress=False)
                 elif backbone == 'resnet50':
-                    model = ResNetMCD(backbone, weights=ResNet50_Weights.DEFAULT, pretrained=False, transform=transform)
-
-            model.eval()
-            return model
+                    model = torchvision.models.resnet50(weights=torchvision.models.ResNet50_Weights.IMAGENET1K_V1, progress=False)
 
         else:
             raise Exception(f"{uq_technique} is not a supported uncertainty quantification technique.")
 
     elif robustness_level == "semi_robust":
         # Import model from robustbench
-        if dataset == "cifar10":
-            if robust_model not in keys.CIFAR10_ROBUST_MODELS:
-                raise Exception(f"{robust_model} is not a supported *{dataset}* Robust Model.")
+        model = ingredient.get_local_model(robust_model, dataset, device)
 
-            backbone_model = ingredient.get_local_model(robust_model, dataset, device)
-            model = ResNetMCD(resnet_type='robust_resnet', weights=backbone_model, pretrained=False, transform=None)
-            model.eval()
-            return model
-
-        elif dataset == "imagenet":
-            if robust_model not in keys.IMAGENET_ROBUST_MODELS:
-                raise Exception(f"{robust_model} is not a supported *{dataset}* Robust Model.")
-
-            backbone_model = ingredient.get_local_model(robust_model, dataset, device)
-            model = ResNetMCD(resnet_type='robust_resnet', weights=backbone_model, pretrained=False, transform=None)
-
-            model.eval()
-            return model
 
     elif robustness_level == "full_robust":
         # MODELLI ROBUSTI A BAYESIAN ATTACK
         return
+
+    return model
 
 
 # Private procedure for set the network to eval while keeping active the dropout layers

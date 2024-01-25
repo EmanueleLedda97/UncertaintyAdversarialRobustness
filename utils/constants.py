@@ -1,4 +1,3 @@
-
 # Lists of all the supported Backbones
 SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet']
 SUPPORTED_VGGS = []
@@ -51,8 +50,8 @@ SUPPORTED_CUDAS = [0, 1]
 
 # Attack constants
 ROOT = 'experiments_correct'
-EPS_BASE = 0.031                    # 8/255
-BASE_EPSILON = 0.031                # Just a refactoring of the upper constant
+EPS_BASE = 0.031  # 8/255
+BASE_EPSILON = 0.031  # Just a refactoring of the upper constant
 OPTIM_ATK_TYPE = ('fgsm', 'pgd')
 
 SEL_LOSS_TERMS = {'pred': (1, 0),
@@ -67,10 +66,11 @@ NORMALIZATION_DICT = {
 
 DEFAULT_DROPOUT_RATE = 0.3
 
-CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019']
+CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019', 'addepalli2022_towards']
 IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
 
 L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
-LINF_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
+LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18',
+                      'wong2020', 'engstrom2019imgnet', 'salman2020R50']
 
-SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS+IMAGENET_ROBUST_MODELS
+SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS

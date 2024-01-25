@@ -106,10 +106,15 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
 
         train_path = './datasets/imagenet/val'
 
-        resized_transform = transforms.Compose([
+        resized_transform_list = [
             transforms.Resize((224, 224)),  # Modify the size as needed
             transforms.ToTensor()
-        ])
+        ]
+        if set_normalization:
+            normalizer = get_normalizer(dataset)
+            resized_transform_list.append(normalizer)
+
+        resized_transform = transforms.Compose(resized_transform_list)
 
         imagenet_data = torchvision.datasets.ImageFolder(train_path, transform=resized_transform)
         train_set, test_set = torch.utils.data.random_split(imagenet_data, [len(imagenet_data)-10000, 10000])
@@ -346,3 +351,44 @@ def create_legend(ax, figsize=(10, 0.5)):
     legend_fig.tight_layout()
 
     return legend_fig
+
+
+
+# -----------------------------------
+import models.ingredient_2 as ingredient
+def check_kwarg(kwargs):
+    if kwargs['robustness_level'] == 'naive_robust':
+        kwargs["robust_model"] = None
+
+    # THREAT - MODEL CHECK
+    if kwargs['robustness_level'] == 'semi_robust':
+        kwargs["uq_technique"] = "None"
+
+        if kwargs['norm'] == 'Linf':
+            if kwargs['robust_model'] not in keys.LINF_ROBUST_MODELS:
+                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
+
+        elif kwargs['norm'] == "L2":
+            if kwargs['robust_model'] not in keys.L2_ROBUST_MODELS:
+                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
+
+        if kwargs["dataset"] == "cifar10":
+            if kwargs["robust_model"] not in keys.CIFAR10_ROBUST_MODELS:
+                raise Exception(f"{kwargs['robust_model']} is not a supported *{kwargs['dataset']}* Robust Model.")
+
+        elif kwargs["dataset"] == "imagenet":
+            if kwargs["robust_model"] not in keys.IMAGENET_ROBUST_MODELS:
+                raise Exception(f"{kwargs['robust_model']} is not a supported *{kwargs['dataset']}* Robust Model.")
+
+        kwargs["backbone"] = ingredient.cifar10_model_dict[kwargs["robust_model"]]["resnet_type"] if kwargs[
+                                                                                                         "dataset"] == "cifar10" else \
+            ingredient.imagenet_model_dict[kwargs["robust_model"]]["resnet_type"]
+
+    if kwargs['uq_technique'] == 'None':
+        kwargs["dropout_rate"] = 0.0
+        kwargs["mc_samples_eval"] = 1
+        kwargs["mc_samples_attack"] = 1
+        kwargs["full_bayesian"] = False
+
+
+    return kwargs

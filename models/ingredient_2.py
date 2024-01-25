@@ -19,6 +19,15 @@ cifar10_model_dict = dict(addepalli2022={
     'threat_model': 'Linf',
     'resnet_type': 'resnet18'
     },
+    addepalli2022_towards={
+    'name': 'Addepalli2021Towards_RN18',  # ResNet-18
+    'source': 'robustbench',
+    'dataset': 'cifar10',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet18'
+    },
+
+
     sehwag2021={
     'name': 'Sehwag2021Proxy_R18',  # ResNet-18
     'source': 'robustbench',
@@ -44,6 +53,7 @@ cifar10_model_dict = dict(addepalli2022={
 
 
 _local_cifar_models = {
+    'addepalli2022_towards': partial(load_robustbench_model, **cifar10_model_dict["addepalli2022_towards"]),
     'addepalli2022': partial(load_robustbench_model, **cifar10_model_dict["addepalli2022"]),
     'sehwag2021': partial(load_robustbench_model, **cifar10_model_dict["sehwag2021"]),
     'augustin2020': partial(load_robustbench_model, **cifar10_model_dict["augustin2020"]),
@@ -58,31 +68,35 @@ def get_local_cifar_model(name: str, dataset: str) -> nn.Module:
 # -------------------- IMAGENET -----------------------------
 # def get_resnet18():
 #     model = resnet18_normalized(weights= ResNet18_Weights.DEFAULT, normalize=([0.485, 0.456, 0.406],[0.229, 0.224, 0.225]))
-#     return model
+#     return model Accuracy: 0.455, MI: 3.086
 
 imagenet_model_dict = dict(salman2020R18={
     'name': 'Salman2020Do_R18',  # ResNet-18
     'source': 'robustbench',
     'dataset': 'imagenet',
-    'threat_model': 'Linf'
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet18'
     },
     wong2020={
     'name': 'Wong2020Fast',  # ResNet-50
     'source': 'robustbench',
     'dataset': 'imagenet',
-    'threat_model': 'Linf'
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
     },
     engstrom2019imgnet={
     'name': 'Engstrom2019Robustness',  # ResNet-50
     'source': 'robustbench',
     'dataset': 'imagenet',
-    'threat_model': 'Linf'
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
     },
     salman2020R50={
     'name': 'Salman2020Do_R50',  # ResNet-50
     'source': 'robustbench',
     'dataset': 'imagenet',
-    'threat_model': 'Linf'
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
 })
 
 _local_imagenet_models = {

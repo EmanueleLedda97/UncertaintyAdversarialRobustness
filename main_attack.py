@@ -63,9 +63,8 @@ def main(root=keys.ROOT,
          ):
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
+    set_normalization = (robustness_level == "naive_robust")
 
-    # print(json.dumps(kwargs, indent=4))
-    # exit(1)
 
     # Setting up the experiment paths
     attack_parameters = (epsilon, norm, attack_update_strategy, step_size, mc_samples_attack)
@@ -110,15 +109,15 @@ def main(root=keys.ROOT,
     # Loading the dataset
     logger.debug("Loading dataset ...")
     test_subset_set = utils.get_dataset_splits(dataset=dataset,  # Loading the 'dataset'...
-                                                     set_normalization=False,
-                                                     # ... without normalization due to transform in forward...
-                                                     ood=is_an_ood_experiment,  # ... choosing the ood...
-                                                     load_adversarial_set=True,
-                                                     # ... for loading only the adversarial set...
-                                                     num_advx=num_adv_examples)  # ... with 'num_advx' examples...
+                                               set_normalization=set_normalization,
+                                               # NOTE: For non bayesian model normalization is needed during data loading
+                                               ood=is_an_ood_experiment,  # ... choosing the ood...
+                                               load_adversarial_set=True,
+                                               # ... for loading only the adversarial set...
+                                               num_advx=num_adv_examples)  # ... with 'num_advx' examples...
 
-    test_subset_loader = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False,
-                                                     num_workers=2)
+    # test_subset_loader = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False,
+    #                                                   num_workers=2)
     test_subset_loader_during_attack = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size,
                                                                    shuffle=False, num_workers=16)
 
@@ -131,10 +130,12 @@ def main(root=keys.ROOT,
         logger.debug("Evaluating and saving results...")
 
         if uq_technique == 'deterministic_uq':
-            results = eval.evaluate_deterministic(model, test_subset_loader,  # Evaluating the results on the clean set
+            results = eval.evaluate_deterministic(model, test_subset_loader_during_attack,  # Evaluating the results on the clean set
                                                   device=device, seed=seed)
+        elif uq_technique == "None":
+            results = eval.evaluate_non_bayesian(model, test_subset_loader_during_attack, device=device, seed=seed)
         else:
-            results = eval.evaluate_bayesian(model, test_subset_loader,  # Evaluating the results on the clean set
+            results = eval.evaluate_bayesian(model, test_subset_loader_during_attack,  # Evaluating the results on the clean set
                                              mc_sample_size=mc_samples_eval,
                                              device=device, seed=seed)
         utils.my_save(results, clean_results_path)  # Saving the results
@@ -144,7 +145,7 @@ def main(root=keys.ROOT,
 
     # TODO: Forse sta roba si può incorporare dopo
     # Logging the results
-    accuracy = (results['preds'].numpy() == results['ground_truth'].numpy()).mean()
+    accuracy = (results['preds'] == results['ground_truth']).numpy().mean()
     if uq_technique == 'deterministic_uq':
         conf = results['confidence'].mean().item()
         logger.debug(f"Accuracy: {accuracy:.3f}, Confidence: {conf:.3f}")
@@ -187,7 +188,7 @@ def main(root=keys.ROOT,
             raise Exception(attack_loss, "attack loss is not supported.")
 
         # If some adversarial example is missing, compute the remaining ones
-        if file_count < num_adv_examples:
+        if file_count < num_adv_examples:   # or re_evaluation_mode = True: per ricreare adv_sample
             logger.debug("Generating adversarial examples...")
 
             # Set-up phase
@@ -226,7 +227,7 @@ def main(root=keys.ROOT,
         adv_test_subset_loader = torch.utils.data.DataLoader(adv_test_subset_dataset,
                                                              batch_size=batch_size,
                                                              shuffle=False,
-                                                             num_workers=2)
+                                                             num_workers=16)
 
         # Evaluating the Bayesian model on the adversarial dataset
         if not os.path.exists(adv_results_path) or re_evaluation_mode:
@@ -235,6 +236,9 @@ def main(root=keys.ROOT,
                 adv_results = eval.evaluate_deterministic(model, adv_test_subset_loader,
                                                           # Evaluating the results on the clean set
                                                           device=device, seed=seed)
+            elif uq_technique == "None":
+                adv_results = eval.evaluate_non_bayesian(model, adv_test_subset_loader, device=device, seed=seed)
+
             else:
                 adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
                                                      seed=seed, device=device)
@@ -260,9 +264,11 @@ def main(root=keys.ROOT,
         plt.plot(results["entropy_of_mean"][mask])
         plt.xlabel("Sample ID (argsort entropy)")
         plt.ylabel("Entropy")
-        plt.title(f"BACKBONE {robustness_level} {robust_model if robust_model != None else backbone}")
+        plt.title(f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
         plt.legend(["Adv", "clean"])
-        plt.show()
+        plt.savefig(f"{os.path.join(experiment_path, 'clean_vs_adv_entropy.png')}")
+
+        plt.clf()
 
         print("done!")
 
@@ -281,6 +287,9 @@ def main_seceval(parser):
     # Running the main for each epsilon on the seceval curve
     epsilon_step = (args.epsilon_max - args.epsilon_min) / args.num_epsilon_steps
     epsilon_list = np.arange(start=args.epsilon_min, stop=args.epsilon_max, step=epsilon_step)[::-1]
+
+    kwargs = utils.check_kwarg(kwargs)
+
     for epsilon_k in epsilon_list:
         kwargs['epsilon'] = epsilon_k
         main(**kwargs, kwargs=kwargs)
@@ -297,31 +306,9 @@ def main_single(parser):
     kwargs = {key: value for (key, value) in args._get_kwargs()}
 
     # Running the main
+    kwargs = utils.check_kwarg(kwargs)
 
     # FORCING PARAMETERS TO DEFAULT
-    if kwargs['uq_technique'] == 'None':
-        kwargs["dropout_rate"] = 0.0
-        kwargs["mc_samples_eval"] = 1
-        kwargs["mc_samples_attack"] = 1
-        kwargs["full_bayesian"] = False
-
-    if kwargs['robustness_level'] == 'naive_robust':
-        kwargs["robust_model"] = None
-
-    # THREAT - MODEL CHECK
-    if kwargs['robustness_level'] == 'semi_robust':
-        kwargs["uq_technique"] = "None"
-        if kwargs['norm'] == 'Linf':
-            if kwargs['robust_model'] not in keys.LINF_ROBUST_MODELS:
-                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
-
-        elif kwargs['norm'] == "L2":
-            if kwargs['robust_model'] not in keys.L2_ROBUST_MODELS:
-                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
-
-        # fare match di backbone
-
-
     main(**kwargs, kwargs=kwargs)
 
 
@@ -335,5 +322,5 @@ if __name__ == '__main__':
     if args.experiment_type == 'classification_ood':
         parser = add_ood_parsing(parser)
 
-    # main_seceval(parser)
-    main_single(parser)
+    main_seceval(parser)
+    # main_single(parser)
