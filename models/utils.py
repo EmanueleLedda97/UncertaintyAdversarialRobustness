@@ -100,11 +100,12 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
                 # Using the pre-defined resnet as backbone architecture
                 if backbone == 'resnet18':
                     model = torchvision.models.resnet18(weights=torchvision.models.ResNet18_Weights.IMAGENET1K_V1, progress=False)
-                    # model.backbone.load_state_dict(ResNet18_Weights.DEFAULT.get_state_dict())
                 elif backbone == 'resnet34':
                     model = torchvision.models.resnet34(weights=torchvision.models.ResNet34_Weights.IMAGENET1K_V1, progress=False)
                 elif backbone == 'resnet50':
                     model = torchvision.models.resnet50(weights=torchvision.models.ResNet50_Weights.IMAGENET1K_V1, progress=False)
+                elif backbone == "AGGIUNERE CONVNEXT E SWINL BASE":
+                    model = None
 
         else:
             raise Exception(f"{uq_technique} is not a supported uncertainty quantification technique.")
@@ -113,10 +114,9 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
         # Import model from robustbench
         model = ingredient.get_local_model(robust_model, dataset, device)
 
-
-    elif robustness_level == "full_robust":
-        # MODELLI ROBUSTI A BAYESIAN ATTACK
-        return
+    # elif robustness_level == "full_robust":
+    #     # MODELLI ROBUSTI A BAYESIAN ATTACK
+    #     return
 
     return model
 

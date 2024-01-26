@@ -97,13 +97,49 @@ imagenet_model_dict = dict(salman2020R18={
     'dataset': 'imagenet',
     'threat_model': 'Linf',
     'resnet_type': 'resnet50'
-})
+    },
+
+    Liu2023convNextL={
+        'name': 'Liu2023Comprehensive_ConvNeXt-L',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-L'
+        },
+    Liu2023swinB={
+            'name': 'Liu2023Comprehensive_Swin-B',
+            'source': 'robustbench',
+            'dataset': 'imagenet',
+            'threat_model': 'Linf',
+            'resnet_type': 'Swin-B'
+        },
+    Liu2023convNextB={
+        'name': 'Liu2023Comprehensive_ConvNeXt-B',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-B'
+    },
+    Liu2023swinL={
+        'name': 'Liu2023Comprehensive_Swin-L',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'Swin-L'
+    },
+)
 
 _local_imagenet_models = {
     'salman2020R18': partial(load_robustbench_model, **imagenet_model_dict["salman2020R18"]),
     'wong2020': partial(load_robustbench_model, **imagenet_model_dict["wong2020"]),
     'engstrom2019imgnet': partial(load_robustbench_model, **imagenet_model_dict["engstrom2019imgnet"]),
-    'salman2020R50': partial(load_robustbench_model, **imagenet_model_dict["salman2020R50"])
+    'salman2020R50': partial(load_robustbench_model, **imagenet_model_dict["salman2020R50"]),
+
+    'Liu2023convNextL': partial(load_robustbench_model, **imagenet_model_dict["Liu2023convNextL"]),
+    'Liu2023swinB': partial(load_robustbench_model, **imagenet_model_dict["Liu2023swinB"]),
+    'Liu2023convNextB': partial(load_robustbench_model, **imagenet_model_dict["Liu2023convNextB"]),
+    'Liu2023swinL': partial(load_robustbench_model, **imagenet_model_dict["Liu2023swinL"]),
+
 }
 
 

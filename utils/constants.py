@@ -1,5 +1,5 @@
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet']
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L']
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
@@ -67,10 +67,12 @@ NORMALIZATION_DICT = {
 DEFAULT_DROPOUT_RATE = 0.3
 
 CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019', 'addepalli2022_towards']
-IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50']
+IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50',
+                          'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
 
 L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
 LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18',
-                      'wong2020', 'engstrom2019imgnet', 'salman2020R50']
+                      'wong2020', 'engstrom2019imgnet', 'salman2020R50',
+                      'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
 
 SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS

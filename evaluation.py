@@ -76,22 +76,20 @@ def _eval_non_bayesian(model, x, y):
     mutual_information -> (len(x),)
     """
 
-    output_logits = model(x) 
+    output_logits = model(x)
     output_probs = torch.nn.Softmax(dim=-1)(output_logits)
 
     ground_truth = y.detach().cpu()
     preds = output_probs.argmax(dim=1).detach().cpu()
-    var_probs = torch.var(output_probs, dim=1)
+    var_probs = torch.var(output_probs, dim=1).cpu()
     entropy_of_mean = metrics.entropy(output_probs.unsqueeze(0), aleatoric_mode=True).detach().cpu()
     # mutual_information = metrics.mutual_information(output_probs.unsqueeze(0)).detach().cpu()
-    mutual_information = entropy_of_mean # NOTE: Correct (?)
+    mutual_information = entropy_of_mean  # NOTE: Correct (?)
 
     partial_results = [ground_truth, preds, var_probs, entropy_of_mean, mutual_information]
     results_dict = {k: v for (k, v) in zip(METRIC_NON_BAYESIAN_KEYS, partial_results)}
 
     return results_dict
-
-
 
 
 def evaluate_bayesian(model, test_loader, mc_sample_size=20, device='cpu', seed=0):
@@ -105,6 +103,7 @@ def evaluate_bayesian(model, test_loader, mc_sample_size=20, device='cpu', seed=
             all_results[k] = torch.cat((all_results[k], v), dim=0) if all_results[k] is not None else v
 
     return all_results
+
 
 def evaluate_non_bayesian(model, test_loader, device='cpu', seed=0):
     model.eval()
@@ -120,7 +119,6 @@ def evaluate_non_bayesian(model, test_loader, device='cpu', seed=0):
     return all_results
 
 
-
 def evaluate_deterministic(model, test_loader, device='cpu', seed=0):
     model.eval()
     all_results = {k: None for k in METRIC_DUQ_KEYS}
@@ -133,6 +131,19 @@ def evaluate_deterministic(model, test_loader, device='cpu', seed=0):
 
     return all_results
 
+
+def evaluate_batch_non_bayesian(model, x, y, outer_dict):
+    model.eval()
+    with torch.no_grad():
+        all_results = {k: None for k in METRIC_NON_BAYESIAN_KEYS} if outer_dict is None else outer_dict
+        results_dict = _eval_non_bayesian(model, x, y)
+        for k, v in results_dict.items():
+            all_results[k] = torch.cat((all_results[k], v), dim=0) if all_results[k] is not None else v
+
+    return all_results
+
+
+# LEDDA CODE BELOW
 
 def evaluate_batch_standard(model, x, y):
     model.eval()

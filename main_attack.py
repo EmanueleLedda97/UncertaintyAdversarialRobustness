@@ -58,13 +58,12 @@ def main(root=keys.ROOT,
          ood_size=None,
 
          seed=0,
-         cuda=1,
+         cuda=0,
          kwargs=None,
          ):
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
-    set_normalization = (robustness_level == "naive_robust")
-
+    set_normalization = robustness_level == "naive_robust" and dataset == "cifar10"
 
     # Setting up the experiment paths
     attack_parameters = (epsilon, norm, attack_update_strategy, step_size, mc_samples_attack)
@@ -130,12 +129,14 @@ def main(root=keys.ROOT,
         logger.debug("Evaluating and saving results...")
 
         if uq_technique == 'deterministic_uq':
-            results = eval.evaluate_deterministic(model, test_subset_loader_during_attack,  # Evaluating the results on the clean set
+            results = eval.evaluate_deterministic(model, test_subset_loader_during_attack,
+                                                  # Evaluating the results on the clean set
                                                   device=device, seed=seed)
         elif uq_technique == "None":
             results = eval.evaluate_non_bayesian(model, test_subset_loader_during_attack, device=device, seed=seed)
         else:
-            results = eval.evaluate_bayesian(model, test_subset_loader_during_attack,  # Evaluating the results on the clean set
+            results = eval.evaluate_bayesian(model, test_subset_loader_during_attack,
+                                             # Evaluating the results on the clean set
                                              mc_sample_size=mc_samples_eval,
                                              device=device, seed=seed)
         utils.my_save(results, clean_results_path)  # Saving the results
@@ -188,69 +189,46 @@ def main(root=keys.ROOT,
             raise Exception(attack_loss, "attack loss is not supported.")
 
         # If some adversarial example is missing, compute the remaining ones
-        if file_count < num_adv_examples:   # or re_evaluation_mode = True: per ricreare adv_sample
-            logger.debug("Generating adversarial examples...")
+        # if file_count < num_adv_examples:   # or re_evaluation_mode = True: per ricreare adv_sample
+        #     logger.debug("Generating adversarial examples...")
+        #
+        #     # Set-up phase
+        #     utils.set_all_seed(seed)  # Setting up the seed
+        #     fname_to_target = {}  # Dictionary associating file name with target
+        #     k = 0  # Sample's index
 
-            # Set-up phase
-            utils.set_all_seed(seed)  # Setting up the seed
-            fname_to_target = {}  # Dictionary associating file name with target
-            k = 0  # Sample's index
-
+        # Evaluating the Bayesian model on the adversarial dataset
+        if not os.path.exists(adv_results_path) or re_evaluation_mode:
+            adv_results = None
+            logger.debug("Computing evaluation...")
             # Generating iteratively the adversarial examples from the selected test set
             for batch_i, (x, y) in enumerate(test_subset_loader_during_attack):
-
                 # Sending the data to device
                 x, y = x.to(device), y.to(device)
-
                 # Computing the adversarial examples for the current batch
                 adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
                 logger.debug(
                     f"Attack Took {attack.elapsed_time:.3f} seconds ({attack.elapsed_time / num_attack_iterations:.3f} per iter)")
 
-                # Saving each adversarial example on the batch
-                for i in range(adv_examples.shape[0]):
-                    fname = f"{str(k).zfill(10)}.png"  # Setting the adversarial image filename
-                    file_path = os.path.join(adv_examples_path, fname)  # Creating the path for the adversarial image
-                    fname_to_target[fname] = y[i].item()  # Adding the correspondence to the dictionary
-                    torchvision.utils.save_image(adv_examples[i], file_path)  # Saving the adversarial example
-                    k += 1  # Incrementing the sample's index
+                if uq_technique == 'deterministic_uq':
+                    # adv_results = eval.evaluate_deterministic(model, adv_test_subset_loader,
+                    #                                           # Evaluating the results on the clean set
+                    #                                           device=device, seed=seed)
+                    adv_results = None
 
-            # Dumping the filename dictionary
-            with open(utils.join(adv_examples_path, 'fname_to_target.json'),
-                      'w') as f:  # TODO: Review logic of name dict
-                json.dump(fname_to_target, f)
-        else:
-            logger.debug("Adversarial examples already generated.")
+                elif uq_technique == "None":
+                    adv_results = eval.evaluate_batch_non_bayesian(model, x, y, adv_results)
 
-        # Loading the adversarial set from the precomputed examples folder
-        adv_test_subset_dataset = utils.AdversarialDataset(adv_examples_path)
-        adv_test_subset_loader = torch.utils.data.DataLoader(adv_test_subset_dataset,
-                                                             batch_size=batch_size,
-                                                             shuffle=False,
-                                                             num_workers=16)
-
-        # Evaluating the Bayesian model on the adversarial dataset
-        if not os.path.exists(adv_results_path) or re_evaluation_mode:
-            logger.debug("Computing evaluation...")
-            if uq_technique == 'deterministic_uq':
-                adv_results = eval.evaluate_deterministic(model, adv_test_subset_loader,
-                                                          # Evaluating the results on the clean set
-                                                          device=device, seed=seed)
-            elif uq_technique == "None":
-                adv_results = eval.evaluate_non_bayesian(model, adv_test_subset_loader, device=device, seed=seed)
-
-            else:
-                adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
-                                                     seed=seed, device=device)
+                # else:
+                #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
+                #                                      seed=seed, device=device)
             utils.my_save(adv_results, adv_results_path)
-        else:
-            logger.debug("Already evaluated and saved.")
-            adv_results = utils.my_load(adv_results_path)  # Loading the results
+    else:
+        logger.debug("Already evaluated and saved.")
+        adv_results = utils.my_load(adv_results_path)  # Loading the results
 
         # Logging the results
         accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
-        # mi = adv_results['mutual_information'].mean().item()
-        # logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
         if uq_technique == 'deterministic_uq':
             conf = adv_results['confidence'].mean().item()
@@ -264,7 +242,8 @@ def main(root=keys.ROOT,
         plt.plot(results["entropy_of_mean"][mask])
         plt.xlabel("Sample ID (argsort entropy)")
         plt.ylabel("Entropy")
-        plt.title(f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
+        plt.title(
+            f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
         plt.legend(["Adv", "clean"])
         plt.savefig(f"{os.path.join(experiment_path, 'clean_vs_adv_entropy.png')}")
 
@@ -322,5 +301,5 @@ if __name__ == '__main__':
     if args.experiment_type == 'classification_ood':
         parser = add_ood_parsing(parser)
 
-    main_seceval(parser)
-    # main_single(parser)
+    # main_seceval(parser)
+    main_single(parser)
