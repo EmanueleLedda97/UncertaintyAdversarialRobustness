@@ -104,8 +104,12 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
                     model = torchvision.models.resnet34(weights=torchvision.models.ResNet34_Weights.IMAGENET1K_V1, progress=False)
                 elif backbone == 'resnet50':
                     model = torchvision.models.resnet50(weights=torchvision.models.ResNet50_Weights.IMAGENET1K_V1, progress=False)
-                elif backbone == "AGGIUNERE CONVNEXT E SWINL BASE":
-                    model = None
+                elif backbone == "Swin-B":
+                    model = torchvision.models.swin_b(weights=torchvision.models.Swin_B_Weights.IMAGENET1K_V1, progress=False)
+                elif backbone == "ConvNeXt-B":
+                    model = torchvision.models.convnext_base(weights=torchvision.models.ConvNeXt_Base_Weights.IMAGENET1K_V1, progress=False)
+                elif backbone == "ConvNeXt-L":
+                    model = torchvision.models.convnext_large(weights=torchvision.models.ConvNeXt_Large_Weights.IMAGENET1K_V1, progress=False)
 
         else:
             raise Exception(f"{uq_technique} is not a supported uncertainty quantification technique.")

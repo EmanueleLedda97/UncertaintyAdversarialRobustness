@@ -99,26 +99,13 @@ imagenet_model_dict = dict(salman2020R18={
     'resnet_type': 'resnet50'
     },
 
-    Liu2023convNextL={
-        'name': 'Liu2023Comprehensive_ConvNeXt-L',
-        'source': 'robustbench',
-        'dataset': 'imagenet',
-        'threat_model': 'Linf',
-        'resnet_type': 'ConvNeXt-L'
-        },
+
     Liu2023swinB={
             'name': 'Liu2023Comprehensive_Swin-B',
             'source': 'robustbench',
             'dataset': 'imagenet',
             'threat_model': 'Linf',
             'resnet_type': 'Swin-B'
-        },
-    Liu2023convNextB={
-        'name': 'Liu2023Comprehensive_ConvNeXt-B',
-        'source': 'robustbench',
-        'dataset': 'imagenet',
-        'threat_model': 'Linf',
-        'resnet_type': 'ConvNeXt-B'
     },
     Liu2023swinL={
         'name': 'Liu2023Comprehensive_Swin-L',
@@ -127,6 +114,21 @@ imagenet_model_dict = dict(salman2020R18={
         'threat_model': 'Linf',
         'resnet_type': 'Swin-L'
     },
+    Liu2023convNextB={
+        'name': 'Liu2023Comprehensive_ConvNeXt-B',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-B'
+    },
+    Liu2023convNextL={
+        'name': 'Liu2023Comprehensive_ConvNeXt-L',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-L'
+    },
+
 )
 
 _local_imagenet_models = {

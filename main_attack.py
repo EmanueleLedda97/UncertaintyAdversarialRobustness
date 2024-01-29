@@ -15,6 +15,8 @@ from utils.loggers import set_up_logger
 
 import utils.utils as utils
 
+import robustbench as robustbench
+
 import models.ingredient_2 as ingredient
 
 '''
@@ -217,25 +219,26 @@ def main(root=keys.ROOT,
                     adv_results = None
 
                 elif uq_technique == "None":
-                    adv_results = eval.evaluate_batch_non_bayesian(model, x, y, adv_results)
+                    adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results)
 
                 # else:
                 #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
                 #                                      seed=seed, device=device)
             utils.my_save(adv_results, adv_results_path)
-    else:
-        logger.debug("Already evaluated and saved.")
-        adv_results = utils.my_load(adv_results_path)  # Loading the results
 
-        # Logging the results
-        accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
-
-        if uq_technique == 'deterministic_uq':
-            conf = adv_results['confidence'].mean().item()
-            logger.debug(f"Accuracy: {accuracy:.3f}, Confidence: {conf:.3f}")
         else:
-            mi = adv_results['mutual_information'].mean().item()
-            logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
+            logger.debug("Already evaluated and saved.")
+            adv_results = utils.my_load(adv_results_path)  # Loading the results
+
+            # Logging the results
+            accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
+
+            if uq_technique == 'deterministic_uq':
+                conf = adv_results['confidence'].mean().item()
+                logger.debug(f"Accuracy: {accuracy:.3f}, Confidence: {conf:.3f}")
+            else:
+                mi = adv_results['mutual_information'].mean().item()
+                logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
         mask = results["entropy_of_mean"].sort()[1]
         plt.plot(adv_results["entropy_of_mean"][mask])
