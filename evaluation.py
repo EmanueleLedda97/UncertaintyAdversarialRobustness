@@ -12,7 +12,7 @@ METRIC_KEYS = ['ground_truth', 'mean_probs', 'var_probs', 'preds', 'var',
                'mean_of_entropies', 'entropy_of_mean', 'mutual_information', 'true_var']
 
 # entropy_of_mean --> entropy
-METRIC_NON_BAYESIAN_KEYS = ['ground_truth', 'preds', 'var_probs', 'entropy_of_mean', 'mutual_information']
+METRIC_NON_BAYESIAN_KEYS = ['ground_truth', 'mean_probs', 'preds', 'var_probs', 'entropy_of_mean', 'mutual_information']
 
 METRIC_DUQ_KEYS = ['ground_truth', 'preds', 'centroids', 'confidence']
 
@@ -86,7 +86,7 @@ def _eval_non_bayesian(model, x, y):
     # mutual_information = metrics.mutual_information(output_probs.unsqueeze(0)).detach().cpu()
     mutual_information = entropy_of_mean  # NOTE: Correct (?)
 
-    partial_results = [ground_truth, preds, var_probs, entropy_of_mean, mutual_information]
+    partial_results = [ground_truth, output_probs, preds, var_probs, entropy_of_mean, mutual_information]
     results_dict = {k: v for (k, v) in zip(METRIC_NON_BAYESIAN_KEYS, partial_results)}
 
     return results_dict
