@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+
+    // addepalli2022 addepalli2022_towards sehwag2021 engstrom2019
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DebugNaive",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset cifar10 -backbone resnet18 -robustness_level naive_robust -uq_technique None -num_adv_examples 100 -cuda 1 -re_evaluation_mode True -batch_size 100 -epsilon 0.031",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+
+        {
+            "name": "DebugSemiRobust",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 1000 -cuda 0 -re_evaluation_mode True -batch_size 1000 -epsilon 0.0314",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

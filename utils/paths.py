@@ -23,7 +23,7 @@ import os
     TODO: Add documentation
 '''
 def get_full_experiment_path(experiment_type, robustness_level, dataset, backbone, uq_technique,
-                             attack_name, attack_parameters, dropout_rate=None,
+                             attack_name, attack_parameters, robust_model=None, dropout_rate=None,
                              ood_dataset=None, iid_size=None, ood_size=None):
 
     # Composing the three main sub-paths
@@ -33,6 +33,7 @@ def get_full_experiment_path(experiment_type, robustness_level, dataset, backbon
                                                dataset=dataset,
                                                backbone=backbone,
                                                uq_technique=uq_technique,
+                                               robust_model=robust_model,
                                                dropout_rate=dropout_rate,
                                                ood_dataset=ood_dataset,
                                                iid_size=iid_size,
@@ -84,7 +85,7 @@ def compose_experiment_root_path(experiment_type, robustness_level):
     And, in case of dropout-based UQ method:
     - dropout_rate          whish is the dropout rate used at test time
 '''
-def compose_experiment_model_path(experiment_type, dataset, backbone, uq_technique, dropout_rate=None, 
+def compose_experiment_model_path(experiment_type, dataset, backbone, uq_technique, robust_model=None, dropout_rate=None,
                                   ood_dataset=None, iid_size=None, ood_size=None):
 
     # Check (and eventually correcting) the plausibility of dropout rate
@@ -106,6 +107,7 @@ def compose_experiment_model_path(experiment_type, dataset, backbone, uq_techniq
         path = __compose_experiment_model_path_iid(dataset=dataset,
                                                    backbone=backbone,
                                                    uq_technique=uq_technique,
+                                                   robust_model=robust_model,
                                                    dropout_rate=dropout_rate)
 
     return path
@@ -120,7 +122,7 @@ def compose_experiment_model_path(experiment_type, dataset, backbone, uq_techniq
     And, in case of dropout-based UQ method:
     - dropout_rate          whish is the dropout rate used at test time
 '''
-def __compose_experiment_model_path_iid(dataset, backbone, uq_technique, dropout_rate=None):
+def __compose_experiment_model_path_iid(dataset, backbone, uq_technique, robust_model=None, dropout_rate=None):
 
     # Check for plausibility
     if dataset not in keys.SUPPORTED_DATASETS:
@@ -131,9 +133,14 @@ def __compose_experiment_model_path_iid(dataset, backbone, uq_technique, dropout
         raise Exception(uq_technique, "is not a supported UQ technique.")
     if dropout_rate is not None and dropout_rate not in keys.SUPPORTED_DROPOUT_RATES:
         raise Exception(dropout_rate, "is not a supported dropout rate")
+    if robust_model is not None and robust_model not in keys.SUPPORTED_ROBUST_MODEL:
+        raise Exception(robust_model, "is not a supported robust model")
     
     # Obtaining the path
     path = os.path.join(dataset, backbone, uq_technique)
+
+    if robust_model is not None:
+        path = os.path.join(path, robust_model)
 
     # If the dropout rate has been specified,
     if dropout_rate is not None:

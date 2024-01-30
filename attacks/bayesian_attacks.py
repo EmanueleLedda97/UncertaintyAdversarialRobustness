@@ -18,9 +18,19 @@ class BaseBayesianAttack(BaseAttack):
         self.loss_fn = loss_functions.BayesianCrossEntropyLoss()
     
     def compute_loss(self):
-        self.output = self.model(self.x_adv, 
-                                 mc_sample_size=self.mc_sample_size_during_attack,
-                                 get_mc_output=True)
+        if self.mc_sample_size_during_attack != 1:
+            self.output = self.model(self.x_adv,
+                                     mc_sample_size=self.mc_sample_size_during_attack,
+                                     get_mc_output=True)
+        else:
+            # Eventually, adding the transformation to x
+            if self.transform is not None:
+                temporary_x_adv = self.transform(self.x_adv)
+            else:
+                temporary_x_adv = self.x_adv
+                
+            self.output = self.model(temporary_x_adv).unsqueeze(0)
+
 
         # At the first iteration we compute the target (which may require the clean output)
         if (self.x == self.x_adv).all():

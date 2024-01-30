@@ -125,5 +125,45 @@ def accuracy(output, target, temperature=1):
 
 
 
-#
+# RELIABILITY DIAGRAM draft implementation
+# def reliability_diagram(predictions, ground_truth, bins = 10, plot_rel_diagram = True, path = "rel_diagram.png"):
 
+#     bin_boundaries = np.linspace(0, 1, bins + 1)
+#     bin_lowers = bin_boundaries[:-1]
+#     bin_uppers = bin_boundaries[1:]
+    
+#     # Computing the accuracy inside each bucket
+
+#     confidence, pred_label = predictions.max(1)
+#     acc = (pred_label == ground_truth).float()
+
+#     ece = 0
+#     bin_accuracies, bin_confidences, bin_counts = [], [], []
+#     for bin_lower, bin_upper in zip(bin_lowers, bin_uppers):
+#         # Getting the indices
+#         mask = torch.logical_and(confidence > bin_lower.item(), confidence<= bin_upper.item())
+
+
+
+#         if len(mask) != 0:
+#             bin_accuracies.append(acc[mask].mean().item())
+#             bin_confidences.append(confidence[mask].mean().item())
+#             bin_counts.append(mask.sum().item())
+
+
+
+#         avg_acc = np.sum(bin_accuracies * bin_counts) / np.sum(bin_counts)
+#         avg_conf = np.sum(bin_confidences * bin_counts) / np.sum(bin_counts)
+
+#         gaps = np.abs(bin_accuracies - bin_confidences)
+#         ece = np.sum(gaps * bin_counts) / np.sum(bin_counts)
+#         mce = np.max(gaps)
+
+#     # If required, plots the reliability diagram and save it on the pre-defined folder
+#     if plot_rel_diagram:
+#         plt.plot(bin_accuracies, '--', label='perfect calibration')
+#         plt.plot(bin_confidences, 'x', label='model calibration')
+#         plt.savefig(path)
+#         plt.clf()
+
+#     return ece

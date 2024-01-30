@@ -133,13 +133,13 @@ class UncertaintyDivergenceLoss(BaseLoss):
         self.loss_ce_fn = nn.CrossEntropyLoss()
         self.loss_kl_fn = nn.KLDivLoss(reduction="batchmean", log_target=True)
     
-    def forward(self, clean_input: Tensor, adv_input: Tensor, target: Tensor) -> Tensor:
+    def forward(self, clean_output: Tensor, adv_output: Tensor, target: Tensor) -> Tensor:
 
         # Computing the loss terms
-        cross_entropy_term = self.loss_ce_fn(adv_input, target.long())
-        kl_divergence = self.loss_kl_fn(F.log_softmax(clean_input), F.log_softmax(adv_input))
-        loss = self.alpha * cross_entropy_term + self.beta * kl_divergence
-
+        cross_entropy_term = self.loss_ce_fn(adv_output, target.long())
+        kl_divergence = self.loss_kl_fn(F.log_softmax(clean_output, dim = 1), F.log_softmax(adv_output, dim = 1))
+        # loss = (self.alpha * cross_entropy_term + self.beta * kl_divergence)/(self.alpha+self.beta)
+        loss = (cross_entropy_term + self.beta * kl_divergence)/(1+ self.beta)
         # Updating the loss path for further visualization
         if self.keep_loss_path:
             self._update_loss_path((loss, cross_entropy_term, kl_divergence), self.loss_keys)
