@@ -35,3 +35,5 @@ models/zip_files/
 /models/imagenet/
 
 .idea/
+
+*.sh

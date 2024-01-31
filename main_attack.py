@@ -220,6 +220,8 @@ def main(root=keys.ROOT,
 
                 elif uq_technique == "None":
                     adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results)
+                    # print((adv_results["mean_probs"].shape))
+                    # print(adv_results["mean_probs"])
 
                 # else:
                 #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,

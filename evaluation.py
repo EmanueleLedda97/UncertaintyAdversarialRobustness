@@ -77,7 +77,7 @@ def _eval_non_bayesian(model, x, y):
     """
 
     output_logits = model(x)
-    output_probs = torch.nn.Softmax(dim=-1)(output_logits)
+    output_probs = torch.nn.Softmax(dim=-1)(output_logits).detach().cpu()
 
     ground_truth = y.detach().cpu()
     preds = output_probs.argmax(dim=1).detach().cpu()
