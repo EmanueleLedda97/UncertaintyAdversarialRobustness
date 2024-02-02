@@ -96,10 +96,37 @@ class VarianceLoss(BaseLoss):
     TODO: Add documentation
 '''
 class BayesianCrossEntropyLoss(BaseLoss):
+    def __init__(self, targeted=True, label_smoothing=0):
+        super().__init__()
+        self.beta = 1 if targeted else -1
+        self.loss_ce_fn = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+
+        # Setting up the visualization variables
+        self._add_loss_term('CE')
+        self.loss_keys = tuple(self.loss_path.keys())
+
+    def forward(self, input: Tensor, target: Tensor) -> Tensor:
+
+        # Computing the cross-entropy loss
+        mean_outs = metrics.mc_samples_mean(input)
+        loss = self.beta * self.loss_ce_fn(mean_outs, target.long())    # beta=1 -> get close; beta=-1 -> get far
+        
+        # Updating the loss path for further visualization
+        if self.keep_loss_path:
+            self.update_loss_path(loss)
+
+        # Returning the loss
+        return loss
+
+
+'''
+    TODO: Add documentation
+'''
+class BayesianUniformCrossEntropyLoss(BaseLoss):
     def __init__(self, targeted=True):
         super().__init__()
         self.beta = 1 if targeted else -1
-        self.loss_ce_fn = nn.CrossEntropyLoss()
+        self.loss_ce_fn = nn.CrossEntropyLoss(label_smoothing=1.0)
 
         # Setting up the visualization variables
         self._add_loss_term('CE')

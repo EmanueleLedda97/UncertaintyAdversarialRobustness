@@ -23,6 +23,8 @@ utils/__pycache__
 
 models/*.zip
 models/*.rar
+*.zip
+*.txt
 
 
 zzzz_junk/

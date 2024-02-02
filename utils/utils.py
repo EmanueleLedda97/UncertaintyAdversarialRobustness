@@ -122,11 +122,9 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
     else:
         raise Exception(f'{dataset} is not supported at the moment. Try using cifar10.')
 
-    # NOTE: STO CANCELLANDO QUESTA RIGA PER DEBUG
     # Using 8000 images for test and 2000 for validation
-    # test_set, validation_set = torch.utils.data.random_split(test_set, [8000, 2000])
+    test_set, validation_set = torch.utils.data.random_split(test_set, [8000, 2000])
     validation_set = test_set
-    # NOTE: STO CANCELLANDO QUESTA RIGA PER DEBUG
 
     if load_adversarial_set:
         set_all_seed(keys.DATA_SEED)

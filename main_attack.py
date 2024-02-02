@@ -189,6 +189,9 @@ def main(root=keys.ROOT,
         elif attack_loss == 'Stab':
             attack = attacks.bayesian_attacks.StabilizingAttack(mc_sample_size_during_attack=mc_samples_attack,
                                                                 **attack_kwargs)
+        elif attack_loss == 'Shake':
+            attack = attacks.bayesian_attacks.ShakeAttack(mc_sample_size_during_attack=mc_samples_attack,
+                                                          **attack_kwargs)
         elif attack_loss == 'Centroid':
             attack = attacks.bayesian_attacks.DUQAttack(**attack_kwargs)
         else:
@@ -232,7 +235,7 @@ def main(root=keys.ROOT,
     else:
         logger.debug("Already evaluated and saved.")
 
-    adv_results = utils.my_load(adv_results_path)  # Loading the results
+    # adv_results = utils.my_load(adv_results_path)  # Loading the results
 
     # Logging the results
     accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()

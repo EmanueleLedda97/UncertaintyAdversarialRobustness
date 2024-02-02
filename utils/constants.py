@@ -12,7 +12,7 @@ ROBUSTNESS_LEVELS = ['naive_robust', 'semi_robust', 'full_robust']
 EXPERIMENT_CATEGORIES = ['classification_id', 'classification_ood', 'semantic_segmentation']
 
 # Lists of supported attacks
-SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar']
+SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar', 'Shake']
 SUPPORTED_OVERCONFIDENCE_ATTACKS = ['MinVar', 'AutoTarget', 'Stab', 'Centroid', 'UST']
 SUPPORTED_ATTACKS = SUPPORTED_UNDERCONFIDENCE_ATTACKS + SUPPORTED_OVERCONFIDENCE_ATTACKS
 SUPPORTED_UPDATE_STRATEGIES = ['pgd', 'fgsm']

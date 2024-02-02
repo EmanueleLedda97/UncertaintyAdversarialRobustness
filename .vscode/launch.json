@@ -11,19 +11,71 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": "-dataset cifar10 -backbone resnet18 -robustness_level naive_robust -uq_technique None -num_adv_examples 100 -cuda 1 -re_evaluation_mode True -batch_size 100 -epsilon 0.031",
+            "args": "-dataset cifar10 -backbone resnet50 -robustness_level naive_robust -uq_technique None -num_adv_examples 100 -cuda 1 -re_evaluation_mode True -batch_size 100 -epsilon 0.0314",
             "console": "integratedTerminal",
             "justMyCode": true
         },
 
         {
-            "name": "DebugSemiRobust",
+            "name": "DebugNaiveImagenet",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": "-dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 1000 -cuda 0 -re_evaluation_mode True -batch_size 1000 -epsilon 0.0314",
+            "args": "-dataset imagenet -backbone resnet18 -robustness_level naive_robust -uq_technique None -num_adv_examples 100 -cuda 0 -re_evaluation_mode True -batch_size 100 -epsilon 0.0314",
             "console": "integratedTerminal",
             "justMyCode": true
-        }
+        },
+
+        {
+            "name": "DebugRobustResnetImagenet",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset imagenet -robustness_level semi_robust -robust_model salman2020R18 -num_adv_examples 100 -cuda 0 -re_evaluation_mode True -batch_size 100 -epsilon 0.0314",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+
+        {
+            "name": "DebugTransformer",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 10 -cuda 1 -re_evaluation_mode True -batch_size 10 -epsilon 0.019",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+
+        {
+            "name": "DebugNaiveTransformer",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset imagenet -backbone Swin-B -robustness_level naive_robust -uq_technique None -num_adv_examples 3 -cuda 0 -re_evaluation_mode True -batch_size 3 -epsilon 0.019",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+
+        {
+            "name": "DebugShakeAttack",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset imagenet -robustness_level semi_robust -robust_model salman2020R18 -num_adv_examples 100 -cuda 0 -re_evaluation_mode True -batch_size 100 -epsilon 0.019 -attack_loss Shake",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+
+        
+
+        // {
+        //     "name": "DebugSemiRobust",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${file}",
+        //     "args": "-dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 100 -cuda 0 -re_evaluation_mode True -batch_size 100 -epsilon 0.0314",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": true
+        // }
     ]
 }
