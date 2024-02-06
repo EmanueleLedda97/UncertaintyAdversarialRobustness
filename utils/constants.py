@@ -1,19 +1,18 @@
-
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn"]
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L']
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
 # Lists of supported data sets and UQ methods
-SUPPORTED_DATASETS = ['cifar10', 'cifar100']
-SUPPORTE_UQ_METHODS = ['embedded_dropout', 'injected_dropout', 'deep_ensemble', 'deterministic_uq']
+SUPPORTED_DATASETS = ['cifar10', 'cifar100', "imagenet"]
+SUPPORTE_UQ_METHODS = ["None", 'embedded_dropout', 'injected_dropout', 'deep_ensemble', 'deterministic_uq']
 
 # Lists of supported experiments
 ROBUSTNESS_LEVELS = ['naive_robust', 'semi_robust', 'full_robust']
 EXPERIMENT_CATEGORIES = ['classification_id', 'classification_ood', 'semantic_segmentation']
 
 # Lists of supported attacks
-SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar']
+SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar', 'Shake']
 SUPPORTED_OVERCONFIDENCE_ATTACKS = ['MinVar', 'AutoTarget', 'Stab', 'Centroid', 'UST']
 SUPPORTED_ATTACKS = SUPPORTED_UNDERCONFIDENCE_ATTACKS + SUPPORTED_OVERCONFIDENCE_ATTACKS
 SUPPORTED_UPDATE_STRATEGIES = ['pgd', 'fgsm']
@@ -51,8 +50,8 @@ SUPPORTED_CUDAS = [0, 1]
 
 # Attack constants
 ROOT = 'experiments_correct'
-EPS_BASE = 0.031                    # 8/255
-BASE_EPSILON = 0.031                # Just a refactoring of the upper constant
+EPS_BASE = 0.031  # 8/255
+BASE_EPSILON = 0.031  # Just a refactoring of the upper constant
 OPTIM_ATK_TYPE = ('fgsm', 'pgd')
 
 SEL_LOSS_TERMS = {'pred': (1, 0),
@@ -66,3 +65,14 @@ NORMALIZATION_DICT = {
 }
 
 DEFAULT_DROPOUT_RATE = 0.3
+
+CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019', 'addepalli2022_towards']
+IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50',
+                          'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
+
+L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
+LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18',
+                      'wong2020', 'engstrom2019imgnet', 'salman2020R50',
+                      'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
+
+SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS

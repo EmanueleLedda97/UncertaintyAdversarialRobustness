@@ -96,10 +96,37 @@ class VarianceLoss(BaseLoss):
     TODO: Add documentation
 '''
 class BayesianCrossEntropyLoss(BaseLoss):
+    def __init__(self, targeted=True, label_smoothing=0):
+        super().__init__()
+        self.beta = 1 if targeted else -1
+        self.loss_ce_fn = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+
+        # Setting up the visualization variables
+        self._add_loss_term('CE')
+        self.loss_keys = tuple(self.loss_path.keys())
+
+    def forward(self, input: Tensor, target: Tensor) -> Tensor:
+
+        # Computing the cross-entropy loss
+        mean_outs = metrics.mc_samples_mean(input)
+        loss = self.beta * self.loss_ce_fn(mean_outs, target.long())    # beta=1 -> get close; beta=-1 -> get far
+        
+        # Updating the loss path for further visualization
+        if self.keep_loss_path:
+            self.update_loss_path(loss)
+
+        # Returning the loss
+        return loss
+
+
+'''
+    TODO: Add documentation
+'''
+class BayesianUniformCrossEntropyLoss(BaseLoss):
     def __init__(self, targeted=True):
         super().__init__()
         self.beta = 1 if targeted else -1
-        self.loss_ce_fn = nn.CrossEntropyLoss()
+        self.loss_ce_fn = nn.CrossEntropyLoss(label_smoothing=1.0)
 
         # Setting up the visualization variables
         self._add_loss_term('CE')
@@ -133,13 +160,13 @@ class UncertaintyDivergenceLoss(BaseLoss):
         self.loss_ce_fn = nn.CrossEntropyLoss()
         self.loss_kl_fn = nn.KLDivLoss(reduction="batchmean", log_target=True)
     
-    def forward(self, clean_input: Tensor, adv_input: Tensor, target: Tensor) -> Tensor:
+    def forward(self, clean_output: Tensor, adv_output: Tensor, target: Tensor) -> Tensor:
 
         # Computing the loss terms
-        cross_entropy_term = self.loss_ce_fn(adv_input, target.long())
-        kl_divergence = self.loss_kl_fn(F.log_softmax(clean_input), F.log_softmax(adv_input))
-        loss = self.alpha * cross_entropy_term + self.beta * kl_divergence
-
+        cross_entropy_term = self.loss_ce_fn(adv_output, target.long())
+        kl_divergence = self.loss_kl_fn(F.log_softmax(clean_output, dim = 1), F.log_softmax(adv_output, dim = 1))
+        # loss = (self.alpha * cross_entropy_term + self.beta * kl_divergence)/(self.alpha+self.beta)
+        loss = (cross_entropy_term + self.beta * kl_divergence)/(1+ self.beta)
         # Updating the loss path for further visualization
         if self.keep_loss_path:
             self._update_loss_path((loss, cross_entropy_term, kl_divergence), self.loss_keys)

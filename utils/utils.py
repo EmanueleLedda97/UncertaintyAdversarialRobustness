@@ -10,12 +10,9 @@ from torchvision import transforms
 from datetime import datetime
 import json
 
-
-
 '''
     NOTE: This file still needs to be refactored!
 '''
-
 
 
 ##################################################################################
@@ -39,12 +36,12 @@ def strip_checkpoint(checkpoint):
     for k in keys:
         stripped_k = k[6:]  # Removing the "model." string
         state_dict[stripped_k] = state_dict.pop(k)
-    
+
     return state_dict
 
 
 def extract_all_existing_checkpoints(folders=['embedded_dropout', 'deep_ensemble']):
-    for method in folders:    
+    for method in folders:
         for resn in ['resnet18', 'resnet34', 'resnet50']:
             r = os.path.join('models', method, resn)
             extract_checkpoints(r)
@@ -56,7 +53,6 @@ def extract_all_existing_checkpoints(folders=['embedded_dropout', 'deep_ensemble
 
 # get the preprocessing layers for a given dataset
 def get_normalizer(dataset='cifar10'):
-
     # Obtaining mean and variance for the data normalization
     mean, std = keys.NORMALIZATION_DICT[dataset]
     normalizer = transforms.Normalize(mean=mean, std=std)
@@ -70,23 +66,24 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
 
     # TODO: Find the way for obtaining a ood version
     # Deterioration transformation used for OOD
-    deterioration_preprocess = [transforms.ElasticTransform(alpha=250.0), transforms.AugMix(severity=10), transforms.ToTensor()]
+    deterioration_preprocess = [transforms.ElasticTransform(alpha=250.0), transforms.AugMix(severity=10),
+                                transforms.ToTensor()]
 
     # Defining the validation data-preprocesser
     val_preprocess = [transforms.ToTensor()]
 
     # Defining the training data-preprocesser with data augmentation
     train_preprocess = [
-        transforms.RandomCrop(32, padding=4),
+        # transforms.RandomCrop(32, padding=4), # REMOVED RANDOM CROP
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor()
     ]
-    
+
     if set_normalization:
         normalizer = get_normalizer(dataset)
         train_preprocess.append(normalizer)
         val_preprocess.append(normalizer)
-    
+
     train_preprocess = transforms.Compose(train_preprocess)
     val_preprocess = transforms.Compose(val_preprocess)
 
@@ -102,13 +99,32 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
         test_set = torchvision.datasets.CIFAR10(root='datasets', train=False, download=True, transform=val_preprocess)
     # Loading the original sets
     elif dataset == 'cifar100':
-        train_set = torchvision.datasets.CIFAR100(root='datasets', train=True, download=True, transform=train_preprocess)
+        train_set = torchvision.datasets.CIFAR100(root='datasets', train=True, download=True,
+                                                  transform=train_preprocess)
         test_set = torchvision.datasets.CIFAR100(root='datasets', train=False, download=True, transform=val_preprocess)
+    elif dataset == 'imagenet':
+
+        train_path = './datasets/imagenet/val'
+
+        resized_transform_list = [
+            transforms.Resize((224, 224)),  # Modify the size as needed
+            transforms.ToTensor()
+        ]
+
+        resized_transform = transforms.Compose(resized_transform_list)
+
+        imagenet_data = torchvision.datasets.ImageFolder(train_path, transform=resized_transform)
+        train_set, test_set = torch.utils.data.random_split(imagenet_data, [len(imagenet_data)-10000, 10000])
+
+        # train_set = train_preprocess(train_set)
+        # test_set = val_preprocess(test_set)
+
     else:
         raise Exception(f'{dataset} is not supported at the moment. Try using cifar10.')
 
     # Using 8000 images for test and 2000 for validation
     test_set, validation_set = torch.utils.data.random_split(test_set, [8000, 2000])
+    validation_set = test_set
 
     if load_adversarial_set:
         set_all_seed(keys.DATA_SEED)
@@ -122,6 +138,7 @@ class AdversarialDataset(torch.utils.data.Dataset):
     """
     This retrieve the saved adversarial examples in the form of <sample_id>.gz
     """
+
     def __init__(self, ds_path, transforms=None):
         self.ds_path = ds_path
         self.transforms = transforms
@@ -137,18 +154,52 @@ class AdversarialDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         fname = f"{str(index).zfill(10)}.png"
         file_path = os.path.join(self.ds_path, fname)
-        x = torchvision.io.read_image(file_path)/255.
+        x = torchvision.io.read_image(file_path) / 255.
         y = self.fname_to_target[fname]
         if self.transforms is not None:
             x = self.transforms(x)
         return x, y
 
 
+def get_dataset_loader_imagenet(batch_size, n_examples):
+    train_path = '../datasets/imagenet/val'
+
+    transform = transforms.Compose([
+        transforms.ToTensor()
+    ])
+
+    imagenet_data = torchvision.datasets.ImageFolder(train_path, transform=transform)
+
+    imagenet_data_subset = torch.utils.data.Subset(imagenet_data,
+                                                   random.sample(range(1, len(imagenet_data)), n_examples))
+
+    # Resize images to a consistent size
+    resized_transform = transforms.Compose([
+        transforms.Resize((224, 224)),  # Modify the size as needed
+        transforms.ToTensor()
+    ])
+
+    # Apply the resized_transform to the dataset
+    imagenet_data_subset.dataset.transform = resized_transform
+
+    dum = imagenet_data_subset if n_examples > 0 else imagenet_data
+    data_loader = {
+        'val': torch.utils.data.DataLoader(
+            dum,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=0
+        )
+    }
+    return data_loader
+
+
 ##################################################################################
 # FILE MANAGEMENT 
 ##################################################################################
 
-get_device = lambda id = 0 : f"cuda:{id}" if torch.cuda.is_available() else 'cpu'
+get_device = lambda id=0: f"cuda:{id}" if torch.cuda.is_available() else 'cpu'
+
 
 # TODO: Add documentation
 def my_load(path, format='rb'):
@@ -178,14 +229,6 @@ def set_all_seed(seed=0):
     random.seed(seed)
 
 
-
-
-
-
-
-
-
-
 ##################################################################################
 # EXPERIMENTS PATH
 ##################################################################################
@@ -194,12 +237,12 @@ def get_base_exp_path(root, dataset, uq_technique, backbone):
     exp_path = join(root, dataset, uq_technique, backbone)
     return exp_path
 
+
 # TODO: to be documented
 def get_paths(root, dataset, uq_technique, dropout_rate, backbone,
-              eps, atk_type='pgd-pred', step_size=1, num_advx=100, 
+              eps, atk_type='pgd-pred', step_size=1, num_advx=100,
               pred_w=1, unc_w=1, mc_atk=30):
-    
-    # TODO: Why 'base_exp_path' ? 
+    # TODO: Why 'base_exp_path' ?
     base_exp_path = get_base_exp_path(root, dataset, uq_technique, backbone)
 
     # Obtaining the basic experimental setup string
@@ -218,13 +261,14 @@ def get_paths(root, dataset, uq_technique, dropout_rate, backbone,
 
     return base_exp_path, advx_exp_path, advx_results_path, baseline_results_path
 
+
 # TODO: fix the 0 arg error
 # def get_advx_dir_name(**kwargs):
 #     s = ''
 #     for k, v in kwargs.items():
 #         if isinstance(v, float):
 #             v = f"{v:.3f}"
-        
+
 #         if s == '':
 #             s += f"{k}-{v}"
 #         else:
@@ -249,7 +293,6 @@ def from_logits_to_probs(logits, temperature):
 # NOTE: WARNING! This function needs to be finished
 # TODO: Finish and add documentation
 def plot_uncertainty_distributions(output, target, temperature):
-
     # Obtining prediction and uncertainty with correct mask
     proba = from_logits_to_probs(output, temperature)
     pred, unc = get_prediction_with_uncertainty(proba)
@@ -263,13 +306,12 @@ def plot_uncertainty_distributions(output, target, temperature):
     # Printing the moments of the distribution
     print(f"max unc {torch.max(unc)} - min unc {torch.min(unc)}")
     print(f"CORRECT: mean {torch.mean(correct_samples)} - var {torch.var(correct_samples)}")
-    print(f"INCORRECT: mean {torch.mean(incorrect_samples)} - var {torch.var(incorrect_samples)}") 
+    print(f"INCORRECT: mean {torch.mean(incorrect_samples)} - var {torch.var(incorrect_samples)}")
 
 
 # NOTE: WARNING! This function needs to be finished
 # TODO: Finish and add documentation
 def search_for_optimal_calibration(output, target, low_b=1, high_b=3, resolution=30):
-    
     base_path = os.path.join('results', 'calibration', )
 
     # Computing the temperatures to be tested
@@ -291,11 +333,11 @@ def search_for_optimal_calibration(output, target, low_b=1, high_b=3, resolution
         plt.savefig(os.path.join(base_path, f'eces_comparison{b}.png'))
 
 
-
 ##################################################################################
 # VISUALIZATION
 ##################################################################################
 import matplotlib.pyplot as plt
+
 
 def create_legend(ax, figsize=(10, 0.5)):
     # create legend
@@ -308,3 +350,44 @@ def create_legend(ax, figsize=(10, 0.5)):
     legend_fig.tight_layout()
 
     return legend_fig
+
+
+
+# -----------------------------------
+import models.ingredient_2 as ingredient
+def check_kwarg(kwargs):
+    if kwargs['robustness_level'] == 'naive_robust':
+        kwargs["robust_model"] = None
+
+    # THREAT - MODEL CHECK
+    if kwargs['robustness_level'] == 'semi_robust':
+        kwargs["uq_technique"] = "None"
+
+        if kwargs['norm'] == 'Linf':
+            if kwargs['robust_model'] not in keys.LINF_ROBUST_MODELS:
+                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
+
+        elif kwargs['norm'] == "L2":
+            if kwargs['robust_model'] not in keys.L2_ROBUST_MODELS:
+                raise Exception(f"{kwargs['norm']} is not a supported threat model for {kwargs['robust_model']}")
+
+        if kwargs["dataset"] == "cifar10":
+            if kwargs["robust_model"] not in keys.CIFAR10_ROBUST_MODELS:
+                raise Exception(f"{kwargs['robust_model']} is not a supported *{kwargs['dataset']}* Robust Model.")
+
+        elif kwargs["dataset"] == "imagenet":
+            if kwargs["robust_model"] not in keys.IMAGENET_ROBUST_MODELS:
+                raise Exception(f"{kwargs['robust_model']} is not a supported *{kwargs['dataset']}* Robust Model.")
+
+        kwargs["backbone"] = ingredient.cifar10_model_dict[kwargs["robust_model"]]["resnet_type"] if kwargs[
+                                                                                                         "dataset"] == "cifar10" else \
+            ingredient.imagenet_model_dict[kwargs["robust_model"]]["resnet_type"]
+
+    if kwargs['uq_technique'] == 'None':
+        kwargs["dropout_rate"] = 0.0
+        kwargs["mc_samples_eval"] = 1
+        kwargs["mc_samples_attack"] = 1
+        kwargs["full_bayesian"] = False
+
+
+    return kwargs

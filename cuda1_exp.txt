@@ -1,0 +1,3336 @@
+[01-27 16:50:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:50:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:50:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:50:30] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:30] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:30] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:30] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:50:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:51:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:51:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:51:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
+[01-27 16:51:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 93, in load_model
+    model = resnet18(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 333, in resnet18
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet18.pt'
+[01-27 16:51:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet34
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 95, in load_model
+    model = resnet34(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 346, in resnet34
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet34.pt'
+[01-27 16:51:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: naive_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: None
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 1000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 1
+full_bayesian: False
+
+[01-27 16:51:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:51:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 95, in main
+    model = load_model(backbone, uq_technique,  # Loading the model
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/utils.py", line 97, in load_model
+    model = resnet50(pretrained=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 359, in resnet50
+    return _resnet(
+           ^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/resnet.py", line 319, in _resnet
+    state_dict = torch.load(
+                 ^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 986, in load
+    with _open_file_like(f, 'rb') as opened_file:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 435, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/serialization.py", line 416, in __init__
+    super().__init__(open(name, mode))
+                     ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/models/pretrained_baselines/resnet50.pt'
