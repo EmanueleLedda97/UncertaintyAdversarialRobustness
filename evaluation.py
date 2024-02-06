@@ -67,7 +67,7 @@ def _eval_bayesian(model, x, y, mc_sample_size=20):
     return results_dict
 
 
-def _eval_non_bayesian(model, x, y):
+def _eval_non_bayesian(model, x, y, transform=None):
     """
     It returns in output:
     mean_probs (len(x), 10)
@@ -75,6 +75,9 @@ def _eval_non_bayesian(model, x, y):
     preds -> (len(x),)
     mutual_information -> (len(x),)
     """
+
+    if transform:
+        x = transform(x)
 
     output_logits = model(x)
     output_probs = torch.nn.Softmax(dim=-1)(output_logits).detach().cpu()
@@ -105,14 +108,14 @@ def evaluate_bayesian(model, test_loader, mc_sample_size=20, device='cpu', seed=
     return all_results
 
 
-def evaluate_non_bayesian(model, test_loader, device='cpu', seed=0):
+def evaluate_non_bayesian(model, test_loader, device='cpu', seed=0, transform=None):
     model.eval()
     with torch.no_grad():
         all_results = {k: None for k in METRIC_NON_BAYESIAN_KEYS}
         utils.utils.set_all_seed(seed)
         for x, y in test_loader:
             x, y = x.to(device), y.to(device)
-            results_dict = _eval_non_bayesian(model, x, y)
+            results_dict = _eval_non_bayesian(model, x, y, transform=transform)
             for k, v in results_dict.items():
                 all_results[k] = torch.cat((all_results[k], v), dim=0) if all_results[k] is not None else v
 
@@ -132,11 +135,11 @@ def evaluate_deterministic(model, test_loader, device='cpu', seed=0):
     return all_results
 
 
-def evaluate_batch_non_bayesian(model, x, y, outer_dict):
+def evaluate_batch_non_bayesian(model, x, y, outer_dict, transform=None):
     model.eval()
     with torch.no_grad():
         all_results = {k: None for k in METRIC_NON_BAYESIAN_KEYS} if outer_dict is None else outer_dict
-        results_dict = _eval_non_bayesian(model, x, y)
+        results_dict = _eval_non_bayesian(model, x, y, transform=transform)
         for k, v in results_dict.items():
             all_results[k] = torch.cat((all_results[k], v), dim=0) if all_results[k] is not None else v
 

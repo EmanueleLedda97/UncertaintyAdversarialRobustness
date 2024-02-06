@@ -110,14 +110,12 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
             transforms.Resize((224, 224)),  # Modify the size as needed
             transforms.ToTensor()
         ]
-        if set_normalization:
-            normalizer = get_normalizer(dataset)
-            resized_transform_list.append(normalizer)
 
         resized_transform = transforms.Compose(resized_transform_list)
 
         imagenet_data = torchvision.datasets.ImageFolder(train_path, transform=resized_transform)
         train_set, test_set = torch.utils.data.random_split(imagenet_data, [len(imagenet_data)-10000, 10000])
+
         # train_set = train_preprocess(train_set)
         # test_set = val_preprocess(test_set)
 
@@ -126,6 +124,7 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
 
     # Using 8000 images for test and 2000 for validation
     test_set, validation_set = torch.utils.data.random_split(test_set, [8000, 2000])
+    validation_set = test_set
 
     if load_adversarial_set:
         set_all_seed(keys.DATA_SEED)

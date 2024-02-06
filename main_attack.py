@@ -15,8 +15,6 @@ from utils.loggers import set_up_logger
 
 import utils.utils as utils
 
-import robustbench as robustbench
-
 import models.ingredient_2 as ingredient
 
 '''
@@ -66,6 +64,7 @@ def main(root=keys.ROOT,
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
     set_normalization = robustness_level == "naive_robust" and dataset == "cifar10"
+    pre_attack_transformation = utils.get_normalizer(dataset) if robustness_level == "naive_robust" else None
 
     # Setting up the experiment paths
     attack_parameters = (epsilon, norm, attack_update_strategy, step_size, mc_samples_attack)
@@ -110,7 +109,7 @@ def main(root=keys.ROOT,
     # Loading the dataset
     logger.debug("Loading dataset ...")
     test_subset_set = utils.get_dataset_splits(dataset=dataset,  # Loading the 'dataset'...
-                                               set_normalization=set_normalization,
+                                               set_normalization=False,
                                                # NOTE: For non bayesian model normalization is needed during data loading
                                                ood=is_an_ood_experiment,  # ... choosing the ood...
                                                load_adversarial_set=True,
@@ -135,7 +134,11 @@ def main(root=keys.ROOT,
                                                   # Evaluating the results on the clean set
                                                   device=device, seed=seed)
         elif uq_technique == "None":
-            results = eval.evaluate_non_bayesian(model, test_subset_loader_during_attack, device=device, seed=seed)
+            results = eval.evaluate_non_bayesian(model,
+                                                 test_subset_loader_during_attack,
+                                                 device=device,
+                                                 seed=seed,
+                                                 transform=pre_attack_transformation)
         else:
             results = eval.evaluate_bayesian(model, test_subset_loader_during_attack,
                                              # Evaluating the results on the clean set
@@ -172,7 +175,8 @@ def main(root=keys.ROOT,
                          'device': device,
                          'epsilon': epsilon,
                          'update_strategy': attack_update_strategy,
-                         'step_size': step_size}
+                         'step_size': step_size,
+                         'transform': pre_attack_transformation}
         if attack_loss == 'MinVar':
             attack = attacks.bayesian_attacks.MinVarAttack(mc_sample_size_during_attack=mc_samples_attack,
                                                            **attack_kwargs)
@@ -185,6 +189,9 @@ def main(root=keys.ROOT,
         elif attack_loss == 'Stab':
             attack = attacks.bayesian_attacks.StabilizingAttack(mc_sample_size_during_attack=mc_samples_attack,
                                                                 **attack_kwargs)
+        elif attack_loss == 'Shake':
+            attack = attacks.bayesian_attacks.ShakeAttack(mc_sample_size_during_attack=mc_samples_attack,
+                                                          **attack_kwargs)
         elif attack_loss == 'Centroid':
             attack = attacks.bayesian_attacks.DUQAttack(**attack_kwargs)
         else:
@@ -219,42 +226,41 @@ def main(root=keys.ROOT,
                     adv_results = None
 
                 elif uq_technique == "None":
-                    adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results)
-                    # print((adv_results["mean_probs"].shape))
-                    # print(adv_results["mean_probs"])
+                    adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results, transform=pre_attack_transformation)
 
                 # else:
                 #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
                 #                                      seed=seed, device=device)
             utils.my_save(adv_results, adv_results_path)
+    else:
+        logger.debug("Already evaluated and saved.")
 
-        else:
-            logger.debug("Already evaluated and saved.")
-            adv_results = utils.my_load(adv_results_path)  # Loading the results
+    # adv_results = utils.my_load(adv_results_path)  # Loading the results
 
-            # Logging the results
-            accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
+    # Logging the results
+    accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
 
-            if uq_technique == 'deterministic_uq':
-                conf = adv_results['confidence'].mean().item()
-                logger.debug(f"Accuracy: {accuracy:.3f}, Confidence: {conf:.3f}")
-            else:
-                mi = adv_results['mutual_information'].mean().item()
-                logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
+    if uq_technique == 'deterministic_uq':
+        conf = adv_results['confidence'].mean().item()
+        logger.debug(f"Accuracy: {accuracy:.3f}, Confidence: {conf:.3f}")
+    else:
+        mi = adv_results['mutual_information'].mean().item()
+        logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
-        mask = results["entropy_of_mean"].sort()[1]
-        plt.plot(adv_results["entropy_of_mean"][mask])
-        plt.plot(results["entropy_of_mean"][mask])
-        plt.xlabel("Sample ID (argsort entropy)")
-        plt.ylabel("Entropy")
-        plt.title(
-            f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
-        plt.legend(["Adv", "clean"])
-        plt.savefig(f"{os.path.join(experiment_path, 'clean_vs_adv_entropy.png')}")
+    mask = results["entropy_of_mean"].sort()[1]
+    attacked_mask = torch.logical_and((adv_results['ground_truth'] != adv_results['preds']), results['ground_truth'] == results['preds'])
+    plt.plot(adv_results["entropy_of_mean"][mask])
+    plt.plot(results["entropy_of_mean"][mask])
+    plt.xlabel("Sample ID (argsort entropy)")
+    plt.ylabel("Entropy")
+    plt.title(
+        f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
+    plt.legend(["Adv", "clean"])
+    plt.savefig(f"{os.path.join(experiment_path, 'clean_vs_adv_entropy.png')}")
 
-        plt.clf()
+    plt.clf()
 
-        print("done!")
+    print("done!")
 
 
 '''

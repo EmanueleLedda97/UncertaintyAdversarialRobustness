@@ -23,6 +23,8 @@ utils/__pycache__
 
 models/*.zip
 models/*.rar
+*.zip
+*.txt
 
 
 zzzz_junk/
@@ -35,5 +37,3 @@ models/zip_files/
 /models/imagenet/
 
 .idea/
-
-*.sh

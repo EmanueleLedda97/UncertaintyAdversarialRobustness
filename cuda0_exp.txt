@@ -1,0 +1,4528 @@
+[01-27 16:46:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:46:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:46:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:46:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:46:43] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:46:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:46:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:46:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:46:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:46:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 16:46:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:46:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:46:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:48:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.024 seconds (0.773 per iter)
+[01-27 16:48:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.471
+done!
+[01-27 16:48:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:48:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:48:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:48:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:48:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:48:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:48:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:48:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:48:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:48:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 16:48:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:48:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:48:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.927 seconds (0.780 per iter)
+[01-27 16:50:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.007
+done!
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:50:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:50:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:50:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:50:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:50:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:50:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:52:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.973 seconds (0.780 per iter)
+[01-27 16:52:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.577
+done!
+[01-27 16:53:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:53:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0314
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:53:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:53:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:53:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:53:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:53:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:53:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:53:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:53:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 16:53:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:53:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:53:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 16:53:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:53:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:53:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:53:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:53:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:53:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:53:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:53:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:53:17] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:53:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 16:53:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:53:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:53:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:55:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.607 seconds (0.777 per iter)
+[01-27 16:55:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.491
+done!
+[01-27 16:55:22] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:55:22] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:55:22] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:55:22] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:55:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:55:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:55:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:55:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:55:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:55:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 16:55:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:55:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:55:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:57:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.908 seconds (0.779 per iter)
+[01-27 16:57:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.042
+done!
+[01-27 16:57:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:57:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:57:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:57:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:57:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:57:31] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:57:31] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:57:31] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:57:31] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:57:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 16:57:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:57:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:57:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 16:59:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.933 seconds (0.780 per iter)
+[01-27 16:59:30] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.615
+done!
+[01-27 16:59:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:59:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0274
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:59:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:59:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:59:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:59:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:59:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:59:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:59:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:59:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 16:59:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:59:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:59:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 16:59:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:59:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 16:59:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 16:59:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 16:59:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 16:59:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 16:59:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 16:59:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 16:59:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 16:59:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 16:59:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 16:59:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 16:59:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:01:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.609 seconds (0.777 per iter)
+[01-27 17:01:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.510
+done!
+[01-27 17:01:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:01:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:01:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:01:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:01:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:01:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:01:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:01:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:01:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:01:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:01:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:01:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:01:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:03:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.853 seconds (0.779 per iter)
+[01-27 17:03:57] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.077
+done!
+[01-27 17:04:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:04:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:04:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:04:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:04:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:04:06] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:04:06] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:04:06] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:04:06] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:04:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:04:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:04:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:04:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:06:05] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.913 seconds (0.779 per iter)
+[01-27 17:06:05] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.652
+done!
+[01-27 17:06:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:06:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0235
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:06:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:06:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:06:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:06:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:06:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:06:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:06:14] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:06:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:06:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:06:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:06:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 17:06:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:06:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:06:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:06:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:06:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:06:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:06:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:06:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:06:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:06:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 17:06:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:06:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:06:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:08:24] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.641 seconds (0.778 per iter)
+[01-27 17:08:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.529
+done!
+[01-27 17:08:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:08:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:08:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:08:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:08:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:08:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:08:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:08:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:08:33] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:08:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:08:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:08:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:08:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:10:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.837 seconds (0.779 per iter)
+[01-27 17:10:32] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.110
+done!
+[01-27 17:10:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:10:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:10:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:10:39] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:10:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:10:41] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:10:41] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:10:41] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:10:41] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:10:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:10:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:10:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:10:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:12:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.943 seconds (0.780 per iter)
+[01-27 17:12:40] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.690
+done!
+[01-27 17:12:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:12:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0196
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:12:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:12:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:12:48] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:12:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:12:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:12:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:12:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:12:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:12:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:12:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:12:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 17:12:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:12:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:12:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:12:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:13:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:13:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:13:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:13:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:13:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:13:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 17:13:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:13:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:13:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:15:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.637 seconds (0.778 per iter)
+[01-27 17:15:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.549
+done!
+[01-27 17:15:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:15:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:15:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:15:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:15:07] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:15:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:15:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:15:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:15:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:15:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:15:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:15:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:15:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:17:08] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.870 seconds (0.779 per iter)
+[01-27 17:17:08] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.145
+done!
+[01-27 17:17:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:17:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:17:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:17:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:17:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:17:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:17:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:17:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:17:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:17:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:17:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:17:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:17:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:19:15] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.965 seconds (0.780 per iter)
+[01-27 17:19:16] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.730
+done!
+[01-27 17:19:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:19:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0156
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:19:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:19:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:19:23] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:19:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:19:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:19:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:19:25] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:19:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:19:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:19:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:19:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 17:19:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:19:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:19:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:19:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:19:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:19:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:19:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:19:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:19:36] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:19:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 17:19:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:19:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:19:38] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:21:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.581 seconds (0.777 per iter)
+[01-27 17:21:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.568
+done!
+[01-27 17:21:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:21:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:21:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:21:42] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:21:43] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:21:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:21:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:21:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:21:44] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:21:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:21:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:21:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:21:45] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:23:43] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.876 seconds (0.779 per iter)
+[01-27 17:23:43] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.177
+done!
+[01-27 17:23:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:23:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:23:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:23:50] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:23:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:23:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:23:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:23:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:23:52] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:23:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:23:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:23:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:23:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:25:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.939 seconds (0.780 per iter)
+[01-27 17:25:51] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.768
+done!
+[01-27 17:25:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:25:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0118
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:25:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:25:58] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:25:59] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:26:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:26:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:26:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:26:00] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:26:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:26:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:26:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:26:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 17:26:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:26:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:26:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:26:10] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:26:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:26:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:26:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:26:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:26:12] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:26:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 17:26:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:26:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:26:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:28:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.630 seconds (0.778 per iter)
+[01-27 17:28:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.588
+done!
+[01-27 17:28:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:28:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:28:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:28:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:28:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:28:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:28:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:28:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:28:20] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:28:21] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:28:21] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:28:21] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:28:21] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:30:18] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.863 seconds (0.779 per iter)
+[01-27 17:30:19] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.210
+done!
+[01-27 17:30:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:30:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:30:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:30:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:30:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:30:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:30:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:30:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:30:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:30:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:30:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:30:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:30:29] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:32:26] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.946 seconds (0.780 per iter)
+[01-27 17:32:27] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.808
+done!
+[01-27 17:32:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:32:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0078
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:32:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:32:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:32:34] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:32:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:32:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:32:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:32:35] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:32:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:32:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:32:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:32:37] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[01-27 17:32:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:32:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:32:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:32:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:32:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:32:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:32:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:32:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:32:47] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:32:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.861, MI: 1.626
+[01-27 17:32:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:32:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:32:49] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:34:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.598 seconds (0.777 per iter)
+[01-27 17:34:46] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.861, MI: 1.607
+done!
+[01-27 17:34:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:34:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: addepalli2022_towards
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:34:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:34:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:34:53] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:34:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:34:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:34:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:34:55] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading addepalli2022_towards
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:34:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.804, MI: 1.273
+[01-27 17:34:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:34:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:34:56] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:36:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.848 seconds (0.779 per iter)
+[01-27 17:36:54] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.804, MI: 1.242
+done!
+[01-27 17:37:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:37:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet18
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: sehwag2021
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:37:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:37:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:37:01] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:37:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:37:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:37:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:37:03] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading sehwag2021
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:37:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.847, MI: 0.885
+[01-27 17:37:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:37:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:37:04] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+[01-27 17:39:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:210} DEBUG - Attack Took 116.964 seconds (0.780 per iter)
+[01-27 17:39:02] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:239} DEBUG - Accuracy: 0.847, MI: 0.847
+done!
+[01-27 17:39:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:9} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:39:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:10} DEBUG - 
+root: experiments
+experiment_type: classification_id
+robustness_level: semi_robust
+dataset: cifar10
+backbone: resnet50
+uq_technique: None
+dropout_rate: 0.0
+attack_loss: Stab
+attack_update_strategy: pgd
+norm: Linf
+num_attack_iterations: 150
+robust_model: engstrom2019
+mc_samples_eval: 1
+mc_samples_attack: 1
+num_adv_examples: 5000
+batch_size: 5000
+epsilon: 0.0039
+step_size: 0.002
+batch_size_eval: 64
+seed: 0
+re_evaluation_mode: True
+cuda: 0
+full_bayesian: False
+
+[01-27 17:39:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/utils/loggers.py:11} DEBUG - ########################################
+########################################
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+[01-27 17:39:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:92} DEBUG - Loading model...
+[01-27 17:39:09] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:109} DEBUG - Loading dataset ...
+[01-27 17:39:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:123} DEBUG - -------------------------
+[01-27 17:39:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:124} DEBUG - ----- Clean Results -----
+[01-27 17:39:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:125} DEBUG - -------------------------
+
+[01-27 17:39:11] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:129} DEBUG - Evaluating and saving results...
+Warning: you are specifying a dropout rate when using a non dropout-based UQ method.
+The dropout rate will be ignored during the folder experiment composition.
+Loading engstrom2019
+Files already downloaded and verified
+Files already downloaded and verified
+[01-27 17:39:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:155} DEBUG - Accuracy: 0.873, MI: 0.627
+[01-27 17:39:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:164} DEBUG - ----------------
+[01-27 17:39:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:165} DEBUG - Stab
+[01-27 17:39:13] /home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py:203} DEBUG - Computing evaluation...
+Traceback (most recent call last):
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 306, in <module>
+    main_single(parser)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 292, in main_single
+    main(**kwargs, kwargs=kwargs)
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/main_attack.py", line 209, in main
+    adv_examples = attack.run(x=x, y=y, iterations=num_attack_iterations)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/standard_attacks.py", line 63, in run
+    loss = self.compute_loss()          # Compute the loss
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/ScodeBranch/UncertaintyAdversarialRobustness/attacks/bayesian_attacks.py", line 26, in compute_loss
+    self.output = self.model(self.x_adv).unsqueeze(0)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/cifar10.py", line 101, in forward
+    return super(Engstrom2019RobustnessNet, self).forward(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 111, in forward
+    out = self.layer1(out)
+          ^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/container.py", line 215, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/robustbench/model_zoo/architectures/resnet.py", line 52, in forward
+    out = self.bn3(self.conv3(out))
+                   ^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eledda/miniconda3/envs/robust_uq/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.88 GiB. GPU 0 has a total capacty of 47.54 GiB of which 3.03 GiB is free. Including non-PyTorch memory, this process has 44.50 GiB memory in use. Of the allocated memory 41.77 GiB is allocated by PyTorch, and 2.41 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

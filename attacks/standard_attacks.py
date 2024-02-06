@@ -20,12 +20,13 @@ DEVICE = get_device()       # Refactor this in using constants
 """
 class BaseAttack:
     
-    def __init__(self, model, device=DEVICE, epsilon=keys.BASE_EPSILON, update_strategy='pgd', step_size=None) -> None:
+    def __init__(self, model, device=DEVICE, epsilon=keys.BASE_EPSILON, update_strategy='pgd', step_size=None, transform=None) -> None:
 
         # Setting up the base attack parameters
         self.device = device
         self.model = model
         self.epsilon = epsilon
+        self.transform = transform
         self._reset_attack_data()
         self.init_loss()
 

@@ -23,7 +23,13 @@ class BaseBayesianAttack(BaseAttack):
                                      mc_sample_size=self.mc_sample_size_during_attack,
                                      get_mc_output=True)
         else:
-            self.output = self.model(self.x_adv).unsqueeze(0)
+            # Eventually, adding the transformation to x
+            if self.transform is not None:
+                temporary_x_adv = self.transform(self.x_adv)
+            else:
+                temporary_x_adv = self.x_adv
+                
+            self.output = self.model(temporary_x_adv).unsqueeze(0)
 
 
         # At the first iteration we compute the target (which may require the clean output)
@@ -94,6 +100,21 @@ class MaxVarAttack(BaseBayesianAttack):
     def _feed_loss(self):
         return self.loss_fn(self.output)
     
+
+
+'''
+    TODO: Add documentation
+'''
+class ShakeAttack(BaseBayesianAttack):
+    def __init__(self, mc_sample_size_during_attack=20, **kwargs) -> None:
+        super().__init__(mc_sample_size_during_attack, **kwargs)
+    
+    def init_loss(self):
+        self.loss_fn = loss_functions.BayesianCrossEntropyLoss(label_smoothing=1)
+    
+    def _set_target(self):
+        self.target = torch.zeros(self.clean_output.shape[1]).to(self.device).long()
+        # self.target = (metrics.mc_samples_mean(self.clean_output)).argmax(dim=1, keepdim=True).flatten().long()
 
 
 
