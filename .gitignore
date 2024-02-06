@@ -20,20 +20,3 @@ __pycache__
 attacks/__pycache__
 models/__pycache__
 utils/__pycache__
-
-models/*.zip
-models/*.rar
-*.zip
-*.txt
-
-
-zzzz_junk/
-scode_exp/
-scode_exp copy/
-models/zip_files/
-
-
-/models/cifar10/
-/models/imagenet/
-
-.idea/
