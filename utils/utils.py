@@ -354,7 +354,7 @@ def create_legend(ax, figsize=(10, 0.5)):
 
 
 # -----------------------------------
-import models.ingredient_2 as ingredient
+import models.robustbench_load as ingredient
 def check_kwarg(kwargs):
     if kwargs['robustness_level'] == 'naive_robust':
         kwargs["robust_model"] = None

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import os
 import utils.constants as keys
-from test_utils import temperature_scaling
+from utils.utils import temperature_scaling
 import torchvision
 from models.fcn import FCN_ResNet50_Weights, fcn_mcd_resnet50
 

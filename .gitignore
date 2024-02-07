@@ -25,6 +25,8 @@ models/*.zip
 models/*.rar
 *.zip
 *.txt
+*.sh
+.vscode
 
 
 zzzz_junk/
@@ -37,3 +39,7 @@ models/zip_files/
 /models/imagenet/
 
 .idea/
+
+.vscode/
+
+*.sh

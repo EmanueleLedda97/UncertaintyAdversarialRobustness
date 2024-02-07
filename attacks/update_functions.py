@@ -9,6 +9,7 @@ class BaseUpdateAndProject:
     def _update_and_project(self, x_adv, x):
         raise NotImplementedError("You have to implement it by writing a specific class")
 
+import matplotlib.pyplot as plt
 
 '''
     TODO: Check if it is ok
@@ -18,6 +19,7 @@ class FGSMUpdateAndProject(BaseUpdateAndProject):
     def __init__(self, epsilon) -> None:
         super().__init__(epsilon)
         self.gradients = []
+        self.distance = []
     
     def _update_and_project(self, x_adv, x):
         # Update
@@ -29,6 +31,7 @@ class FGSMUpdateAndProject(BaseUpdateAndProject):
         
         # Project
         perturb = x_adv - x
+        self.distance.append(perturb.abs().max() / self.epsilon)
         perturb = torch.clamp(perturb, -self.epsilon, self.epsilon)
         x_adv = x + perturb
         x_adv = torch.clamp(x_adv, 0, 1)  # Adding clipping to maintain [0,1] range
@@ -44,6 +47,7 @@ class PGDUpdateAndProject(BaseUpdateAndProject):
         super().__init__(epsilon)
         self.gradients = []
         self.step_size = step_size
+        self.distance = []
     
     def _update_and_project(self, x_adv, x):
         # Update
@@ -54,6 +58,7 @@ class PGDUpdateAndProject(BaseUpdateAndProject):
         
         # Project
         perturb = x_adv - x
+        self.distance.append((perturb.abs().max() / self.epsilon).item())
         perturb = torch.clamp(perturb, -self.epsilon, self.epsilon)
 
         x_adv = x + perturb
