@@ -25,6 +25,8 @@ models/*.zip
 models/*.rar
 *.zip
 *.txt
+*.sh
+.vscode
 
 
 zzzz_junk/

@@ -5,19 +5,19 @@
 
 for EPS in 0.0156 0.0118 0.0078 0.0039
 do
-    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinL -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS
+    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinL -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS -attack_loss Shake
     wait
 
-    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023convNextB -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS
+    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023convNextB -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS -attack_loss Shake
     wait
 
-    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023convNextL -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS
+    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023convNextL -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS -attack_loss Shake
     wait
 done
 
 for EPS in 0.0156 0.0118 0.0078 0.0039
 do
-    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS
+    python main_attack.py -dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinB -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 100 -epsilon $EPS -attack_loss Shake
     wait
 done
 

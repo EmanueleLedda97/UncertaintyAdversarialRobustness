@@ -61,11 +61,20 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": "-dataset imagenet -robustness_level semi_robust -robust_model salman2020R18 -num_adv_examples 100 -cuda 0 -re_evaluation_mode True -batch_size 100 -epsilon 0.019 -attack_loss Shake",
+            "args": "-dataset imagenet -robustness_level semi_robust -robust_model Liu2023swinL -num_adv_examples 10000 -cuda 1 -re_evaluation_mode False -batch_size 5 -epsilon 1.0 -attack_loss Shake",
             "console": "integratedTerminal",
             "justMyCode": false
         },
 
+        {
+            "name": "DebugHyperparameters",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": "-dataset cifar10 -robustness_level semi_robust -robust_model sehwag2021 -num_adv_examples 150 -cuda 0 -re_evaluation_mode False -batch_size 150 -epsilon 0.031 -step_size 0.0002 -num_attack_iterations 500",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
         
 
         // {

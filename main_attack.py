@@ -260,6 +260,21 @@ def main(root=keys.ROOT,
 
     plt.clf()
 
+    # Plot Loss
+    plt.plot(attack.loss_fn.loss_path['CE'])
+    plt.savefig(f"{os.path.join(experiment_path, 'attack_loss.png')}")
+    plt.clf()
+
+    # Plot Gradients
+    plt.plot(attack.optimizer.gradients)
+    plt.savefig(f"{os.path.join(experiment_path, 'gradients.png')}")
+    plt.clf()
+
+    # Plot Distances
+    plt.plot(attack.optimizer.distance)
+    plt.savefig(f"{os.path.join(experiment_path, 'distances.png')}")
+    plt.clf()
+
     print("done!")
 
 
