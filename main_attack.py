@@ -14,7 +14,7 @@ from utils.parsers import parse_main_classification, add_seceval_parsing, add_oo
 from utils.loggers import set_up_logger
 
 import utils.utils as utils
-
+import pickle
 import models.robustbench_load as ingredient
 
 '''
@@ -211,6 +211,7 @@ def main(root=keys.ROOT,
         #     fname_to_target = {}  # Dictionary associating file name with target
         #     k = 0  # Sample's index
 
+
         # Evaluating the Bayesian model on the adversarial dataset
         if not os.path.exists(adv_results_path) or re_evaluation_mode:
             adv_results = None
@@ -260,57 +261,64 @@ def main(root=keys.ROOT,
     plt.title(
         f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
     plt.legend(["Adv", "clean"])
-    plt.savefig(f"{os.path.join(experiment_path, 'clean_vs_adv_entropy.png')}")
+    plt.savefig(f"{os.path.join(adv_plots_path, 'clean_vs_adv_entropy.png')}")
 
     plt.clf()
 
-    if attack.loss_fn.loss_path['CE'] != []:
-        number_of_attacks = int(len(attack.loss_fn.loss_path['CE']) / num_attack_iterations)
+    # Saving debugging info
+    with open(f"{os.path.join(adv_plots_path, 'attack_loss.pkl')}", 'wb') as f:
+        pickle.dump(attack.loss_fn.loss_path['CE'], f)
+    with open(f"{os.path.join(adv_plots_path, 'gradients.pkl')}", 'wb') as f:
+        pickle.dump(attack.optimizer.gradients, f)
+    with open(f"{os.path.join(adv_plots_path, 'distances.pkl')}", 'wb') as f:
+        pickle.dump(attack.optimizer.distance, f)
+    
+    # Plot Loss
+    plt.plot(attack.loss_fn.loss_path['CE'][:batch_size])
+    plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
+    plt.clf()
+    
+    # Plot Gradients
+    plt.plot(attack.optimizer.gradients[:batch_size])
+    plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
+    plt.clf()
+    
+    # Plot Distances
+    plt.plot(attack.optimizer.distance[:batch_size])
+    plt.savefig(f"{os.path.join(adv_plots_path, 'distances.png')}")
+    plt.clf()
 
-        def print_debug(metric_list, metric_name, number_of_attacks):
-            legend = [f"atk_it_{i + 1}" for i in range(number_of_attacks)]
-            for i in range(number_of_attacks):
-                plt.plot(metric_list[i * num_attack_iterations:(i + 1) * num_attack_iterations])
-            plt.legend(legend)
-            title = f'attack_every_{metric_name}'
-            plt.title(title)
-            plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
-            plt.clf()
+    # if attack.loss_fn.loss_path['CE'] != []:
+    #     number_of_attacks = int(len(attack.loss_fn.loss_path['CE']) / num_attack_iterations)
 
-            plt.plot(metric_list)
-            title = f'attack_{metric_name}'
-            plt.title(title)
-            plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
-            plt.clf()
+        
 
-        print_debug(attack.loss_fn.loss_path['CE'], "loss", number_of_attacks)
+    #     # print_debug(attack.loss_fn.loss_path['CE'], "loss", number_of_attacks)
+    #     # print_debug(attack.optimizer.gradients, "gradients", number_of_attacks)
+    #     # print_debug(attack.optimizer.distance, "distance", number_of_attacks)
 
-        print_debug(attack.optimizer.gradients, "gradients", number_of_attacks)
-
-        print_debug(attack.optimizer.distance, "distance", number_of_attacks)
-
-        # # Plot Loss
-        # number_of_attacks = int(len(attack.loss_fn.loss_path['CE'])/num_attack_iterations)
-        # legend = [f"atk_it_{i+1}" for i in range(number_of_attacks)]
-        # for i in range(number_of_attacks):
-        #     plt.plot(attack.loss_fn.loss_path['CE'][i*num_attack_iterations:(i+1)*num_attack_iterations])
-        # plt.legend(legend)
-        # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_every_loss.png')}")
-        # plt.clf()
-        #
-        # plt.plot(attack.loss_fn.loss_path['CE'])
-        # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
-        # plt.clf()
-        #
-        # # Plot Gradients
-        # plt.plot(attack.optimizer.gradients)
-        # plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
-        # plt.clf()
-        #
-        # # Plot Distances
-        # plt.plot(attack.optimizer.distance)
-        # plt.savefig(f"{os.path.join(experiment_path, 'distances.png')}")
-        # plt.clf()
+    #     # # Plot Loss
+    #     # number_of_attacks = int(len(attack.loss_fn.loss_path['CE'])/num_attack_iterations)
+    #     # legend = [f"atk_it_{i+1}" for i in range(number_of_attacks)]
+    #     # for i in range(number_of_attacks):
+    #     #     plt.plot(attack.loss_fn.loss_path['CE'][i*num_attack_iterations:(i+1)*num_attack_iterations])
+    #     # plt.legend(legend)
+    #     # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_every_loss.png')}")
+    #     # plt.clf()
+    #     #
+    #     # plt.plot(attack.loss_fn.loss_path['CE'])
+    #     # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
+    #     # plt.clf()
+    #     #
+    #     # # Plot Gradients
+    #     # plt.plot(attack.optimizer.gradients)
+    #     # plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
+    #     # plt.clf()
+    #     #
+    #     # # Plot Distances
+    #     # plt.plot(attack.optimizer.distance)
+    #     # plt.savefig(f"{os.path.join(experiment_path, 'distances.png')}")
+    #     # plt.clf()
 
     print("done!")
 

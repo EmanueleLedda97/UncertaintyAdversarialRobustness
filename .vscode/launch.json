@@ -71,7 +71,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": "-dataset cifar10 -robustness_level semi_robust -robust_model sehwag2021 -num_adv_examples 150 -cuda 0 -re_evaluation_mode False -batch_size 150 -epsilon 0.031 -step_size 0.0002 -num_attack_iterations 500",
+            "args": "-dataset cifar10 -robustness_level semi_robust -robust_model sehwag2021 -num_adv_examples 50 -cuda 0 -re_evaluation_mode False -batch_size 50 -epsilon 0.031 -step_size 0.0002 -num_attack_iterations 200",
             "console": "integratedTerminal",
             "justMyCode": false
         },

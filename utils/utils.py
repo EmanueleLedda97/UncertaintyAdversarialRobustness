@@ -391,3 +391,21 @@ def check_kwarg(kwargs):
 
 
     return kwargs
+
+
+
+def print_debug(metric_list, metric_name, number_of_attacks, num_attack_iterations, adv_plots_path):
+    legend = [f"atk_it_{i + 1}" for i in range(number_of_attacks)]
+    for i in range(number_of_attacks):
+        plt.plot(metric_list[i * num_attack_iterations:(i + 1) * num_attack_iterations])
+    plt.legend(legend)
+    title = f'attack_every_{metric_name}'
+    plt.title(title)
+    plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
+    plt.clf()
+
+    plt.plot(metric_list)
+    title = f'attack_{metric_name}'
+    plt.title(title)
+    plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
+    plt.clf()
