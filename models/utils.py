@@ -7,7 +7,7 @@ import torch
 import utils.constants as keys
 import os
 
-import models.ingredient_2 as ingredient
+import models.robustbench_load as ingredient
 
 # TODO: IMplementare un parametro per caricare un modello robusto con AT
 # REFACTORING-FALL: TODO: Add a parameter for the semantic segmentation

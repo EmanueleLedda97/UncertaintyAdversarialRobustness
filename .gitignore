@@ -39,3 +39,7 @@ models/zip_files/
 /models/imagenet/
 
 .idea/
+
+.vscode/
+
+*.sh

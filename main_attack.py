@@ -15,7 +15,7 @@ from utils.loggers import set_up_logger
 
 import utils.utils as utils
 
-import models.ingredient_2 as ingredient
+import models.robustbench_load as ingredient
 
 '''
     /* BASE PARAMETERS */
@@ -80,11 +80,16 @@ def main(root=keys.ROOT,
                                                                                      ood_dataset=ood_dataset,
                                                                                      iid_size=iid_size,
                                                                                      ood_size=ood_size)
-    adv_examples_path = os.path.join(experiment_path, 'generated_adversarial_examples')
+    # adv_examples_path = os.path.join(experiment_path, 'generated_adversarial_examples')
+    # # Creating the experiment's folder
+    # if not os.path.isdir(adv_examples_path):
+    #     os.makedirs(adv_examples_path)
 
-    # Creating the experiment's folder
-    if not os.path.isdir(adv_examples_path):
-        os.makedirs(adv_examples_path)
+    adv_plots_path = os.path.join(experiment_path, 'generated_plots')
+    if not os.path.isdir(adv_plots_path):
+        os.makedirs(adv_plots_path)
+
+
 
         # Setting up the logger
     logger = set_up_logger(experiment_path, cuda, kwargs)
@@ -169,7 +174,7 @@ def main(root=keys.ROOT,
         logger.debug("----------------")
         logger.debug(attack_loss)
 
-        file_count = len(os.listdir(adv_examples_path))
+        # file_count = len(os.listdir(adv_examples_path))
 
         attack_kwargs = {'model': model,
                          'device': device,
@@ -232,10 +237,9 @@ def main(root=keys.ROOT,
                 #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
                 #                                      seed=seed, device=device)
             utils.my_save(adv_results, adv_results_path)
-    else:
-        logger.debug("Already evaluated and saved.")
-
-    # adv_results = utils.my_load(adv_results_path)  # Loading the results
+        else:
+            logger.debug("Already evaluated and saved.")
+            adv_results = utils.my_load(adv_results_path)  # Loading the results
 
     # Logging the results
     accuracy = (adv_results['preds'].numpy() == adv_results['ground_truth'].numpy()).mean()
@@ -260,20 +264,53 @@ def main(root=keys.ROOT,
 
     plt.clf()
 
-    # Plot Loss
-    plt.plot(attack.loss_fn.loss_path['CE'])
-    plt.savefig(f"{os.path.join(experiment_path, 'attack_loss.png')}")
-    plt.clf()
+    if attack.loss_fn.loss_path['CE'] != []:
+        number_of_attacks = int(len(attack.loss_fn.loss_path['CE']) / num_attack_iterations)
 
-    # Plot Gradients
-    plt.plot(attack.optimizer.gradients)
-    plt.savefig(f"{os.path.join(experiment_path, 'gradients.png')}")
-    plt.clf()
+        def print_debug(metric_list, metric_name, number_of_attacks):
+            legend = [f"atk_it_{i + 1}" for i in range(number_of_attacks)]
+            for i in range(number_of_attacks):
+                plt.plot(metric_list[i * num_attack_iterations:(i + 1) * num_attack_iterations])
+            plt.legend(legend)
+            title = f'attack_every_{metric_name}'
+            plt.title(title)
+            plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
+            plt.clf()
 
-    # Plot Distances
-    plt.plot(attack.optimizer.distance)
-    plt.savefig(f"{os.path.join(experiment_path, 'distances.png')}")
-    plt.clf()
+            plt.plot(metric_list)
+            title = f'attack_{metric_name}'
+            plt.title(title)
+            plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
+            plt.clf()
+
+        print_debug(attack.loss_fn.loss_path['CE'], "loss", number_of_attacks)
+
+        print_debug(attack.optimizer.gradients, "gradients", number_of_attacks)
+
+        print_debug(attack.optimizer.distance, "distance", number_of_attacks)
+
+        # # Plot Loss
+        # number_of_attacks = int(len(attack.loss_fn.loss_path['CE'])/num_attack_iterations)
+        # legend = [f"atk_it_{i+1}" for i in range(number_of_attacks)]
+        # for i in range(number_of_attacks):
+        #     plt.plot(attack.loss_fn.loss_path['CE'][i*num_attack_iterations:(i+1)*num_attack_iterations])
+        # plt.legend(legend)
+        # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_every_loss.png')}")
+        # plt.clf()
+        #
+        # plt.plot(attack.loss_fn.loss_path['CE'])
+        # plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
+        # plt.clf()
+        #
+        # # Plot Gradients
+        # plt.plot(attack.optimizer.gradients)
+        # plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
+        # plt.clf()
+        #
+        # # Plot Distances
+        # plt.plot(attack.optimizer.distance)
+        # plt.savefig(f"{os.path.join(experiment_path, 'distances.png')}")
+        # plt.clf()
 
     print("done!")
 
