@@ -41,5 +41,3 @@ models/zip_files/
 .idea/
 
 .vscode/
-
-*.sh

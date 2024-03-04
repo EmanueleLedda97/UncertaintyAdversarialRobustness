@@ -225,19 +225,34 @@ def main(root=keys.ROOT,
                 logger.debug(
                     f"Attack Took {attack.elapsed_time:.3f} seconds ({attack.elapsed_time / num_attack_iterations:.3f} per iter)")
 
-                if uq_technique == 'deterministic_uq':
-                    # adv_results = eval.evaluate_deterministic(model, adv_test_subset_loader,
-                    #                                           # Evaluating the results on the clean set
-                    #                                           device=device, seed=seed)
-                    adv_results = None
+                if uq_technique == "None":
+                    adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results,
+                                                                   transform=pre_attack_transformation)
 
-                elif uq_technique == "None":
-                    adv_results = eval.evaluate_batch_non_bayesian(model, adv_examples, y, adv_results, transform=pre_attack_transformation)
-
-                # else:
-                #     adv_results = eval.evaluate_bayesian(model, adv_test_subset_loader, mc_sample_size=mc_samples_eval,
-                #                                      seed=seed, device=device)
             utils.my_save(adv_results, adv_results_path)
+            # Saving debugging info
+            with open(f"{os.path.join(adv_plots_path, 'attack_loss.pkl')}", 'wb') as f:
+                pickle.dump(attack.loss_fn.loss_path['CE'], f)
+            with open(f"{os.path.join(adv_plots_path, 'gradients.pkl')}", 'wb') as f:
+                pickle.dump(attack.optimizer.gradients, f)
+            with open(f"{os.path.join(adv_plots_path, 'distances.pkl')}", 'wb') as f:
+                pickle.dump(attack.optimizer.distance, f)
+
+            # Plot Loss
+            plt.plot(attack.loss_fn.loss_path['CE'][:batch_size])
+            plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
+            plt.clf()
+
+            # Plot Gradients
+            plt.plot(attack.optimizer.gradients[:batch_size])
+            plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
+            plt.clf()
+
+            # Plot Distances
+            plt.plot(attack.optimizer.distance[:batch_size])
+            plt.savefig(f"{os.path.join(adv_plots_path, 'distances.png')}")
+            plt.clf()
+
         else:
             logger.debug("Already evaluated and saved.")
             adv_results = utils.my_load(adv_results_path)  # Loading the results
@@ -265,34 +280,8 @@ def main(root=keys.ROOT,
 
     plt.clf()
 
-    # Saving debugging info
-    with open(f"{os.path.join(adv_plots_path, 'attack_loss.pkl')}", 'wb') as f:
-        pickle.dump(attack.loss_fn.loss_path['CE'], f)
-    with open(f"{os.path.join(adv_plots_path, 'gradients.pkl')}", 'wb') as f:
-        pickle.dump(attack.optimizer.gradients, f)
-    with open(f"{os.path.join(adv_plots_path, 'distances.pkl')}", 'wb') as f:
-        pickle.dump(attack.optimizer.distance, f)
-    
-    # Plot Loss
-    plt.plot(attack.loss_fn.loss_path['CE'][:batch_size])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
-    plt.clf()
-    
-    # Plot Gradients
-    plt.plot(attack.optimizer.gradients[:batch_size])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
-    plt.clf()
-    
-    # Plot Distances
-    plt.plot(attack.optimizer.distance[:batch_size])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'distances.png')}")
-    plt.clf()
-
     # if attack.loss_fn.loss_path['CE'] != []:
     #     number_of_attacks = int(len(attack.loss_fn.loss_path['CE']) / num_attack_iterations)
-
-        
-
     #     # print_debug(attack.loss_fn.loss_path['CE'], "loss", number_of_attacks)
     #     # print_debug(attack.optimizer.gradients, "gradients", number_of_attacks)
     #     # print_debug(attack.optimizer.distance, "distance", number_of_attacks)
