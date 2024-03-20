@@ -354,7 +354,7 @@ def create_legend(ax, figsize=(10, 0.5)):
 
 
 # -----------------------------------
-import models.robustbench_load as ingredient
+import models.robustbench_load as rl
 def check_kwarg(kwargs):
     if kwargs['robustness_level'] == 'naive_robust':
         kwargs["robust_model"] = None
@@ -379,9 +379,8 @@ def check_kwarg(kwargs):
             if kwargs["robust_model"] not in keys.IMAGENET_ROBUST_MODELS:
                 raise Exception(f"{kwargs['robust_model']} is not a supported *{kwargs['dataset']}* Robust Model.")
 
-        kwargs["backbone"] = ingredient.cifar10_model_dict[kwargs["robust_model"]]["resnet_type"] if kwargs[
-                                                                                                         "dataset"] == "cifar10" else \
-            ingredient.imagenet_model_dict[kwargs["robust_model"]]["resnet_type"]
+        kwargs["backbone"] = rl.cifar10_model_dict[kwargs["robust_model"]]["resnet_type"] if kwargs["dataset"] == "cifar10" else \
+            rl.imagenet_model_dict[kwargs["robust_model"]]["resnet_type"]
 
     if kwargs['uq_technique'] == 'None':
         kwargs["dropout_rate"] = 0.0

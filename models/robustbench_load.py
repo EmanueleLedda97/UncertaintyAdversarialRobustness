@@ -26,8 +26,6 @@ cifar10_model_dict = dict(addepalli2022={
     'threat_model': 'Linf',
     'resnet_type': 'resnet18'
     },
-
-
     sehwag2021={
     'name': 'Sehwag2021Proxy_R18',  # ResNet-18
     'source': 'robustbench',
@@ -48,8 +46,36 @@ cifar10_model_dict = dict(addepalli2022={
     'dataset': 'cifar10',
     'threat_model': 'L2',  # training threat model
     'resnet_type': 'resnet50'
-
-    })
+    },
+    sehwag2021Proxy_ResNest152={
+        'name': 'Sehwag2021Proxy_ResNest152',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'resnet152'
+        },
+    pang2022Robustness_WRN70_16={
+        'name': 'Pang2022Robustness_WRN70_16',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-70-16'
+    },
+    gowal2021Improving_28_10={
+        'name': 'Gowal2021Improving_28_10_ddpm_100m',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-28-10'
+    },
+    kang2021Stable={
+        'name': 'Kang2021Stable',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-70-16'
+    },
+)
 
 
 _local_cifar_models = {
@@ -58,6 +84,11 @@ _local_cifar_models = {
     'sehwag2021': partial(load_robustbench_model, **cifar10_model_dict["sehwag2021"]),
     'augustin2020': partial(load_robustbench_model, **cifar10_model_dict["augustin2020"]),
     'engstrom2019': partial(load_robustbench_model, **cifar10_model_dict["engstrom2019"]),
+    'sehwag2021Proxy_ResNest152': partial(load_robustbench_model, **cifar10_model_dict["sehwag2021Proxy_ResNest152"]),
+    'pang2022Robustness_WRN70_16': partial(load_robustbench_model, **cifar10_model_dict["pang2022Robustness_WRN70_16"]),
+    'gowal2021Improving_28_10': partial(load_robustbench_model, **cifar10_model_dict["gowal2021Improving_28_10"]),
+    'kang2021Stable': partial(load_robustbench_model, **cifar10_model_dict["kang2021Stable"]),
+
 }
 
 

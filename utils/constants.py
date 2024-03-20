@@ -1,5 +1,6 @@
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L']
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet', 'ConvNeXt-L', 'ConvNeXt-B',
+                     'Swin-B', 'Swin-L', 'resnet152', 'WideResNet-70-16', 'WideResNet-28-10']
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
@@ -66,13 +67,151 @@ NORMALIZATION_DICT = {
 
 DEFAULT_DROPOUT_RATE = 0.3
 
-CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021', 'augustin2020', 'engstrom2019', 'addepalli2022_towards']
-IMAGENET_ROBUST_MODELS = ['salman2020R18', 'wong2020', 'engstrom2019imgnet', 'salman2020R50',
-                          'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
+CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021',
+                         'engstrom2019', 'addepalli2022_towards',
+                         'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
+                         'kang2021Stable']
+CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
+
+
+IMAGENET_ROBUST_MODELS = ['salman2020R18', 'engstrom2019imgnet',
+                          'salman2020R50', 'wong2020',
+                          # 'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL'
+                          ]
+IMAGENET_NAIVE_MODELS = ['resnet18', 'resnet50', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B']
+
 
 L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
 LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18',
                       'wong2020', 'engstrom2019imgnet', 'salman2020R50',
-                      'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL']
+                      'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL',
+                      'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
+                      'kang2021Stable']
 
 SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS
+
+
+cifar10_model_dict = dict(
+    addepalli2022={
+    'name': 'Addepalli2022Efficient_RN18',  # ResNet-18
+    'source': 'robustbench',
+    'dataset': 'cifar10',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet18'
+    },
+    addepalli2022_towards={
+    'name': 'Addepalli2021Towards_RN18',  # ResNet-18
+    'source': 'robustbench',
+    'dataset': 'cifar10',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet18'
+    },
+    sehwag2021={
+    'name': 'Sehwag2021Proxy_R18',  # ResNet-18
+    'source': 'robustbench',
+    'dataset': 'cifar10',
+    'threat_model': 'Linf',  # Available [Linf, L2]
+    'resnet_type': 'resnet18'
+    },
+    engstrom2019={
+    'name': 'Engstrom2019Robustness',  # RESNET50
+    'source': 'robustbench',
+    'dataset': 'cifar10',
+    'threat_model': 'Linf',  # training threat model. Available [Linf, L2]
+    'resnet_type': 'resnet50'
+    },
+    # augustin2020={
+    # 'name': 'Augustin2020Adversarial',  # RESNET50
+    # 'source': 'robustbench',
+    # 'dataset': 'cifar10',
+    # 'threat_model': 'L2',  # training threat model
+    # 'resnet_type': 'resnet50'
+    # },
+    sehwag2021Proxy_ResNest152={
+        'name': 'Sehwag2021Proxy_ResNest152',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'resnet152'
+        },
+    pang2022Robustness_WRN70_16={
+        'name': 'Pang2022Robustness_WRN70_16',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-70-16'
+    },
+    gowal2021Improving_28_10={
+        'name': 'Gowal2021Improving_28_10_ddpm_100m',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-28-10'
+    },
+    kang2021Stable={
+        'name': 'Kang2021Stable',  # RESNET50
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',  # training threat model
+        'resnet_type': 'WideResNet-70-16'
+    },
+)
+
+imagenet_model_dict = dict(
+    salman2020R18={
+    'name': 'Salman2020Do_R18',  # ResNet-18
+    'source': 'robustbench',
+    'dataset': 'imagenet',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet18'
+    },
+    wong2020={
+    'name': 'Wong2020Fast',  # ResNet-50
+    'source': 'robustbench',
+    'dataset': 'imagenet',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
+    },
+    engstrom2019imgnet={
+    'name': 'Engstrom2019Robustness',  # ResNet-50
+    'source': 'robustbench',
+    'dataset': 'imagenet',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
+    },
+    salman2020R50={
+    'name': 'Salman2020Do_R50',  # ResNet-50
+    'source': 'robustbench',
+    'dataset': 'imagenet',
+    'threat_model': 'Linf',
+    'resnet_type': 'resnet50'
+    },
+    Liu2023convNextL={
+        'name': 'Liu2023Comprehensive_ConvNeXt-L',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-L'
+        },
+    Liu2023swinB={
+            'name': 'Liu2023Comprehensive_Swin-B',
+            'source': 'robustbench',
+            'dataset': 'imagenet',
+            'threat_model': 'Linf',
+            'resnet_type': 'Swin-B'
+        },
+    Liu2023convNextB={
+        'name': 'Liu2023Comprehensive_ConvNeXt-B',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'ConvNeXt-B'
+    },
+    Liu2023swinL={
+        'name': 'Liu2023Comprehensive_Swin-L',
+        'source': 'robustbench',
+        'dataset': 'imagenet',
+        'threat_model': 'Linf',
+        'resnet_type': 'Swin-L'
+    },
+)
