@@ -48,28 +48,28 @@ cifar10_model_dict = dict(addepalli2022={
     'resnet_type': 'resnet50'
     },
     sehwag2021Proxy_ResNest152={
-        'name': 'Sehwag2021Proxy_ResNest152',  # RESNET50
+        'name': 'Sehwag2021Proxy_ResNest152',
         'source': 'robustbench',
         'dataset': 'cifar10',
         'threat_model': 'Linf',  # training threat model
         'resnet_type': 'resnet152'
         },
     pang2022Robustness_WRN70_16={
-        'name': 'Pang2022Robustness_WRN70_16',  # RESNET50
+        'name': 'Pang2022Robustness_WRN70_16',
         'source': 'robustbench',
         'dataset': 'cifar10',
         'threat_model': 'Linf',  # training threat model
         'resnet_type': 'WideResNet-70-16'
     },
     gowal2021Improving_28_10={
-        'name': 'Gowal2021Improving_28_10_ddpm_100m',  # RESNET50
+        'name': 'Gowal2021Improving_28_10_ddpm_100m',
         'source': 'robustbench',
         'dataset': 'cifar10',
         'threat_model': 'Linf',  # training threat model
         'resnet_type': 'WideResNet-28-10'
     },
     kang2021Stable={
-        'name': 'Kang2021Stable',  # RESNET50
+        'name': 'Kang2021Stable',
         'source': 'robustbench',
         'dataset': 'cifar10',
         'threat_model': 'Linf',  # training threat model

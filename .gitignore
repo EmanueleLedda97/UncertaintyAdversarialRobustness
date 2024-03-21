@@ -14,7 +14,6 @@ models/pretrained_baselines/*
 
 experiments/*
 datasets/*
-bash_scripts/*
 
 __pycache__
 attacks/__pycache__
@@ -25,7 +24,6 @@ models/*.zip
 models/*.rar
 *.zip
 *.txt
-*.sh
 .vscode
 
 
