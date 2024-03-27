@@ -76,7 +76,7 @@ CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
 
 IMAGENET_ROBUST_MODELS = ['salman2020R18', 'engstrom2019imgnet',
                           'salman2020R50', 'wong2020',
-                          # 'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL'
+                          'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL'
                           ]
 IMAGENET_NAIVE_MODELS = ['resnet18', 'resnet50', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B']
 

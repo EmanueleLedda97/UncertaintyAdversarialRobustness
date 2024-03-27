@@ -19,7 +19,7 @@ from utils.constants import CIFAR10_ROBUST_MODELS, IMAGENET_ROBUST_MODELS, \
     CIFAR10_NAIVE_MODELS, IMAGENET_NAIVE_MODELS, \
     cifar10_model_dict, imagenet_model_dict
 
-COLORS = ['tab:green', 'tab:orange', 'tab:blue']
+COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']
 ALL_COLORS = list(TABLEAU_COLORS.keys())
 ALL_MARKERS = list("ov^<>1234sP*XD")
 
@@ -97,15 +97,19 @@ def get_results(*args):
     eps_to_adv_results_dict['not_ok_eps_path'] = []
 
     step_size = 0.002
-    for eps_dir in os.listdir(path):
-        if f"step-{step_size}" not in eps_dir:
-            continue
-        eps = round(float(eps_dir.split('epsilon-')[1].split('___norm')[0])*255)
-        adv_results_path_i = join(path, eps_dir, 'adv_results.pkl')
-        try:
-            eps_to_adv_results_dict[eps] = my_load(adv_results_path_i)
-        except:
-            eps_to_adv_results_dict['not_ok_eps_path'].append(adv_results_path_i)
+    try:
+        for eps_dir in os.listdir(path):
+            if f"step-{step_size}" not in eps_dir:
+                continue
+            eps = round(float(eps_dir.split('epsilon-')[1].split('___norm')[0]) * 255)
+            adv_results_path_i = join(path, eps_dir, 'adv_results.pkl')
+            try:
+                eps_to_adv_results_dict[eps] = my_load(adv_results_path_i)
+            except:
+                eps_to_adv_results_dict['not_ok_eps_path'].append(adv_results_path_i)
+
+    except:
+        eps_to_adv_results_dict['not_ok_eps_path'].append(path)
 
 
     return eps_to_adv_results_dict
@@ -845,12 +849,196 @@ def plot_sumup():
     print("")
 
 
+def plot_cal_curves_and_hist(paths, ncols=4, figsize=(5, 5), figname='calibration_curves'):
+    nplots = len(paths)*2
+    ncols = 10 if nplots == 10 else ncols
+    ncols = min(ncols, nplots)
+    nrows = (nplots // ncols + int(nplots % ncols != 0)) * 3
+
+    fig, axs = viz.create_figure(nrows, ncols, figsize=figsize, fontsize=15, squeeze=False)
+
+    gs = axs[0, 0].get_gridspec()
+    for j in range(0, nrows, 3):  # RIMUOVO PER FARE SPAZO
+        for i in range(0, ncols, 2):
+            for ax in axs[j, i:(i + 2)]:
+                ax.remove()
+
+    axbigs = []
+    for j in range(0, nrows, 3):  # CREO I CALIBRATION PLOT
+        for i in range(0, ncols, 2):
+            axbigs.append(fig.add_subplot(gs[j, i:(i + 2)]))
+
+
+
+    model_names = []
+    ece_clean_list = []
+    ece_adv_list = []
+
+
+    for plot_i, path in enumerate(paths):
+        eps = 4 if 'imagenet' in path else 8
+
+        path_splitted = path.split('/')
+        eps_to_adv_results_dict = get_results(*path_splitted)
+
+        model_name = path_splitted[-3 if 'semi_robust' in path else -4]
+        model_names.append(model_name)
+
+        axbigs[plot_i].plot([0, 1], [0, 1], linestyle='dashed', color='grey')
+
+        # CLEAN CURVE
+        y_true = eps_to_adv_results_dict[0]['ground_truth']
+        out_probs = eps_to_adv_results_dict[0]['mean_probs']
+        clean_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        clean_ece, clean_bucket_accs, clean_bucket_sizes, clean_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
+            y_true, out_probs)
+        # clean_bucket_accs[np.isnan(clean_bucket_accs)] = 0
+        axbigs[plot_i].plot(clean_avg_conf_list, clean_bucket_accs, label=f"clean (ECE={clean_ece:.3f})", marker='o',
+                color=COLORS[0])
+
+        clean_bucket_sizes = clean_bucket_sizes / clean_bucket_sizes.sum()
+
+        # INSERISCI I PLOT UNO ALLA VOLTA !!!!
+        axs[].hist(clean_avg_conf_list, clean_bucket_sizes, alpha=0.5, linestyle='dashed', marker='o', color=COLORS[0])
+
+
+        # OVER CURVE
+        y_true = eps_to_adv_results_dict[eps]['ground_truth']
+        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        rob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
+        axbigs[plot_i].plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-O (ECE={adv_ece:.3f})", marker='o', color=COLORS[1])
+
+        # UNDER CURVE
+        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
+        y_true = eps_to_adv_results_dict[eps]['ground_truth']
+        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        urob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
+            y_true, out_probs)
+        axbigs[plot_i].plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-U (ECE={adv_ece:.3f})", marker='o', color=COLORS[2])
+
+        # AutoTarget
+        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'O-atk', 'AutoTarget')
+        y_true = eps_to_adv_results_dict[eps]['ground_truth']
+        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        urob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
+            y_true, out_probs)
+        axbigs[plot_i].plot(adv_avg_conf_list, adv_bucket_accs, label=f"AT (ECE={adv_ece:.3f})", marker='o', color=COLORS[3])
+
+
+        axbigs[plot_i].set_ylim(0, 1)
+        axbigs[plot_i].set_xlim(0, 1)
+        axbigs[plot_i].grid('on')
+        axbigs[plot_i].legend(loc='upper left')
+
+        title = f"{model_name}\nacc (clean / advO / advU)\n({clean_acc:.3f} / {rob_acc:.3f} / {urob_acc:.3f})"
+        axbigs[plot_i].set_title(title)
+
+        axbigs[plot_i].set_xlabel('predicted probability \n')
+
+
+    # fig.suptitle(figname)
+    # fig.tight_layout()
+    plt.show()
+
+
+    exit(1)
+
+    for plot_i, path in enumerate(paths):
+        eps = 4 if 'imagenet' in path else 8
+        i, j = plot_i // ncols, plot_i % ncols
+
+        ax = axs[i, j]
+
+        if j == 0:
+            ax.set_ylabel('fraction of correct predictions')
+
+
+        ax.plot([0, 1], [0, 1], linestyle='dashed', color='grey')
+        path_splitted = path.split('/')
+        eps_to_adv_results_dict = get_results(*path_splitted)
+
+        # print(path)
+        # print_pairwise_distance(eps_to_adv_results_dict)
+
+        model_name = path_splitted[-3 if 'semi_robust' in path else -4]
+        model_names.append(model_name)
+
+        # CLEAN CURVE
+        y_true = eps_to_adv_results_dict[0]['ground_truth']
+        out_probs = eps_to_adv_results_dict[0]['mean_probs']
+        clean_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        clean_ece, clean_bucket_accs, clean_bucket_sizes, clean_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
+        # clean_bucket_accs[np.isnan(clean_bucket_accs)] = 0
+        ax.plot(clean_avg_conf_list, clean_bucket_accs, label=f"clean (ECE={clean_ece:.3f})", marker='o', color=COLORS[0])
+        clean_bucket_sizes = clean_bucket_sizes / clean_bucket_sizes.sum()
+        ax.fill_between(clean_avg_conf_list, 0, clean_bucket_sizes, alpha=0.3, color=COLORS[0])
+        ax.plot(clean_avg_conf_list, clean_bucket_sizes, alpha=0.5, linestyle='dashed', marker='o', color=COLORS[0])
+
+        print(f"CLEAN {model_name=}, {avg_acc_conf=}")
+
+
+        # OVER CURVE
+        y_true = eps_to_adv_results_dict[eps]['ground_truth']
+        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        rob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
+        ax.plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-O (ECE={adv_ece:.3f})", marker='o', color=COLORS[1])
+        adv_bucket_sizes = adv_bucket_sizes / adv_bucket_sizes.sum()
+        ax.fill_between(adv_avg_conf_list, 0, adv_bucket_sizes, alpha=0.3, color=COLORS[1])
+        ax.plot(adv_avg_conf_list, adv_bucket_sizes, alpha=0.5, linestyle='dashed', marker='o', color=COLORS[1])
+
+        print(f"Stab {model_name=}, {avg_acc_conf=}")
+
+
+        # UNDER CURVE
+        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
+        y_true = eps_to_adv_results_dict[eps]['ground_truth']
+        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        urob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
+        adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
+        ax.plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-U (ECE={adv_ece:.3f})", marker='o', color=COLORS[2])
+        adv_bucket_sizes = adv_bucket_sizes / adv_bucket_sizes.sum()
+        ax.fill_between(adv_avg_conf_list, 0, adv_bucket_sizes, alpha=0.3, color=COLORS[2])
+        ax.plot(adv_avg_conf_list, adv_bucket_sizes, alpha=0.5, linestyle='dashed', marker='o', color=COLORS[2])
+
+        print(f"Shake {model_name=}, {avg_acc_conf=}")
+
+
+        title = f"{model_name}\nacc (clean / advO / advU)\n({clean_acc:.3f} / {rob_acc:.3f} / {urob_acc:.3f})"
+        ax.set_title(title)
+
+        # ax.set_xticks([0] + list(bin_lowers))
+        # ax.set_yticks([0] + list(bin_lowers))
+        ax.set_ylim(0, 1)
+        ax.set_xlim(0, 1)
+        ax.grid('on')
+        ax.legend(loc='upper left')
+
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0, 1)
+        ax.grid('on')
+
+    # ax = axs[1]
+    # ax.bar(x=np.arange(len(paths)), height=pvalues, tick_label=model_names)
+    # ax.set_xticks(ax.get_xticks(), model_names, rotation=45, ha='right')
+    # # ax.set_yscale('log')
+    # axs[0, 0].legend(bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", ncol=4)
+    for col in range(ncols):
+        axs[-1, col].set_xlabel('predicted probability')
+    fig.suptitle(figname)
+    fig.tight_layout()
+    fig.show()
+    fig.savefig(f"figures/{figname}.pdf")
+
+    print("")
+
 
 if __name__ == '__main__':
-    atk_type_and_name_list = ['O-atk/Stab', 'U-atk/Shake',
-                              #"O-atk/AutoTarget"
-                              ]
-    datasets = ['cifar10'] #, 'imagenet']
+    atk_type_and_name_list = ['O-atk/Stab', "O-atk/AutoTarget",  'U-atk/Shake']
+    datasets = ['cifar10', 'imagenet']
     robusts = [True]
 
     dict_terms = {'semi_robust': 'robust',
@@ -861,21 +1049,23 @@ if __name__ == '__main__':
     # Devo fare questo: 0 cifar, 1 imagenet
     # Side effect in plot cal curves che aggiunge Shake a mano
     # quindi quando ciclo le paths Shake mi sovrascrive il pdf e si perde stab
-    # cifar_stab_paths = paths[0]
-    # robustness_level = dict_terms[cifar_stab_paths[0].split('/')[2]]
-    # ds_name = cifar_stab_paths[0].split('/')[3]
-    # attack_type = cifar_stab_paths[0].split('/')[-1]
-    # title = f"calibration_curve_{robustness_level}_{ds_name}"
-    # plot_cal_curves(cifar_stab_paths, figname=title)
+    cifar_stab_paths = paths[0]
+    robustness_level = dict_terms[cifar_stab_paths[0].split('/')[2]]
+    ds_name = cifar_stab_paths[0].split('/')[3]
+    attack_type = cifar_stab_paths[0].split('/')[-1]
+    title = f"calibration_curve_{robustness_level}_{ds_name}"
+    plot_cal_curves_and_hist([cifar_stab_paths[0]], figname=title)
+    #plot_cal_curves([cifar_stab_paths[0]], figname=title)
+
 
     # Altrimenti trick dove prendo solo gli STAB, ovvero metà lista
-    for path_list in paths[:int((len(paths)/2))]:
-        robustness_level = dict_terms[path_list[0].split('/')[2]]
-        ds_name = path_list[0].split('/')[3]
-        attack_type = path_list[0].split('/')[-1]
-
-        title = f"calibration_curve_{robustness_level}_{ds_name}"
-        plot_cal_curves(path_list, figname=title)
+    # for path_list in paths[:int((len(paths)/2))]:
+    #     robustness_level = dict_terms[path_list[0].split('/')[2]]
+    #     ds_name = path_list[0].split('/')[3]
+    #     attack_type = path_list[0].split('/')[-1]
+    #
+    #     title = f"calibration_curve_{robustness_level}_{ds_name}"
+    #     plot_cal_curves(path_list, figname=title)
 
     # ------------------------ CONFIDENCE DISPLACEMENT PLOTS
     # for path_list in paths:
@@ -885,7 +1075,11 @@ if __name__ == '__main__':
     #     title = f"conf_displacement_{robustness_level}_{ds_name}_{attack_type}"
     #     plot_conf_displacement(path_list, figname=title)
 
-# # OLD MAIN
+
+
+
+
+# ####################################### OLD MAIN ###########################################################
 # if __name__ == '__main__':
 #
 #     plot_conf_theory()
