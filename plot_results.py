@@ -22,7 +22,13 @@ from matplotlib.lines import Line2D
 
 COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']
 ALL_COLORS = list(TABLEAU_COLORS.keys())
-ALL_MARKERS = list("ov^<>1234sP*XD")
+ALL_MARKERS = list("o*sP^<>1234vXD")
+
+
+"""
+PLOT FILE WITH ONLY ESSENTIAL PLOTS
+"""
+
 
 
 def get_paths(datasets, atk_type_and_name_list, robusts=[True]):
@@ -203,7 +209,7 @@ def compute_ece(y_true, out_probs, compute_abs=True):
 ######################################################################################################################
 
 
-def plot_all_scatters(paths, metric='entropy_of_mean', figsize=(5, 5), figtitle='all_scatter.pdf'):
+def plot_all_scatters(paths, ds="dsname", metric='entropy_of_mean', figsize=(5, 5), figtitle='all_scatter.pdf'):
     """
     Scatter plot of point before and after the attack, green are correctly classified samples and
     red are not correctly classified.
@@ -222,7 +228,11 @@ def plot_all_scatters(paths, metric='entropy_of_mean', figsize=(5, 5), figtitle=
     nrows = nplots // ncols + int(nplots % ncols != 0)
     fig, axs = viz.create_figure(nrows, ncols, figsize=figsize, fontsize=15, squeeze=False)
 
-    save_path = "figures/MI_scatter/"
+    if ds not in ["imagenet", "cifar10"]:
+        print("plot_all_scatters Dataset not supported")
+        return
+
+    save_path = f"figures/MI_scatter/{ds_name}/"
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
@@ -275,22 +285,39 @@ def plot_all_scatters(paths, metric='entropy_of_mean', figsize=(5, 5), figtitle=
     fig.show()
     fig.savefig(f"{save_path}{figtitle}.pdf")
 
-def plot_cal_curves_and_hist(paths, figsize=(5, 5), figtitle='calibration_curves'):
+def plot_cal_curves_and_hist(paths, ds="dsname", figsize=(5, 5), figtitle='calibration_curves'):
     """
     Prende le paths degli attacchi Oatk e aggiunge gli Uatk. Vengono generati un reliability ed un histogram
     per ogni modello e salvati.
     """
 
-    save_path = "figures/calibration_hist/"
+    if ds not in ["imagenet", "cifar10"]:
+        print("plot_cal_curves_and_hist Dataset not supported")
+        return
+
+    save_path = f"figures/calibration_hist/{ds}/"
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
     for plot_i, path in enumerate(paths):
         eps = 4 if 'imagenet' in path else 8
-        fig, axs = viz.create_figure(2, 1, figsize=figsize, fontsize=15, squeeze=False)
+        fig, axs = viz.create_figure(2, 1, figsize=figsize, fontsize=15, squeeze=False, rateo=[2, 1])
 
         path_splitted = path.split('/')
         eps_to_adv_results_dict = get_results(*path_splitted)
+
+        # CLEAN CURVE
+        y_true = eps_to_adv_results_dict[0]['ground_truth']
+        out_probs = eps_to_adv_results_dict[0]['mean_probs']
+        clean_ece, clean_bucket_accs, clean_bucket_sizes, clean_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
+        axs[0,0].plot(clean_avg_conf_list, clean_bucket_accs, label=f"clean (ECE={clean_ece:.3f})", marker='o', color=COLORS[0])
+
+        axs[1,0].fill_between(clean_avg_conf_list, 0, clean_bucket_sizes, alpha=0.3, color=COLORS[0])
+        axs[1,0].plot(clean_avg_conf_list, clean_bucket_sizes, alpha=0.5, linestyle='dashed', marker='o', color=COLORS[0])
+
+        avg_acc, avg_conf = avg_acc_conf
+        axs[1, 0].axvline(x=avg_conf, label="avg confidence", linestyle='dashed', color=COLORS[0])
+        axs[1, 0].axvline(x=avg_acc, label="Accuracy", color=COLORS[0])
 
         # OVER CURVE
         y_true = eps_to_adv_results_dict[eps]['ground_truth']
@@ -307,13 +334,8 @@ def plot_cal_curves_and_hist(paths, figsize=(5, 5), figtitle='calibration_curves
         axs[1, 0].axvline(x=avg_conf, label="avg confidence", linestyle='dashed', color=COLORS[1])
         axs[1, 0].axvline(x=avg_acc, label="Accuracy", color=COLORS[1])
 
-        print(f"Stab {model_name=}, {avg_acc_conf=}")
-
 
         # UNDER CURVE
-        axs[0,0].set_ylabel('fraction of correct predictions')
-        axs[1, 0].set_ylabel('Number of samples')
-        axs[0,0].plot([0, 1], [0, 1], linestyle='dashed', color='grey')
         eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
         y_true = eps_to_adv_results_dict[eps]['ground_truth']
         out_probs = eps_to_adv_results_dict[eps]['mean_probs']
@@ -330,7 +352,13 @@ def plot_cal_curves_and_hist(paths, figsize=(5, 5), figtitle='calibration_curves
         axs[1,0].axvline(x=avg_acc, label="Accuracy", color=COLORS[2])
 
 
+
         # CUSTOMIZATION
+
+        axs[0,0].set_ylabel('fraction of correct predictions')
+        axs[1, 0].set_ylabel('Number of samples')
+        axs[0,0].plot([0, 1], [0, 1], linestyle='dashed', color='grey')
+
         model_name = path_splitted[-3 if 'semi_robust' in path else -4]
 
         figname=figtitle+f"_{model_name}"
@@ -369,71 +397,75 @@ def plot_cal_curves_and_hist(paths, figsize=(5, 5), figtitle='calibration_curves
     print("")
 
 
-def plot_entropy_gap():
-    # atk_type_and_name_list = ['O-atk/Stab']
-    # atk_type_and_name_list = ['U-atk/Shake']
-    datasets = ['cifar10', 'imagenet']
-    # datasets = ['imagenet']
-    robusts = [True]
+def plot_entropy_gap(paths, ds="cifar"):
+    """
+    Plot models entropy for the different types of attacks.
+    On x axis there is model alias (M*), y axis mean entropy.
+    """
 
-    dict_terms = {'semi_robust': 'robust',
-                  'naive_robust': 'naive'}
+    if ds not in ["imagenet", "cifar"]:
+        print("plot_entropy_gap Dataset not supported")
+        return
 
-    # robust_acc_vs_robust_unc(paths)
-    # stab_path_list = [item for path_list in stab_path_list for item in path_list]
-    for atk_type_and_name_list in [['O-atk/Stab'], ['U-atk/Shake']]:
-        path_lists = get_paths(datasets, atk_type_and_name_list, robusts)
-        atk_name = atk_type_and_name_list[0].split('/')[0]
-        for stab_path_list in path_lists:
-            robustness_level = dict_terms[stab_path_list[0].split('/')[2]]
-            ds_name = stab_path_list[0].split('/')[3]
+    save_path = "figures/entropy_gap/"
+    if not os.path.isdir(save_path):
+        os.makedirs(save_path)
 
+    if ds == "imagenet":
+        paths.pop(0)
 
-            ata_path_list = [path.replace('Stab', 'AutoTarget') for path in stab_path_list]
+    eps = 8 if ds == 'cifar' else 4
 
-            # robust_accuracy = []
-            # for path in ata_path_list:
-            #     eps = 8 if 'cifar' in path else 4
-            #     res = get_results(*path.split('/'))
-            #     y = res[eps]['ground_truth']
-            #     ypred = res[eps]['mean_probs'].argmax(axis=1)
-            #     robacc = (ypred == y).numpy().mean()
-            #     robust_accuracy.append(robacc)
+    model_dict = {}
+    model_name_list = []
 
-            uncertainty_before_atk = []
-            uncertainty_after_atk = []
-            model_names = []
-            for path in stab_path_list:
-                path_splitted = path.split('/')
+    for i, model in enumerate(paths[0]):
+        path_splitted = model.split('/')
+        model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
+        model_dict[model_name] = {"Clean": 0, "Stab": 0, "Shake": 0, "AutoTarget": 0}
+        # model_name_list.append(model_name)
+        model_name_list.append(f"M{i+1}")
 
-                model_names.append(path_splitted[path_splitted.index('None') + (1 if not 'naive' in path else -1)])
-                eps = 8 if 'cifar' in path else 4
-                res = get_results(*path.split('/'))
+    print(model_name_list)
 
-                uncertainty_before_atk.append(res[0]['entropy_of_mean'].mean().item())
-                uncertainty_after_atk.append(res[eps]['entropy_of_mean'].mean().item())
+    for attack_path in paths[::2]:
+        for model in attack_path:
+            path_splitted = model.split('/')
+            model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
+            attack_type = path_splitted[-1]
 
-            fig, ax = viz.create_figure(figsize=(15, 15))
+            res = get_results(*path_splitted)
 
-            for i, mname in enumerate(model_names):
-                ax.scatter(uncertainty_before_atk[i], uncertainty_after_atk[i] - uncertainty_before_atk[i],
-                           color=ALL_COLORS[i], marker=ALL_MARKERS[i], alpha=0.8, s=400, label=mname)
-                # ax.scatter(uncertainty_before_atk[i], robust_accuracy[i],
-                #            color=ALL_COLORS[i], marker='', alpha=0.4, s=200)
-                # ax.plot([uncertainty_before_atk[i], uncertainty_after_atk[i]],
-                #         [robust_accuracy[i], robust_accuracy[i]], color=ALL_COLORS[i], linestyle='dashed')
+            model_dict[model_name]["Clean"] = res[0]['entropy_of_mean'].mean().item()
+            model_dict[model_name][attack_type] = res[eps]['entropy_of_mean'].mean().item()
 
+    fig, ax = viz.create_figure(figsize=(15, 15))
 
-            # title = f"ECE_GAP_{atk_name}_{robustness_level}_{ds_name}_with_clean_results"
-            title = f"ENTROPY_GAP_{atk_name}_{robustness_level}_{ds_name}"
-            ax.set_title(title)
-            ax.set_xlabel('H(x)')
-            ax.set_ylabel('H(x*) - H(x)')
-            ax.legend()
-            fig.show()
-            fig.savefig(f"figures/{title}.pdf")
-            print("")
-    print("")
+    for idx, (key, item) in enumerate(model_dict.items()):
+        print(key, item)
+        ax.plot(idx, item["Clean"], color=COLORS[0], marker=ALL_MARKERS[0], markersize=10)
+        ax.plot(idx, item["Stab"], color=COLORS[1], marker=ALL_MARKERS[1], markersize=10)
+        ax.plot(idx, item["Shake"], color=COLORS[2], marker=ALL_MARKERS[2], markersize=10)
+        ax.plot(idx, item["AutoTarget"], color=COLORS[3], marker=ALL_MARKERS[3], markersize=10)
+
+    labels = ["Clean", "Stab", "Shake", "AutoTarget"]
+    markers = [Line2D([], [], color=COLORS[i], marker=ALL_MARKERS[i], linestyle='None',
+                      markersize=15, label=key) for i, key in enumerate(labels)]
+
+    ax.legend(markers, labels, loc='upper right')
+    title = f"ENTROPY_GAP_{ds}"
+    ax.set_title(title)
+
+    ax.set_xticks(range(len(model_name_list)))
+    ax.set_xticklabels(model_name_list, rotation=45, ha="right")
+
+    ax.set_xlabel('Models')
+    ax.set_ylabel('H(x)')
+    ax.grid("on")
+    # fig.subplots_adjust(bottom=0.30)
+    fig.show()
+    fig.savefig(f"{save_path}{title}.pdf")
+
 
 
 
@@ -456,48 +488,20 @@ if __name__ == '__main__':
         attack_type = path_list[0].split('/')[-1]
 
         title = f"calibration_curve_{robustness_level}_{ds_name}"
-        # plot_cal_curves_and_hist(path_list, figsize=(5,10), figtitle=title)
+        # plot_cal_curves_and_hist(path_list, ds=ds_name, figsize=(5,10), figtitle=title)
 
     # ------------------------ MI SAMPLES PLOTS
-    # Non so cosa fa
-    for path_list in [paths[0]]:
+    for path_list in paths:
         robustness_level = dict_terms[path_list[0].split('/')[2]]
         ds_name = path_list[0].split('/')[3]
         attack_type = path_list[0].split('/')[-1]
         title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
-        # plot_all_scatters(path_list, figtitle=title)
+        # plot_all_scatters(path_list, ds=ds_name, figtitle=title)
 
-    plot_entropy_gap()
+    # ----------------------- ENTROPY GAP PLOTS
+    # plot_entropy_gap(paths, ds="cifar")
+    # plot_entropy_gap(paths, ds="imagenet")
 
-# ####################################### OLD MAIN ###########################################################
-#     # plot_all_scatters(paths, metric='entropy_of_mean')
-#     # plot_correlations(paths)
-#     # plot_ECE(paths)
-#     # plot_cal_curves(paths)
-#     """
-#     >>> ROBUST ACCURACY -> ROBUST UNCERTAINTY
-#     - difesa tradizionale funziona? Si
-#     ----> mostrare transformer calibration curve naive e robust (tutti gli altri in appendix completi)
-#     - Come correla robustezza a predizioni e robustezza a incertezza?
-#     ----> mostrare scatter plot tra robust uncertainty e robust accuracy:
-#           come misura puntuale di uncertainty usare la ECE senza valore assoluto
-#
-#     - Risk management: underconf / overconf implica migliore calibrazione sotto attacchi O-atk / U-atk
-#     - H(R) > H(Q) -> D(R) > D(x)
-#
-#     - displacement softmax before/after attack -> higher robustness (forse banale)
-#     - dati clean e autotarget: vedere distribuzione entropia tra sample corretti e misclassificati
-#
-#
-#     PLOTS:
-#     - clean VS adversarial entropy, con clean entropy ordinate
-#     -
-#     """
-#
-#
-#
-#
-#     print("")
 
 
 

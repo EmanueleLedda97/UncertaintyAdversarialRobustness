@@ -24,6 +24,9 @@ COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']
 ALL_COLORS = list(TABLEAU_COLORS.keys())
 ALL_MARKERS = list("ov^<>1234sP*XD")
 
+"""
+ORIGINAL PLOT FILE
+"""
 
 def get_paths(datasets, atk_type_and_name_list, robusts=[True]):
     path_ok_list = []

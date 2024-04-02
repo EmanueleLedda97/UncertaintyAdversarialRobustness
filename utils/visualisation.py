@@ -9,7 +9,11 @@ def format_mpl(font_size: int = 30):
     mpl.rcParams['ps.fonttype'] = 42
     mpl.rcParams['mathtext.fontset'] = 'stix'
 
-def create_figure(nrows=1, ncols=1, figsize=(5, 5), squeeze=True, fontsize=30):
+def create_figure(nrows=1, ncols=1, figsize=(5, 5), squeeze=True, fontsize=30, rateo = None):
     format_mpl(fontsize)
-    fig, axs = plt.subplots(nrows, ncols, figsize=(ncols*figsize[1], nrows*figsize[0]), squeeze=squeeze)
+    if rateo is not None:
+        fig, axs = plt.subplots(nrows, ncols, figsize=(ncols * figsize[1], nrows * figsize[0]), squeeze=squeeze,
+                                gridspec_kw={'height_ratios': rateo})
+    else:
+        fig, axs = plt.subplots(nrows, ncols, figsize=(ncols*figsize[1], nrows*figsize[0]), squeeze=squeeze)
     return fig, axs
