@@ -1,6 +1,10 @@
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet', 'ConvNeXt-L', 'ConvNeXt-B',
-                     'Swin-B', 'Swin-L', 'resnet152', 'WideResNet-70-16', 'WideResNet-28-10']
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet',
+                     'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L',
+                     # 'RaWideResNet-70-16',
+                     'WideResNet-70-16',
+                     'WideResNet-28-10', 'WideResNet-34-10']
+
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
@@ -67,10 +71,20 @@ NORMALIZATION_DICT = {
 
 DEFAULT_DROPOUT_RATE = 0.3
 
+
+NEW_ENTRIES_CIFAR10 = [
+                       #'Peng2023Robust', 'Sehwag2021Proxy',
+                       'Rebuffi2021Fixing_70_16_cutmix_extra',
+                       'Wang2023Better_WRN_28_10',
+                       'Cui2023Decoupled_WRN_28_10',
+                       'Wang2023Better_WRN_70_16',
+                       'Gowal2021Improving_70_16_ddpm_100m',
+                       'Xu2023Exploring_WRN_28_10']
+
 CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021',
                          'engstrom2019', 'addepalli2022_towards',
                          'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
-                         'kang2021Stable']
+                         'kang2021Stable'] + NEW_ENTRIES_CIFAR10
 CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
 
 
@@ -86,7 +100,7 @@ LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'e
                       'wong2020', 'engstrom2019imgnet', 'salman2020R50',
                       'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL',
                       'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
-                      'kang2021Stable']
+                      'kang2021Stable'] + NEW_ENTRIES_CIFAR10
 
 SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS
 
@@ -120,13 +134,6 @@ cifar10_model_dict = dict(
     'threat_model': 'Linf',  # training threat model. Available [Linf, L2]
     'resnet_type': 'resnet50'
     },
-    # augustin2020={
-    # 'name': 'Augustin2020Adversarial',  # RESNET50
-    # 'source': 'robustbench',
-    # 'dataset': 'cifar10',
-    # 'threat_model': 'L2',  # training threat model
-    # 'resnet_type': 'resnet50'
-    # },
     sehwag2021Proxy_ResNest152={
         'name': 'Sehwag2021Proxy_ResNest152',  # RESNET50
         'source': 'robustbench',
@@ -154,6 +161,63 @@ cifar10_model_dict = dict(
         'dataset': 'cifar10',
         'threat_model': 'Linf',  # training threat model
         'resnet_type': 'WideResNet-70-16'
+    },
+    ######## New Entries #############
+    # Peng2023Robust={
+    #     'name': 'Peng2023Robust',
+    #     'source': 'robustbench',
+    #     'dataset': 'cifar10',
+    #     'threat_model': 'Linf',
+    #     'resnet_type': 'RaWideResNet-70-16'
+    # },
+    Wang2023Better_WRN_70_16={
+        'name': 'Wang2023Better_WRN-70-16',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-70-16'
+    },
+    Cui2023Decoupled_WRN_28_10={
+        'name': 'Cui2023Decoupled_WRN-28-10',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-28-10'
+    },
+    Wang2023Better_WRN_28_10={
+        'name': 'Wang2023Better_WRN-28-10',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-28-10'
+    },
+    Rebuffi2021Fixing_70_16_cutmix_extra={
+        'name': 'Rebuffi2021Fixing_70_16_cutmix_extra',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-70-16'
+    },
+    Gowal2021Improving_70_16_ddpm_100m={
+        'name': 'Gowal2021Improving_70_16_ddpm_100m',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-70-16'
+    },
+    Xu2023Exploring_WRN_28_10={
+        'name': 'Xu2023Exploring_WRN-28-10',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-28-10'
+    },
+    Sehwag2021Proxy={
+        'name': 'Sehwag2021Proxy',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'WideResNet-34-10'
     },
 )
 

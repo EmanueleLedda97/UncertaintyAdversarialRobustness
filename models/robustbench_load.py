@@ -30,14 +30,14 @@ cifar10_model_dict = dict(addepalli2022={
     'name': 'Sehwag2021Proxy_R18',  # ResNet-18
     'source': 'robustbench',
     'dataset': 'cifar10',
-    'threat_model': 'Linf',  # Available [Linf, L2]
+    'threat_model': 'Linf',
     'resnet_type': 'resnet18'
     },
     engstrom2019={
     'name': 'Engstrom2019Robustness',  # RESNET50
     'source': 'robustbench',
     'dataset': 'cifar10',
-    'threat_model': 'Linf',  # training threat model. Available [Linf, L2]
+    'threat_model': 'Linf',
     'resnet_type': 'resnet50'
     },
     augustin2020={
@@ -88,6 +88,17 @@ _local_cifar_models = {
     'pang2022Robustness_WRN70_16': partial(load_robustbench_model, **cifar10_model_dict["pang2022Robustness_WRN70_16"]),
     'gowal2021Improving_28_10': partial(load_robustbench_model, **cifar10_model_dict["gowal2021Improving_28_10"]),
     'kang2021Stable': partial(load_robustbench_model, **cifar10_model_dict["kang2021Stable"]),
+
+    'Peng2023Robust': partial(load_robustbench_model, **cifar10_model_dict["Peng2023Robust"]),
+    'Wang2023Better_WRN_70_16': partial(load_robustbench_model, **cifar10_model_dict["Wang2023Better_WRN_70_16"]),
+    'Cui2023Decoupled_WRN_28_10': partial(load_robustbench_model, **cifar10_model_dict["Cui2023Decoupled_WRN_28_10"]),
+    'Wang2023Better_WRN_28_10': partial(load_robustbench_model, **cifar10_model_dict["Wang2023Better_WRN_28_10"]),
+    'Rebuffi2021Fixing_70_16_cutmix_extra': partial(load_robustbench_model,
+                                                    **cifar10_model_dict["Rebuffi2021Fixing_70_16_cutmix_extra"]),
+    'Gowal2021Improving_70_16_ddpm_100m': partial(load_robustbench_model,
+                                                  **cifar10_model_dict["Gowal2021Improving_70_16_ddpm_100m"]),
+    'Xu2023Exploring_WRN_28_10': partial(load_robustbench_model, **cifar10_model_dict["Xu2023Exploring_WRN_28_10"]),
+    'Sehwag2021Proxy': partial(load_robustbench_model, **cifar10_model_dict["Sehwag2021Proxy"]),
 
 }
 
