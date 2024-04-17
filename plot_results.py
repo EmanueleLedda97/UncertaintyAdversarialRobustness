@@ -285,7 +285,7 @@ def plot_all_scatters(paths, ds="dsname", metric='entropy_of_mean', figsize=(5, 
 
     fig.tight_layout()
     fig.show()
-    fig.savefig(f"{save_path}{figtitle}.pdf")
+    fig.savefig(f"{save_path}{figtitle}.pdf", bbox_inches='tight')
 
 
 def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtitle='calibration_curves'):
@@ -309,7 +309,7 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
 
         # figsize = (sum(rateo)*3, rateo[0]*3)
 
-        fig, axs = viz.create_figure(2, 1, figsize=figsize, squeeze=True, gridspec_kw={'height_ratios': rateo, 'hspace': 0.05})
+        fig, axs = viz.create_figure(2, 1, figsize=(15,12), squeeze=True, gridspec_kw={'height_ratios': rateo, 'hspace': 0.05})
 
         path_splitted = path.split('/')
         eps_to_adv_results_dict = get_results(*path_splitted)
@@ -397,9 +397,7 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
 
         fig.tight_layout()
         fig.show()
-        fig.savefig(f"{save_path}{figname}.pdf")
-
-        exit(1)
+        fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
     print("")
 
@@ -550,7 +548,7 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=4, curvedim=4, figname='calib
 
     fig.tight_layout()
     fig.show()
-    fig.savefig(f"{save_path}{figname}.pdf")
+    fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
     print("")
 
@@ -624,7 +622,7 @@ def plot_entropy_gap_points(paths, ds="cifar"):
     ax.grid("on")
     # fig.subplots_adjust(bottom=0.30)
     fig.show()
-    fig.savefig(f"{save_path}{title}.pdf")
+    fig.savefig(f"{save_path}{title}.pdf", bbox_inches='tight')
 
 
 def plot_entropy_gap_bars(paths, ds="cifar"):
@@ -693,7 +691,192 @@ def plot_entropy_gap_bars(paths, ds="cifar"):
     ax.set_xlabel('Models')
     ax.set_ylabel('H(x)')
     fig.show()
-    fig.savefig(f"{save_path}{title}.pdf")
+    fig.savefig(f"{save_path}{title}.pdf", bbox_inches='tight')
+
+
+def plot_violin_single(paths, ds, figsize=(7, 7), figtitle='violin_plot'):
+    """
+    Plot calibration and histogram all in one single plot.
+    """
+
+    save_path = f"figures/violin_plots/{ds}/"
+    if not os.path.isdir(save_path):
+        os.makedirs(save_path)
+
+    for plot_i, path in enumerate(paths):
+
+        fig, axs = viz.create_figure(1, 1, figsize=figsize, fontsize=20, squeeze=True)
+
+        plot_i = [1]
+
+        eps = 4 if 'imagenet' in path else 8
+
+        path_splitted = path.split('/')
+        eps_to_adv_results_dict = get_results(*path_splitted)
+
+        clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
+
+        oatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+
+        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
+        uatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+
+        # print(f"{clean_entropies.shape=}, {oatk_entropies.shape=}, {uatk_entropies.shape=}")
+
+        # --------------------------------- CLEAN VIOLIN
+        v1 = axs.violinplot(clean_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v1["cmeans"].set_edgecolor(COLORS[0])
+        v1["cmeans"].set_linewidth(2)
+        segment = v1["cmeans"].get_segments()
+        segment[0][1][0] = 1
+        v1["cmeans"].set_segments(segment)
+
+        for b in v1['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further right than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], -np.inf, m)
+            b.set_color(COLORS[0])
+
+        # ----------------------------------- OVER VIOLIN
+        v2 = axs.violinplot(oatk_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v2["cmeans"].set_edgecolor(COLORS[1])
+        v2["cmeans"].set_linewidth(2)
+        segment = v2["cmeans"].get_segments()
+        segment[0][0][0] = 1
+        v2["cmeans"].set_segments(segment)
+
+        for b in v2['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further left than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
+            b.set_color(COLORS[1])
+
+        # ------------------------------- UNDER VIOLIN
+        v3 = axs.violinplot(uatk_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v3["cmeans"].set_edgecolor(COLORS[2])
+        v3["cmeans"].set_linewidth(2)
+        segment = v3["cmeans"].get_segments()
+        segment[0][0][0] = 1
+        v3["cmeans"].set_segments(segment)
+
+        for b in v3['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further left than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
+            b.set_color(COLORS[2])
+
+        # axs.set_ylim([-1, 3])
+
+        model_name = path_splitted[-3 if 'semi_robust' in path else -4]
+
+        figname = figtitle + f"_{model_name}"
+
+        axs.set_ylabel("H(x)")
+        axs.set_xticks([])
+
+        fig.suptitle(model_name)
+        fig.tight_layout()
+        fig.show()
+
+        fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
+
+
+def plot_violin_all(paths, figsize=(10, 30), figname='violin_plot'):
+    """
+    Plot calibration and histogram all in one single plot.
+    """
+
+    save_path = "figures/violin_plots/"
+    if not os.path.isdir(save_path):
+        os.makedirs(save_path)
+
+    fig, axs = viz.create_figure(1, 1, figsize=figsize, squeeze=True)
+
+    for plot_i, path in enumerate(paths):
+
+        plot_i = [plot_i]
+
+        eps = 4 if 'imagenet' in path else 8
+
+        path_splitted = path.split('/')
+        eps_to_adv_results_dict = get_results(*path_splitted)
+
+        clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
+
+        oatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+
+        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
+        uatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+
+        # --------------------------------- CLEAN VIOLIN
+        v1 = axs.violinplot(clean_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v1["cmeans"].set_edgecolor(COLORS[0])
+        v1["cmeans"].set_linewidth(2)
+        segment = v1["cmeans"].get_segments()
+        segment[0][1][0] = plot_i[0]
+        v1["cmeans"].set_segments(segment)
+
+        for b in v1['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further right than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], -np.inf, m)
+            b.set_color(COLORS[0])
+
+        # ----------------------------------- OVER VIOLIN
+        v2 = axs.violinplot(oatk_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v2["cmeans"].set_edgecolor(COLORS[1])
+        v2["cmeans"].set_linewidth(2)
+        segment = v2["cmeans"].get_segments()
+        segment[0][0][0] = plot_i[0]
+        v2["cmeans"].set_segments(segment)
+
+        for b in v2['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further left than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
+            b.set_color(COLORS[1])
+
+        # ------------------------------- UNDER VIOLIN
+        v3 = axs.violinplot(uatk_entropies, points=100, positions=plot_i,
+                            showmeans=True, showextrema=False, showmedians=False)
+
+        v3["cmeans"].set_edgecolor(COLORS[2])
+        v3["cmeans"].set_linewidth(2)
+        segment = v3["cmeans"].get_segments()
+        segment[0][0][0] = plot_i[0]
+        v3["cmeans"].set_segments(segment)
+
+        for b in v3['bodies']:
+            # get the center
+            m = np.mean(b.get_paths()[0].vertices[:, 0])
+            # modify the paths to not go further left than the center
+            b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
+            b.set_color(COLORS[2])
+
+    # axs.set_ylim([-1, 3])
+
+    axs.set_ylabel("H(x)")
+    axs.set_xlabel("Models")
+
+    fig.suptitle(figname)
+    fig.tight_layout()
+    fig.show()
+    fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
 
 
@@ -708,7 +891,7 @@ if __name__ == '__main__':
                   'naive_robust': 'naive'}
 
     # PATHS STRUCTURE: 0-C10 stab, 1-IMG stab, 2-C10 AT, 3-IMG AT, 4-C10 shake, 5-IMG shake
-    paths = get_paths(datasets, atk_type_and_name_list, robusts)
+    paths = get_paths(datasets, atk_type_and_name_list, robusts, verbose=False)
 
     # ------------------------ CALIBRATOIN CURVE
     # PRENDO SOLO STAB
@@ -719,13 +902,21 @@ if __name__ == '__main__':
         # plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
         # plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=4, figname=title)
 
-        # ------------------------ MI SAMPLES PLOTS
+    # ------------------------ MI SAMPLES PLOTS
     for path_list in paths:
         robustness_level = dict_terms[path_list[0].split('/')[2]]
         ds_name = path_list[0].split('/')[3]
         attack_type = path_list[0].split('/')[-1]
         title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
         # plot_all_scatters(path_list, ds=ds_name, figtitle=title)
+
+
+    for path_list in paths[:2]:
+        robustness_level = dict_terms[path_list[0].split('/')[2]]
+        ds_name = path_list[0].split('/')[3]
+        title = f"violinplots_{robustness_level}_{ds_name}"
+        # plot_violin_single(path_list, ds=ds_name, figtitle=title)
+        # plot_violin_all(path_list, figname=title)
 
     # ----------------------- ENTROPY GAP PLOTS
     # plot_entropy_gap_points(paths, ds="cifar")
