@@ -208,6 +208,49 @@ def compute_ece(y_true, out_probs, compute_abs=True):
     return ece, np.array(bucket_accs), np.array(bucket_sizes), np.array(avg_conf_list), bin_lowers, bin_uppers, (avg_acc, avg_conf)
 
 
+def fix_values(path, metrics, atk_to_fix):
+    """
+    Fix the values of the given metrics by keeping the best value, wrt H(x)
+    Args:
+        path: path to the file
+        metrics: metrics to fix
+        atk_to_fix: attack to fix: Stab, Shake
+
+    Returns: The metrics that we wanted after updating the data
+
+    """
+
+    if atk_to_fix not in ["Stab", "Shake"]:
+        assert f"{atk_to_fix} is not a valit attack type"
+
+    eps = 4 if 'imagenet' in path else 8
+    path_splitted = path.split('/')
+
+    # GET CLEAN
+    clean_results_dict = get_results(*path_splitted)[0]
+    clean_entropies = clean_results_dict['entropy_of_mean']
+
+    if metrics not in clean_results_dict.keys():
+        assert f"{metrics} not a valid metrics, choose from {clean_results_dict.keys()}"
+
+    mask = None
+    adv_results_dict = None
+
+    # GET ATKMETRICS
+    if atk_to_fix == "Stab":
+        adv_results_dict = get_results(*path_splitted[:-2], 'O-atk', 'Stab')[eps]
+        atk_entropies = adv_results_dict['entropy_of_mean']
+        mask = clean_entropies <= atk_entropies
+
+    if atk_to_fix == "Shake":
+        adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')[eps]
+        atk_entropies = adv_results_dict['entropy_of_mean']
+        mask = clean_entropies >= atk_entropies
+
+    adv_results_dict[metrics][mask] = clean_results_dict[metrics][mask]
+
+    return adv_results_dict[metrics]
+
 ######################################################################################################################
 
 
@@ -243,13 +286,15 @@ def plot_all_scatters(paths, ds="dsname", metric='entropy_of_mean', figsize=(5, 
             eps_to_adv_results_dict = get_results(*path.split('/'))
             model_name = path.split('/')[-3]
 
+            attack_type = path.split('/')[-1]
+
             eps = 4 if 'imagenet' in path else 8
             i, j = plot_i // ncols, plot_i % ncols
 
             ax = axs[i, j]
 
             metric_clean = eps_to_adv_results_dict[0][metric]
-            metric_adv = eps_to_adv_results_dict[eps][metric]
+            metric_adv = fix_values(path, metric, attack_type)
 
             nsamples = min(metric_clean.shape[0], metric_adv.shape[0])
             metric_clean = metric_clean[:nsamples]
@@ -328,8 +373,8 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
         axs[1].axvline(x=avg_acc, label="Accuracy", color=COLORS[0], lw=5)
 
         # OVER CURVE
-        y_true = eps_to_adv_results_dict[eps]['ground_truth']
-        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        y_true = fix_values(path,'ground_truth', 'Stab')
+        out_probs = fix_values(path,'mean_probs', 'Stab')
         rob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
         adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
         axs[0].plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-O (ECE={adv_ece:.3f})", marker='o', color=COLORS[1])
@@ -343,9 +388,8 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
 
 
         # UNDER CURVE
-        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
-        y_true = eps_to_adv_results_dict[eps]['ground_truth']
-        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        y_true = fix_values(path,'ground_truth', 'Shake')
+        out_probs = fix_values(path,'mean_probs', 'Shake')
         urob_acc = (y_true.numpy() == out_probs.numpy().argmax(axis=1)).mean()
         adv_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(y_true, out_probs)
         axs[0].plot(adv_avg_conf_list, adv_bucket_accs, label=f"adv-U (ECE={adv_ece:.3f})", marker='o', color=COLORS[2])
@@ -473,8 +517,8 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=4, curvedim=4, figname='calib
         ax_down.axvline(x=clean_acc, label="Accuracy", lw=10, color=COLORS[0])
 
         # OVER CURVE
-        y_true = eps_to_adv_results_dict[eps]['ground_truth']
-        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        y_true = fix_values(path,'ground_truth', 'Stab')
+        out_probs = fix_values(path,'mean_probs', 'Stab')
         over_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
             y_true, out_probs)
 
@@ -490,9 +534,8 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=4, curvedim=4, figname='calib
         ax_down.axvline(x=rob_acc, label="Accuracy", lw=10, color=COLORS[1])
 
         # UNDER
-        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
-        y_true = eps_to_adv_results_dict[eps]['ground_truth']
-        out_probs = eps_to_adv_results_dict[eps]['mean_probs']
+        y_true = fix_values(path,'ground_truth', 'Shake')
+        out_probs = fix_values(path,'mean_probs', 'Shake')
         under_ece, adv_bucket_accs, adv_bucket_sizes, adv_avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
             y_true, out_probs)
 
@@ -595,7 +638,7 @@ def plot_entropy_gap_points(paths, ds="cifar"):
             res = get_results(*path_splitted)
 
             model_dict[model_name]["Clean"] = res[0]['entropy_of_mean'].mean().item()
-            model_dict[model_name][attack_type] = res[eps]['entropy_of_mean'].mean().item()
+            model_dict[model_name][attack_type] = fix_values(path, "entropy_of_mean", attack_type).mean().item()
 
     fig, ax = viz.create_figure(figsize=(15, 15))
 
@@ -659,8 +702,9 @@ def plot_entropy_gap_bars(paths, ds="cifar"):
 
             res = get_results(*path_splitted)
 
+
             model_dict[model_name]["Clean"] = res[0]['entropy_of_mean'].mean().item()
-            model_dict[model_name][attack_type] = res[eps]['entropy_of_mean'].mean().item()
+            model_dict[model_name][attack_type] = fix_values(path, "entropy_of_mean", attack_type).mean().item()
 
     fig, ax = viz.create_figure(figsize=(15, 15))
 
@@ -716,10 +760,9 @@ def plot_violin_single(paths, ds, figsize=(7, 7), figtitle='violin_plot'):
 
         clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
 
-        oatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+        oatk_entropies = fix_values(path,'entropy_of_mean', 'Stab')
 
-        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
-        uatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+        uatk_entropies = fix_values(path,'entropy_of_mean', 'Shake')
 
         # print(f"{clean_entropies.shape=}, {oatk_entropies.shape=}, {uatk_entropies.shape=}")
 
@@ -790,7 +833,7 @@ def plot_violin_single(paths, ds, figsize=(7, 7), figtitle='violin_plot'):
         fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
 
-def plot_violin_all(paths, figsize=(10, 30), figname='violin_plot'):
+def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
     """
     Plot calibration and histogram all in one single plot.
     """
@@ -800,6 +843,13 @@ def plot_violin_all(paths, figsize=(10, 30), figname='violin_plot'):
         os.makedirs(save_path)
 
     fig, axs = viz.create_figure(1, 1, figsize=figsize, squeeze=True)
+
+    model_name_list = []
+
+    for model in paths:
+        path_splitted = model.split('/')
+        model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
+        model_name_list.append(model_name)
 
     for plot_i, path in enumerate(paths):
 
@@ -812,10 +862,9 @@ def plot_violin_all(paths, figsize=(10, 30), figname='violin_plot'):
 
         clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
 
-        oatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+        oatk_entropies = fix_values(path,'entropy_of_mean', 'Stab')
 
-        eps_to_adv_results_dict = get_results(*path_splitted[:-2], 'U-atk', 'Shake')
-        uatk_entropies = eps_to_adv_results_dict[eps]['entropy_of_mean']
+        uatk_entropies = fix_values(path,'entropy_of_mean', 'Shake')
 
         # --------------------------------- CLEAN VIOLIN
         v1 = axs.violinplot(clean_entropies, points=100, positions=plot_i,
@@ -868,16 +917,16 @@ def plot_violin_all(paths, figsize=(10, 30), figname='violin_plot'):
             b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
             b.set_color(COLORS[2])
 
-    # axs.set_ylim([-1, 3])
-
     axs.set_ylabel("H(x)")
     axs.set_xlabel("Models")
+
+    axs.set_xticks(np.arange(len(model_name_list)))
+    axs.set_xticklabels(model_name_list, rotation=45, ha="right")
 
     fig.suptitle(figname)
     fig.tight_layout()
     fig.show()
     fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
-
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -894,13 +943,21 @@ if __name__ == '__main__':
     paths = get_paths(datasets, atk_type_and_name_list, robusts, verbose=False)
 
     # ------------------------ CALIBRATOIN CURVE
-    # PRENDO SOLO STAB
     for path_list in paths[:2]:
         robustness_level = dict_terms[path_list[0].split('/')[2]]
         ds_name = path_list[0].split('/')[3]
         title = f"calibration_curve_{robustness_level}_{ds_name}"
-        # plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
-        # plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=4, figname=title)
+        #plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
+        #plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=4, figname=title)
+
+    # ----------------------- VIOLIN PLOTS
+    for path_list in paths[:2]:
+        robustness_level = dict_terms[path_list[0].split('/')[2]]
+        ds_name = path_list[0].split('/')[3]
+        title = f"violinplots_{robustness_level}_{ds_name}"
+        #plot_violin_single(path_list, ds=ds_name, figtitle=title)
+        #plot_violin_all(path_list, figname=title)
+
 
     # ------------------------ MI SAMPLES PLOTS
     for path_list in paths:
@@ -908,15 +965,7 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         attack_type = path_list[0].split('/')[-1]
         title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
-        # plot_all_scatters(path_list, ds=ds_name, figtitle=title)
-
-
-    for path_list in paths[:2]:
-        robustness_level = dict_terms[path_list[0].split('/')[2]]
-        ds_name = path_list[0].split('/')[3]
-        title = f"violinplots_{robustness_level}_{ds_name}"
-        # plot_violin_single(path_list, ds=ds_name, figtitle=title)
-        # plot_violin_all(path_list, figname=title)
+        #plot_all_scatters(path_list, ds=ds_name, figtitle=title)
 
     # ----------------------- ENTROPY GAP PLOTS
     # plot_entropy_gap_points(paths, ds="cifar")
