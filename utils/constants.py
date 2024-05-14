@@ -1,7 +1,7 @@
 # Lists of all the supported Backbones
 SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet',
                      'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L',
-                     # 'RaWideResNet-70-16',
+                     'RaWideResNet-70-16',
                      'WideResNet-70-16',
                      'WideResNet-28-10', 'WideResNet-34-10']
 
@@ -72,35 +72,50 @@ NORMALIZATION_DICT = {
 DEFAULT_DROPOUT_RATE = 0.3
 
 
-NEW_ENTRIES_CIFAR10 = [
-                       #'Peng2023Robust', 'Sehwag2021Proxy',
-                       'Rebuffi2021Fixing_70_16_cutmix_extra',
-                       'Wang2023Better_WRN_28_10',
-                       'Cui2023Decoupled_WRN_28_10',
-                       'Wang2023Better_WRN_70_16',
-                       'Gowal2021Improving_70_16_ddpm_100m',
-                       'Xu2023Exploring_WRN_28_10']
 
-CIFAR10_ROBUST_MODELS = ['addepalli2022', 'sehwag2021',
-                         'engstrom2019', 'addepalli2022_towards',
-                         'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
-                         'kang2021Stable'] + NEW_ENTRIES_CIFAR10
+# The order change the display of plots in plot_results.py
+CIFAR10_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021', # RESNET-18
+                         'engstrom2019', # RESNET-50
+                         'sehwag2021Proxy_ResNest152', # RESNET-152
+                         'Cui2023Decoupled_WRN_28_10', 'gowal2021Improving_28_10',
+                         'Wang2023Better_WRN_28_10', 'Xu2023Exploring_WRN_28_10', # WRN-28-10
+                         'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
+                         'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
+                         'Wang2023Better_WRN_70_16', # WRN-70-10
+                         # 'Peng2023Robust' #RaWRN-70-16
+                         ]
+
+CIFAR10_ROBUST_MODELS_ID = dict((name, f"C{idx+1}") for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
+# CREA UGUALE PER IMAGENET
+
+
 CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
 
 
-IMAGENET_ROBUST_MODELS = ['salman2020R18', 'engstrom2019imgnet',
-                          'salman2020R50', 'wong2020',
-                          'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL'
+IMAGENET_ROBUST_MODELS = ['salman2020R18', # RESNET-18
+                          'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
+                          'Liu2023swinB', 'Liu2023swinL', # SWIN
+                          'Liu2023convNextB', 'Liu2023convNextL', # CONVNEXT
                           ]
 IMAGENET_NAIVE_MODELS = ['resnet18', 'resnet50', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B']
 
 
 L2_ROBUST_MODELS = ['sehwag2021', 'engstrom2019', 'augustin2020']
-LINF_ROBUST_MODELS = ['addepalli2022_towards', 'addepalli2022', 'sehwag2021', 'engstrom2019', 'salman2020R18',
-                      'wong2020', 'engstrom2019imgnet', 'salman2020R50',
-                      'Liu2023convNextL', 'Liu2023swinB', 'Liu2023convNextB', 'Liu2023swinL',
-                      'sehwag2021Proxy_ResNest152', 'pang2022Robustness_WRN70_16', 'gowal2021Improving_28_10',
-                      'kang2021Stable'] + NEW_ENTRIES_CIFAR10
+LINF_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021', # RESNET-18
+                         'engstrom2019', # RESNET-50
+                         'sehwag2021Proxy_ResNest152', # RESNET-152
+                         'Cui2023Decoupled_WRN_28_10', 'gowal2021Improving_28_10',
+                         'Wang2023Better_WRN_28_10', 'Xu2023Exploring_WRN_28_10', # WRN-28-10
+                         'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
+                         'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
+                         'Wang2023Better_WRN_70_16', # WRN-70-10
+                         'Peng2023Robust',  # RaWRN-70-16
+
+                      'salman2020R18', # RESNET-18
+                          'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
+                          'Liu2023convNextL', 'Liu2023swinB', # SWIN
+                          'Liu2023convNextB', 'Liu2023swinL' # CONVNEXT
+                      ]
 
 SUPPORTED_ROBUST_MODEL = CIFAR10_ROBUST_MODELS + IMAGENET_ROBUST_MODELS
 
@@ -163,13 +178,13 @@ cifar10_model_dict = dict(
         'resnet_type': 'WideResNet-70-16'
     },
     ######## New Entries #############
-    # Peng2023Robust={
-    #     'name': 'Peng2023Robust',
-    #     'source': 'robustbench',
-    #     'dataset': 'cifar10',
-    #     'threat_model': 'Linf',
-    #     'resnet_type': 'RaWideResNet-70-16'
-    # },
+    Peng2023Robust={
+        'name': 'Peng2023Robust',
+        'source': 'robustbench',
+        'dataset': 'cifar10',
+        'threat_model': 'Linf',
+        'resnet_type': 'RaWideResNet-70-16'
+    },
     Wang2023Better_WRN_70_16={
         'name': 'Wang2023Better_WRN-70-16',
         'source': 'robustbench',

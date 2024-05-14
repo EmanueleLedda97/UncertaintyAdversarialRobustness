@@ -11,6 +11,6 @@ def format_mpl(font_size: int = 30):
 
 def create_figure(nrows=1, ncols=1, figsize=(5, 5), squeeze=True, fontsize=30, gridspec_kw=None):
     format_mpl(fontsize)
-    fig, axs = plt.subplots(nrows, ncols, figsize=(nrows*figsize[1], ncols*figsize[0]), squeeze=squeeze, gridspec_kw=gridspec_kw)
+    fig, axs = plt.subplots(nrows, ncols, figsize=(figsize[1], figsize[0]), squeeze=squeeze, gridspec_kw=gridspec_kw)
 
     return fig, axs
