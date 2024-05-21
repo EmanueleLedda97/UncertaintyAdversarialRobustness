@@ -256,7 +256,7 @@ def fix_values(path, metrics, atk_to_fix):
 
 ######################################################################################################################
 
-def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params):
+def plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, label, color, dict_plot_params):
     ece, bucket_accs, bucket_sizes, avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
         y_true, out_probs)
 
@@ -265,13 +265,13 @@ def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params):
     # Histogram
     ax_up.fill_between(avg_conf_list, 0, bucket_sizes/bucket_sizes.sum(), alpha=0.3, color=color)
     ax_up.plot(avg_conf_list, bucket_sizes/bucket_sizes.sum(), alpha=0.5, linestyle='dashed', marker='o',
-                 color=color, **dict_plot_params)
+                 color=color, **dict_plotlegen_params)
 
     acc, avg_conf = avg_acc_conf
 
     # Vertical line
-    # ax_up.axvline(x=avg_conf, label="avg confidence", linestyle='dashed', color=color, **dict_plot_params)
-    # ax_up.axvline(x=acc, label="Accuracy", color=color, **dict_plot_params)
+    ax_up.axvline(x=avg_conf, label="avg confidence", lw=10, linestyle='dashed', color=color)
+    ax_up.axvline(x=acc, label="Accuracy", lw=10, color=color)
 
     return ece, acc
 
@@ -390,16 +390,21 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
-    dict_plot_params = {"lw": 15, "ms": 50}
+    dict_plot_params = {"lw": 7, "ms": 15}
 
     for plot_i, path in enumerate(paths):
         eps = 4 if 'imagenet' in path else 8
 
-        figsize = (30,30)
+        rateo = [4,1]
 
-        fig, axs = viz.create_figure(1, 1, figsize=figsize, squeeze=True, fontsize=100)
+        scale = 6
 
-        ax_up = axs
+        figsize = (sum(rateo)*scale, rateo[0]*scale+ 10)
+
+        fig, axs = viz.create_figure(2, 1, figsize=figsize, squeeze=True, fontsize=100, gridspec_kw={'height_ratios': rateo, 'hspace': 0.05})
+
+        ax_up, ax_down = axs
+
 
         path_splitted = path.split('/')
         eps_to_adv_results_dict = get_results(*path_splitted)
@@ -407,20 +412,21 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
         # CLEAN
         y_true = eps_to_adv_results_dict[0]['ground_truth']
         out_probs = eps_to_adv_results_dict[0]['mean_probs']
-        clean_ece, clean_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "clean ECE", COLORS[0], dict_plot_params)
+        clean_ece, clean_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "clean ECE", COLORS[0], dict_plot_params)
 
         # OVER CURVE
         y_true = fix_values(path, 'ground_truth', 'Stab')
         out_probs = fix_values(path, 'mean_probs', 'Stab')
-        over_ece, over_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-O", COLORS[1], dict_plot_params)
+        over_ece, over_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "Adv-O", COLORS[1], dict_plot_params)
 
         # UNDER
         y_true = fix_values(path, 'ground_truth', 'Shake')
         out_probs = fix_values(path, 'mean_probs', 'Shake')
-        under_ece, under_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-U", COLORS[2], dict_plot_params)
+        under_ece, under_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "Adv-U", COLORS[2], dict_plot_params)
 
         # CUSTOMIZATION
         ax_up.set_ylabel('fraction of correct predictions')
+        ax_down.set_ylabel('Number of samples')
         #ax_up.plot([0, 1], [0, 1], linestyle='dashed', color='grey')
 
         model_name = path_splitted[-3 if 'semi_robust' in path else -4]
@@ -430,31 +436,39 @@ def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtit
         print(f"{model_name=} {clean_ece=} {over_ece=} {under_ece=}")
 
         title = f"{model_name}"#\nacc (advO / advU)\n({over_acc:.3f} / {under_acc:.3f})"
-        title = f"I{plot_i+1}" if 'imagenet' in path else f"M{plot_i+1}"
 
         ax_up.set_title(title)
 
-        ttl = ax_up.title
-        ttl.set_position([.5, 1.05])
-
-        ax_up.set_ylabel('% of correct predictions', labelpad=15)
-        ax_up.set_xlabel('predicted probability')
-
+        ax_up.set_ylabel('fraction of correct predictions')
+        ax_down.set_ylabel('N of samples')
         ax_up.plot([0, 1], [0, 1], linestyle='dashed', color='grey')
 
-        ax_up.set_ylim(0.001, 1)
-        ax_up.set_yticks([0.25, 0.5, 0.75,1], minor=False)
-        ax_up.set_yticklabels(["0.25", "0.5", "0.75","1"], fontdict=None, minor=False)
+        ax_up.set_xticklabels([])
 
+        ax_up.set_ylim(0, 1)
         ax_up.set_xlim(0, 1)
-        ax_up.set_xticks([0, 0.25, 0.5, 0.75, 1], minor=False)
-        ax_up.set_xticklabels(['0', "0.25", "0.5", "0.75", "1"], fontdict=None, minor=False)
+        ax_down.set_xlim(0, 1)
 
         ax_up.grid('on')
+        ax_down.grid('on')
+
+        #ax_up.legend(loc='upper left')
+
+        acc_line = Line2D([0], [0], color="black")
+        conf_line = Line2D([0], [0], color="black", linestyle="--")
+
+        labels = ["Accuracy", "Avg. confidence"]
+        # ax_down.legend([acc_line, conf_line], labels, loc='upper left')
+
+        ax_down.set_xlabel('predicted probability')
 
         fig.tight_layout()
         fig.show()
-        fig.savefig(f"{save_path}{figname}.pdf", dpi=400)
+        fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
+
+        break
+
+    print("")
 
 
 def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calibration_curves'):
@@ -472,16 +486,28 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
     ncols = min(ncols, nplots)
     nrows = nplots // ncols + int(nplots % ncols != 0)
 
-    scale = 20
+    rateo = []
+    for i in range(nrows):
+        rateo.extend([curvedim, 1, 1])
 
-    figsize = (nrows * scale, ncols * scale)
+    # trick per spaziare, sto aggiungendo un asse che poi rendo invisibile :)
+    # Altrimenti sarei dovuto andare di gridspec, troppo lavoro cambiare tutta la logica dei plot
+    nrows = nrows * 3 - 1
+    rateo.pop()
 
-    fig, axs = viz.create_figure(nrows, ncols, figsize=figsize, fontsize=120, squeeze=True,
-                                 gridspec_kw = {'wspace':0.1, 'hspace':0.2})  # hspace gestisce spazio tra plot
+    scale = 5
+
+    figsize = ((sum(rateo) - nrows) * scale, ncols * rateo[0] * scale)
+
+    fig, axs = viz.create_figure(nrows, ncols, figsize=figsize, fontsize=70, squeeze=True,
+                                 gridspec_kw={'height_ratios': rateo,
+                                              'hspace': 0.1})  # hspace gestisce spazio tra plot
 
     models_ece = {}
 
-    dict_plot_params = {"lw":15, "ms":50}
+
+    dict_plot_params = {"lw":7, "ms":15}
+
 
     for plot_i, path in enumerate(paths):
         path_splitted = path.split('/')
@@ -490,10 +516,15 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
         models_ece[model_name] = {}
 
         eps = 4 if 'imagenet' in path else 8
-
-        i, j = (plot_i // ncols), plot_i % ncols
+        i, j = (plot_i // ncols) * 3, plot_i % ncols
 
         ax_up = axs[i, j]  # asse delle curve
+        ax_down = axs[i + 1, j]  # asse degli istogrammi
+
+        # Qui sto rendendo invisibile il famoso asse
+        if i + 2 != nrows:
+            ax_space = axs[i + 2, j]
+            ax_space.set_visible(False)
 
         eps_to_adv_results_dict = get_results(*path_splitted)
 
@@ -501,77 +532,63 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
         y_true = eps_to_adv_results_dict[0]['ground_truth']
         out_probs = eps_to_adv_results_dict[0]['mean_probs']
 
-        clean_ece, clean_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "clean ECE", COLORS[0], dict_plot_params)
+        clean_ece, clean_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "clean ECE", COLORS[0], dict_plot_params)
 
         # OVER CURVE
         y_true = fix_values(path,'ground_truth', 'Stab')
         out_probs = fix_values(path,'mean_probs', 'Stab')
 
-        over_ece, over_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-O", COLORS[1], dict_plot_params)
+        over_ece, over_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "Adv-O", COLORS[1], dict_plot_params)
 
         # UNDER
         y_true = fix_values(path,'ground_truth', 'Shake')
         out_probs = fix_values(path,'mean_probs', 'Shake')
 
-        under_ece, under_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-U", COLORS[2], dict_plot_params)
+        under_ece, under_acc = plot_ece_and_hist(y_true, out_probs, ax_down, ax_up, "Adv-U", COLORS[2], dict_plot_params)
 
 
         models_ece[model_name] = {"clean_ece":clean_ece, "over_ece":over_ece, "under_ece":under_ece,
                                   "clean_acc": clean_acc, "over_acc":over_acc, "under_acc":under_acc}
 
         # CUSTOMIZATION
-        # print(f"{models_ece[model_name]}")
+        print(f"{models_ece[model_name]}")
 
-        # CURVE TITLE
+        # CURVE
         model_title = f"{model_name}" #\nacc (clean / advO / advU)\n({clean_acc:.3f} / {over_acc:.3f} / {under_acc:.3f})"
-        model_title = f"I{plot_i+1}" if 'imagenet' in path else f"M{plot_i+1}"
         ax_up.set_title(model_title)
 
         ax_up.plot([0, 1], [0, 1], linestyle='dashed', color='grey')
-
-        ax_up.grid('on')
-
-        # SET LABELS
         ax_up.set_ylim(0, 1)
-        ax_up.set_yticks([0, 0.25, 0.5, 0.75, 1], minor=False)
-        ax_up.set_yticklabels(['0', "0.25", "0.5", "0.75", "1"], fontdict=None, minor=False)
         ax_up.set_xlim(0, 1)
-        ax_up.set_xticks([0, 0.25, 0.5, 0.75, 1], minor=False)
-        ax_up.set_xticklabels(['0', "0.25", "0.5", "0.75", "1"], fontdict=None, minor=False)
+        ax_up.grid('on')
+        ax_up.set_xticklabels([])
+
+        # ax_up.legend(loc='upper left')
 
         # HISTOGRAM
+        ax_down.set_xlim(0, 1)
+        ax_down.grid('on')
+
         if j != 0:  # Remove tick for internal plots
             ax_up.set_yticklabels([])
-        if i!= nrows-1:
-            ax_up.set_xticklabels([])
 
-    legend_lines = [ Line2D([0], [0], color=COLORS[i], **dict_plot_params) for i in range(3)]
-    labels = ["Clean", "Oatk", "Uatk"]
-    fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=(0.5, 0.95))
+        ax_down.set_yticklabels([])
 
-    axs[-1,0].set_ylim(0.00001, 1)
+    # SET LABELS
     for col in range(ncols):
         axs[-1, col].set_xlabel('predicted probability')
-        axs[-1, col].set_xlim(0, 1)
 
-    for row in range(0, nrows):
-        axs[row, 0].set_ylabel('% of correct\npredictions', labelpad=15)
-
-    # Adjust x label for remove plots
-    if nplots < ncols*nrows:
-        plot_i = nplots
-        while plot_i < ncols*nrows:
-            i, j = (plot_i // ncols), plot_i % ncols
-            fig.delaxes(axs[i,j])
-            plot_i+=1
-            axs[i-1, j].set_xlabel('predicted probability')
-            axs[i-1, j].set_xlim(0, 1)
-            axs[i-1, j].set_xticks([0, 0.25, 0.5, 0.75, 1], minor=False)
-            axs[i-1, j].set_xticklabels(['0', "0.25", "0.5", "0.75", "1"], fontdict=None, minor=False)
+    for row in range(0, nrows, 3):
+        axs[row, 0].set_ylabel('% of correct predictions', labelpad=10)
+        axs[row + 1, 0].set_ylabel('Samples  ', labelpad=100)
 
 
     fig.tight_layout()
+    fig.show()
     fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
+
+    print("")
+
     utils.my_save(models_ece, f"{save_path}{figname}.pkl")
 
 
@@ -934,8 +951,8 @@ if __name__ == '__main__':
         robustness_level = dict_terms[path_list[0].split('/')[2]]
         ds_name = path_list[0].split('/')[3]
         title = f"calibration_curve_{robustness_level}_{ds_name}"
-        #plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
-        plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
+        plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
+        # plot_cal_curves_and_hist_allinone(path_list, ncols=3, curvedim=5, figname=title)
 
     # ----------------------- VIOLIN PLOTS
     for path_list in paths[:2]:
@@ -943,7 +960,7 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         title = f"violinplots_{robustness_level}_{ds_name}"
         #plot_violin_single(path_list, ds=ds_name, figtitle=title)
-        #plot_violin_all(path_list, figname=title)
+        # plot_violin_all(path_list, figname=title)
 
 
     # ------------------------ MI SAMPLES PLOTS
@@ -951,7 +968,7 @@ if __name__ == '__main__':
         robustness_level = dict_terms[path_list[0].split('/')[2]]
         ds_name = path_list[0].split('/')[3]
         attack_type = path_list[0].split('/')[-1]
-        title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
+        # title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
         #plot_all_scatters(path_list, ds=ds_name, figtitle=title)
 
     # ----------------------- ENTROPY GAP PLOTS

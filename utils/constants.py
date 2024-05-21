@@ -82,21 +82,34 @@ CIFAR10_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021',
                          'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
                          'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
                          'Wang2023Better_WRN_70_16', # WRN-70-10
-                         # 'Peng2023Robust' #RaWRN-70-16
+                         'Peng2023Robust' #RaWRN-70-16
                          ]
 
-CIFAR10_ROBUST_MODELS_ID = dict((name, f"C{idx+1}") for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
+
+cifar_latex_command_id = ["\\addepallieffID","\\addepallitowID","\sehwagrobustID","\engstromID","\sehwagrobustIDdue","\cuidecoupledID","\gowalimprovingID",
+"\wangbetterID","\\xuexploringID","\gowalimprovingIDdue","\kangstableID","\pangrobustnessID","\\rebuffifixingID", "\wangbetterIDdue", "\pengrobustID"]
+
+CIFAR10_DICT_MODELS_TO_ID = dict((name, cifar_latex_command_id[idx]) for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
+
+
+
 # CREA UGUALE PER IMAGENET
-
-
-CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
-
+imagenet_latex_command_id = ["\salmanID","\engstromimagenetID","\salmanIDdue","\wongfastID",
+"\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
 
 IMAGENET_ROBUST_MODELS = ['salman2020R18', # RESNET-18
                           'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
                           'Liu2023swinB', 'Liu2023swinL', # SWIN
                           'Liu2023convNextB', 'Liu2023convNextL', # CONVNEXT
                           ]
+
+IMAGENET_DICT_MODELS_TO_ID = dict((name, imagenet_latex_command_id[idx]) for idx, name in enumerate(IMAGENET_ROBUST_MODELS))
+
+
+
+
+CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
+
 IMAGENET_NAIVE_MODELS = ['resnet18', 'resnet50', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B']
 
 
