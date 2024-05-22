@@ -810,7 +810,7 @@ def plot_violin_single(paths, ds, figsize=(7, 7), figtitle='violin_plot'):
         fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
 
-def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
+def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
     """
     Plot calibration and histogram all in one single plot.
     """
@@ -819,11 +819,13 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
-    fig, axs = viz.create_figure(1, 1, figsize=figsize, squeeze=True)
+    fig, axs = viz.create_figure(1, 1, figsize=figsize, squeeze=True, fontsize=30)
 
     model_name_list = []
 
     models_avg_entropy = {}
+
+    extend = 0.2
 
     for plot_i, path in enumerate(paths):
 
@@ -835,7 +837,7 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
         eps_to_adv_results_dict = get_results(*path_splitted)
 
         model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in path else -1)]
-        model_name_list.append(model_name)
+        model_name_list.append(f"I{plot_i[0]+1}" if 'imagenet' in path else f"M{plot_i[0]+1}")
 
 
         clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
@@ -858,7 +860,9 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
         v1["cmeans"].set_linewidth(2)
         segment = v1["cmeans"].get_segments()
         segment[0][1][0] = plot_i[0]
+        segment[0][0][0] = segment[0][0][0] - extend
         v1["cmeans"].set_segments(segment)
+        v1["cmeans"].set_linewidth(4)
 
         for b in v1['bodies']:
             # get the center
@@ -875,7 +879,10 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
         v2["cmeans"].set_linewidth(2)
         segment = v2["cmeans"].get_segments()
         segment[0][0][0] = plot_i[0]
+        segment[0][1][0] = segment[0][1][0] + extend
+
         v2["cmeans"].set_segments(segment)
+        v2["cmeans"].set_linewidth(4)
 
         for b in v2['bodies']:
             # get the center
@@ -892,7 +899,10 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
         v3["cmeans"].set_linewidth(2)
         segment = v3["cmeans"].get_segments()
         segment[0][0][0] = plot_i[0]
+        segment[0][1][0] = segment[0][1][0] + extend
         v3["cmeans"].set_segments(segment)
+        v3["cmeans"].set_linewidth(4)
+
 
         for b in v3['bodies']:
             # get the center
@@ -902,14 +912,17 @@ def plot_violin_all(paths, figsize=(20, 30), figname='violin_plot'):
             b.set_color(COLORS[2])
 
     axs.set_ylabel("H(x)")
-    axs.set_xlabel("Models")
+    ytick = np.around(np.linspace(0, axs.get_ylim()[1], 5), 1)
+    axs.set_yticks(ytick, minor=False)
+    axs.set_yticklabels([str(y) for y in ytick], fontdict=None, minor=False)
 
+    axs.set_xlabel("Models")
     axs.set_xticks(np.arange(len(model_name_list)))
     axs.set_xticklabels(model_name_list, rotation=45, ha="right")
 
-    fig.suptitle(figname)
+    axs.grid('on')
+    # fig.suptitle(figname)
     fig.tight_layout()
-    fig.show()
     fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
     utils.my_save(models_avg_entropy, f"{save_path}{figname}.pkl")
@@ -935,7 +948,7 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         title = f"calibration_curve_{robustness_level}_{ds_name}"
         #plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
-        plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
+        # plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
 
     # ----------------------- VIOLIN PLOTS
     for path_list in paths[:2]:
@@ -943,7 +956,7 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         title = f"violinplots_{robustness_level}_{ds_name}"
         #plot_violin_single(path_list, ds=ds_name, figtitle=title)
-        #plot_violin_all(path_list, figname=title)
+        plot_violin_all(path_list, figname=title)
 
 
     # ------------------------ MI SAMPLES PLOTS
