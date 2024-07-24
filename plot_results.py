@@ -23,6 +23,9 @@ from utils.constants import CIFAR10_ROBUST_MODELS, IMAGENET_ROBUST_MODELS, \
 from matplotlib.lines import Line2D
 import matplotlib.patches as mpatches
 
+from numpy import trapz
+
+
 COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']
 ALL_COLORS = list(TABLEAU_COLORS.keys())
 ALL_MARKERS = list("o*sP^<>1234vXD")
@@ -171,14 +174,14 @@ def print_pairwise_distance(eps_to_adv_results_dict):
     print("")
 
 
-def compute_ece(y_true, out_probs, compute_abs=True):
+def compute_ece(y_true, out_probs, k, compute_abs=True):
     y_true = y_true.numpy()
     out_probs = out_probs.numpy()
 
     # num_buckets = 10
     # buckets = np.linspace(0, 1, num=10)
 
-    conf_step = 0.1
+    conf_step = 1/k
     bin_lowers = np.arange(0, 1, step=conf_step)
     bin_uppers = bin_lowers + conf_step
     y_preds = out_probs.argmax(axis=1)
@@ -201,12 +204,19 @@ def compute_ece(y_true, out_probs, compute_abs=True):
         diff_conf = np.abs(diff_conf) if compute_abs else diff_conf
         ece += diff_conf * (bucket_size/n_samples) if bucket_size > 0 else 0
 
-        bucket_sizes.append(bucket_size)
-        bucket_accs.append(bucket_acc)
-        avg_conf_list.append(avg_conf)
+        if bucket_size != 0:
+            bucket_sizes.append(bucket_size)
+            bucket_accs.append(bucket_acc)
+            avg_conf_list.append(avg_conf)
 
-        avg_acc = (y_preds == y_true).mean()
-        avg_conf = confidences.mean()
+        # else:
+        #     bucket_sizes.append(0)
+        #     bucket_accs.append(bucket_acc)
+        #     avg_conf_list.append(avg_conf)
+
+
+    avg_acc = (y_preds == y_true).mean()
+    avg_conf = confidences.mean()
 
     return ece, np.array(bucket_accs), np.array(bucket_sizes), np.array(avg_conf_list), bin_lowers, bin_uppers, (avg_acc, avg_conf)
 
@@ -256,16 +266,29 @@ def fix_values(path, metrics, atk_to_fix):
 
 ######################################################################################################################
 
-def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params):
+def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params, k=15):
     ece, bucket_accs, bucket_sizes, avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
-        y_true, out_probs)
+        y_true, out_probs, k)
+
+    # normalization = (bucket_sizes <= k) * np.arange(1, len(bucket_sizes) + 1, 1) / len(bucket_sizes)
+    # avg_conf_list[bucket_sizes <= k] = normalization[bucket_sizes <= k]
+    # bucket_accs[bucket_sizes <= k] = normalization[bucket_sizes <= k]
+    #
+    # area_x = np.concatenate(([0.0], avg_conf_list, [1.0]))
+    # area_y = np.concatenate(([0.0], bucket_accs, [1.0]))
+    #
+    # area = trapz(area_y, area_x)
+    area, bucket_accs, bucket_sizes, avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
+        y_true, out_probs, k, compute_abs=False)
+
+    # print(f"{color=} -- {area=}")
 
     ax_up.plot(avg_conf_list, bucket_accs, label=f"label {ece:.3f}", marker='o',
                color=color, **dict_plot_params)
     # Histogram
-    ax_up.fill_between(avg_conf_list, 0, bucket_sizes/bucket_sizes.sum(), alpha=0.3, color=color)
-    ax_up.plot(avg_conf_list, bucket_sizes/bucket_sizes.sum(), alpha=0.5, linestyle='dashed', marker='o',
-                 color=color, **dict_plot_params)
+    ax_up.fill_between(avg_conf_list, 0, bucket_sizes / bucket_sizes.sum(), alpha=0.3, color=color)
+    ax_up.plot(avg_conf_list, bucket_sizes / bucket_sizes.sum(), alpha=0.5, linestyle='dashed', marker='d',
+               color=color, **dict_plot_params)
 
     acc, avg_conf = avg_acc_conf
 
@@ -273,7 +296,8 @@ def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params):
     # ax_up.axvline(x=avg_conf, label="avg confidence", linestyle='dashed', color=color, **dict_plot_params)
     # ax_up.axvline(x=acc, label="Accuracy", color=color, **dict_plot_params)
 
-    return ece, acc
+    return ece, acc, area
+
 
 def plot_ece_hist_original(y_true, out_probs, ax_down, ax_up, label, color, dict_plot_params):
     ece, bucket_accs, bucket_sizes, avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
@@ -501,35 +525,37 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
         y_true = eps_to_adv_results_dict[0]['ground_truth']
         out_probs = eps_to_adv_results_dict[0]['mean_probs']
 
-        clean_ece, clean_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "clean ECE", COLORS[0], dict_plot_params)
+        clean_ece, clean_acc, clean_area = plot_ece_and_hist(y_true, out_probs, ax_up, "clean ECE", COLORS[0],
+                                                             dict_plot_params)
 
         # OVER CURVE
-        y_true = fix_values(path,'ground_truth', 'Stab')
-        out_probs = fix_values(path,'mean_probs', 'Stab')
+        y_true = fix_values(path, 'ground_truth', 'Stab')
+        out_probs = fix_values(path, 'mean_probs', 'Stab')
 
-        over_ece, over_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-O", COLORS[1], dict_plot_params)
+        over_ece, over_acc, over_area = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-O", COLORS[1],
+                                                          dict_plot_params)
 
         # UNDER
-        y_true = fix_values(path,'ground_truth', 'Shake')
-        out_probs = fix_values(path,'mean_probs', 'Shake')
+        y_true = fix_values(path, 'ground_truth', 'Shake')
+        out_probs = fix_values(path, 'mean_probs', 'Shake')
 
-        under_ece, under_acc = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-U", COLORS[2], dict_plot_params)
+        under_ece, under_acc, under_area = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-U", COLORS[2],
+                                                             dict_plot_params)
 
-
-        models_ece[model_name] = {"clean_ece":clean_ece, "over_ece":over_ece, "under_ece":under_ece,
-                                  "clean_acc": clean_acc, "over_acc":over_acc, "under_acc":under_acc}
-
+        models_ece[model_name] = {"clean_ece": clean_ece, "over_ece": over_ece, "under_ece": under_ece,
+                                  "clean_acc": clean_acc, "over_acc": over_acc, "under_acc": under_acc,
+                                  "clean_area": clean_area, "over_area": over_area, "under_area": under_area}
         # CUSTOMIZATION
         # print(f"{models_ece[model_name]}")
 
         # CURVE TITLE
         model_title = f"{model_name}" #\nacc (clean / advO / advU)\n({clean_acc:.3f} / {over_acc:.3f} / {under_acc:.3f})"
-        model_title = f"I{plot_i+1}" if 'imagenet' in path else f"M{plot_i+1}"
+        model_title = f"I{plot_i+1}" if 'imagenet' in path else f"C{plot_i+1}"
         ax_up.set_title(model_title)
 
-        ax_up.plot([0, 1], [0, 1], linestyle='dashed', color='grey')
+        ax_up.plot([0, 1], [0, 1], linestyle='dashed', color='grey', **dict_plot_params)
 
-        ax_up.grid('on')
+        ax_up.grid('on', alpha=0.5)
 
         # SET LABELS
         ax_up.set_ylim(0, 1)
@@ -547,7 +573,9 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
 
     legend_lines = [ Line2D([0], [0], color=COLORS[i], **dict_plot_params) for i in range(3)]
     labels = ["Clean", "Oatk", "Uatk"]
-    fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=(0.5, 0.95))
+
+    anchor = (0.5, 1.02) if 'imagenet' in path else (0.5, 0.95)
+    fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=anchor)
 
     axs[-1,0].set_ylim(0.00001, 1)
     for col in range(ncols):
@@ -825,7 +853,10 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
 
     models_avg_entropy = {}
 
-    extend = 0.2
+    extend = 0.2 # Di quanto allungare il segmento
+
+    linewidth = 4
+
 
     for plot_i, path in enumerate(paths):
 
@@ -837,7 +868,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         eps_to_adv_results_dict = get_results(*path_splitted)
 
         model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in path else -1)]
-        model_name_list.append(f"I{plot_i[0]+1}" if 'imagenet' in path else f"M{plot_i[0]+1}")
+        model_name_list.append(f"I{plot_i[0]+1}" if 'imagenet' in path else f"C{plot_i[0]+1}")
 
 
         clean_entropies = eps_to_adv_results_dict[0]['entropy_of_mean']
@@ -862,7 +893,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         segment[0][1][0] = plot_i[0]
         segment[0][0][0] = segment[0][0][0] - extend
         v1["cmeans"].set_segments(segment)
-        v1["cmeans"].set_linewidth(4)
+        v1["cmeans"].set_linewidth(linewidth)
 
         for b in v1['bodies']:
             # get the center
@@ -882,7 +913,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         segment[0][1][0] = segment[0][1][0] + extend
 
         v2["cmeans"].set_segments(segment)
-        v2["cmeans"].set_linewidth(4)
+        v2["cmeans"].set_linewidth(linewidth)
 
         for b in v2['bodies']:
             # get the center
@@ -901,7 +932,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         segment[0][0][0] = plot_i[0]
         segment[0][1][0] = segment[0][1][0] + extend
         v3["cmeans"].set_segments(segment)
-        v3["cmeans"].set_linewidth(4)
+        v3["cmeans"].set_linewidth(linewidth)
 
 
         for b in v3['bodies']:
@@ -911,14 +942,22 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
             b.get_paths()[0].vertices[:, 0] = np.clip(b.get_paths()[0].vertices[:, 0], m, np.inf)
             b.set_color(COLORS[2])
 
+    # Y-AXIS
     axs.set_ylabel("H(x)")
-    ytick = np.around(np.linspace(0, axs.get_ylim()[1], 5), 1)
+    ytick = np.around(np.linspace(0, axs.get_ylim()[1], 7), 1)
     axs.set_yticks(ytick, minor=False)
     axs.set_yticklabels([str(y) for y in ytick], fontdict=None, minor=False)
 
+    # X-AXIS
     axs.set_xlabel("Models")
     axs.set_xticks(np.arange(len(model_name_list)))
     axs.set_xticklabels(model_name_list, rotation=45, ha="right")
+
+    # LEGEND
+    legend_lines = [ Line2D([0], [0], color=COLORS[i], lw=linewidth) for i in range(3)]
+    labels = ["Clean", "Oatk", "Uatk"]
+
+    fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=(0.5, 1.05))
 
     axs.grid('on')
     # fig.suptitle(figname)
@@ -933,7 +972,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
 
 if __name__ == '__main__':
     atk_type_and_name_list = ['O-atk/Stab', "O-atk/AutoTarget",  'U-atk/Shake']
-    datasets = ['cifar10', "imagenet"]
+    datasets = ["cifar10","imagenet"]
     robusts = [True]
 
     dict_terms = {'semi_robust': 'robust',
@@ -948,7 +987,7 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         title = f"calibration_curve_{robustness_level}_{ds_name}"
         #plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
-        # plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
+        plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
 
     # ----------------------- VIOLIN PLOTS
     for path_list in paths[:2]:

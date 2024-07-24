@@ -74,34 +74,56 @@ DEFAULT_DROPOUT_RATE = 0.3
 
 
 # The order change the display of plots in plot_results.py
-CIFAR10_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021', # RESNET-18
-                         'engstrom2019', # RESNET-50
-                         'sehwag2021Proxy_ResNest152', # RESNET-152
-                         'Cui2023Decoupled_WRN_28_10', 'gowal2021Improving_28_10',
-                         'Wang2023Better_WRN_28_10', 'Xu2023Exploring_WRN_28_10', # WRN-28-10
-                         'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
-                         'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
-                         'Wang2023Better_WRN_70_16', # WRN-70-10
-                         'Peng2023Robust' #RaWRN-70-16
-                         ]
+# Architecture order aka how the file are saved in folder
+# CIFAR10_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021', # RESNET-18
+#                          'engstrom2019', # RESNET-50
+#                          'sehwag2021Proxy_ResNest152', # RESNET-152
+#                          'Cui2023Decoupled_WRN_28_10', 'gowal2021Improving_28_10',
+#                          'Wang2023Better_WRN_28_10', 'Xu2023Exploring_WRN_28_10', # WRN-28-10
+#                          'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
+#                          'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
+#                          'Wang2023Better_WRN_70_16', # WRN-70-10
+#                          'Peng2023Robust' #RaWRN-70-16
+#                          ]
+
+# cifar_latex_command_id = ["\\addepallieffID","\\addepallitowID","\sehwagrobustID","\engstromID","\sehwagrobustIDdue","\cuidecoupledID","\gowalimprovingID",
+# "\wangbetterID","\\xuexploringID","\gowalimprovingIDdue","\kangstableID","\pangrobustnessID","\\rebuffifixingID", "\wangbetterIDdue", "\pengrobustID"]
 
 
-cifar_latex_command_id = ["\\addepallieffID","\\addepallitowID","\sehwagrobustID","\engstromID","\sehwagrobustIDdue","\cuidecoupledID","\gowalimprovingID",
-"\wangbetterID","\\xuexploringID","\gowalimprovingIDdue","\kangstableID","\pangrobustnessID","\\rebuffifixingID", "\wangbetterIDdue", "\pengrobustID"]
+# PAPER CITATION ORDER
+CIFAR10_ROBUST_MODELS = ['engstrom2019', 'addepalli2022', 'gowal2021Improving_28_10', 'Gowal2021Improving_70_16_ddpm_100m',
+                         'Wang2023Better_WRN_28_10', 'Wang2023Better_WRN_70_16', 'sehwag2021', 'sehwag2021Proxy_ResNest152',
+                         'Rebuffi2021Fixing_70_16_cutmix_extra', 'kang2021Stable', 'Peng2023Robust', 'addepalli2022_towards',
+                         'Cui2023Decoupled_WRN_28_10', 'Xu2023Exploring_WRN_28_10', 'pang2022Robustness_WRN70_16']
+
+cifar_latex_command_id = ["\engstromID","\\addepallieffID","\gowalimprovingID","\gowalimprovingIDdue",
+"\wangbetterID","\wangbetterIDdue","\sehwagrobustID","\sehwagrobustIDdue",
+"\\rebuffifixingID","\kangstableID","\pengrobustID","\\addepallitowID",
+"\cuidecoupledID","\\xuexploringID","\pangrobustnessID"]
+
+
+
 
 CIFAR10_DICT_MODELS_TO_ID = dict((name, cifar_latex_command_id[idx]) for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
 
 
 
 # CREA UGUALE PER IMAGENET
-imagenet_latex_command_id = ["\salmanID","\engstromimagenetID","\salmanIDdue","\wongfastID",
-"\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
+# Architecture order aka how the file are saved in folder
+# IMAGENET_ROBUST_MODELS = ['salman2020R18', # RESNET-18
+#                           'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
+#                           'Liu2023swinB', 'Liu2023swinL', # SWIN
+#                           'Liu2023convNextB', 'Liu2023convNextL', # CONVNEXT
+#                           ]
+# imagenet_latex_command_id = ["\salmanID","\engstromimagenetID","\salmanIDdue","\wongfastID",
+# "\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
 
-IMAGENET_ROBUST_MODELS = ['salman2020R18', # RESNET-18
-                          'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
-                          'Liu2023swinB', 'Liu2023swinL', # SWIN
-                          'Liu2023convNextB', 'Liu2023convNextL', # CONVNEXT
-                          ]
+# PAPER CITATION ORDER
+IMAGENET_ROBUST_MODELS = ['engstrom2019imgnet', 'salman2020R18', 'salman2020R50', 'wong2020',
+                          'Liu2023swinB', 'Liu2023swinL', 'Liu2023convNextB', 'Liu2023convNextL']
+
+imagenet_latex_command_id = ["\engstromimagenetID", "\salmanID","\salmanIDdue","\wongfastID",
+"\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
 
 IMAGENET_DICT_MODELS_TO_ID = dict((name, imagenet_latex_command_id[idx]) for idx, name in enumerate(IMAGENET_ROBUST_MODELS))
 
