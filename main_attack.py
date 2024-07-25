@@ -63,7 +63,7 @@ def main(root=keys.ROOT,
          ):
     # Computing utility logic variables
     is_an_ood_experiment = (experiment_type == 'classification_ood')
-    set_normalization = robustness_level == "naive_robust" and dataset == "cifar10"
+
     pre_attack_transformation = utils.get_normalizer(dataset) if robustness_level == "naive_robust" else None
 
     # Setting up the experiment paths
@@ -80,10 +80,7 @@ def main(root=keys.ROOT,
                                                                                      ood_dataset=ood_dataset,
                                                                                      iid_size=iid_size,
                                                                                      ood_size=ood_size)
-    # adv_examples_path = os.path.join(experiment_path, 'generated_adversarial_examples')
-    # # Creating the experiment's folder
-    # if not os.path.isdir(adv_examples_path):
-    #     os.makedirs(adv_examples_path)
+
 
     adv_plots_path = os.path.join(experiment_path, 'generated_plots')
     if not os.path.isdir(adv_plots_path):
@@ -91,24 +88,18 @@ def main(root=keys.ROOT,
 
 
 
-        # Setting up the logger
+    # Setting up the logger
     logger = set_up_logger(experiment_path, cuda, kwargs)
 
     # Loading the model and sending to device
     logger.debug("Loading model...")
     device = utils.get_device(cuda) if torch.cuda.is_available() else 'cpu'
 
-    model = load_model(backbone, uq_technique,  # Loading the model
-                       dataset,
-                       robust_model=robust_model,
-                       robustness_level=robustness_level,
-                       transform=utils.get_normalizer(dataset),
-                       dropout_rate=dropout_rate,
-                       full_bayesian=full_bayesian,
+    model = load_model(backbone, uq_technique, dataset, robustness_level=robustness_level, dropout_rate=dropout_rate,
+                       full_bayesian=full_bayesian, transform=utils.get_normalizer(dataset), robust_model=robust_model,
                        device=device)
 
     # LOAD DICT MODEL
-
     model.to(device)  # ... and sending the model to device
 
     # Loading the dataset
@@ -121,8 +112,7 @@ def main(root=keys.ROOT,
                                                # ... for loading only the adversarial set...
                                                num_advx=num_adv_examples)  # ... with 'num_advx' examples...
 
-    # test_subset_loader = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size, shuffle=False,
-    #                                                   num_workers=2)
+
     test_subset_loader_during_attack = torch.utils.data.DataLoader(test_subset_set, batch_size=batch_size,
                                                                    shuffle=False, num_workers=16)
 
@@ -174,7 +164,6 @@ def main(root=keys.ROOT,
         logger.debug("----------------")
         logger.debug(attack_loss)
 
-        # file_count = len(os.listdir(adv_examples_path))
 
         attack_kwargs = {'model': model,
                          'device': device,
@@ -201,15 +190,6 @@ def main(root=keys.ROOT,
             attack = attacks.bayesian_attacks.DUQAttack(**attack_kwargs)
         else:
             raise Exception(attack_loss, "attack loss is not supported.")
-
-        # If some adversarial example is missing, compute the remaining ones
-        # if file_count < num_adv_examples:   # or re_evaluation_mode = True: per ricreare adv_sample
-        #     logger.debug("Generating adversarial examples...")
-        #
-        #     # Set-up phase
-        #     utils.set_all_seed(seed)  # Setting up the seed
-        #     fname_to_target = {}  # Dictionary associating file name with target
-        #     k = 0  # Sample's index
 
 
         # Evaluating the Bayesian model on the adversarial dataset
@@ -258,42 +238,12 @@ def main(root=keys.ROOT,
         mi = adv_results['mutual_information'].mean().item()
         logger.debug(f"Accuracy: {accuracy:.3f}, MI: {mi:.3f}")
 
-    mask = results["entropy_of_mean"].sort()[1]
-    # attacked_mask = torch.logical_and((adv_results['ground_truth'] != adv_results['preds']), results['ground_truth'] == results['preds'])
-    plt.plot(adv_results["entropy_of_mean"][mask])
-    plt.plot(results["entropy_of_mean"][mask])
-    plt.xlabel("Sample ID (argsort entropy)")
-    plt.ylabel("Entropy")
-    plt.title(
-        f"{dataset} {backbone} {robustness_level} {robust_model if robust_model != None else ''} eps={epsilon:.3f}")
-    plt.legend(["Adv", "clean"])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'clean_vs_adv_entropy.png')}")
-
-    plt.clf()
-
-    # Plot Loss
-    plt.plot(attack.loss_fn.loss_path['CE'][:num_attack_iterations])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'attack_loss.png')}")
-    plt.clf()
-
-    # Plot Gradients
-    plt.plot(attack.optimizer.gradients[:batch_size])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'gradients.png')}")
-    plt.clf()
-
-    # Plot Distances
-    plt.plot(attack.optimizer.distance[:batch_size])
-    plt.savefig(f"{os.path.join(adv_plots_path, 'distances.png')}")
-    plt.clf()
-
     print("done!")
 
 
 '''
     Function for running the main with a given range of epsilons (security evaluation curve)
 '''
-
-
 def main_seceval(parser):
     # Adjusting the parser to add the seceval arguments
     kwargs = {key: value for (key, value) in parser.parse_args()._get_kwargs()}
@@ -314,8 +264,6 @@ def main_seceval(parser):
 '''
     Function for running the main with a given epsilon
 '''
-
-
 def main_single(parser):
     # Parsing the arguments
     args = parser.parse_args()

@@ -7,26 +7,16 @@ import torch
 import utils.constants as keys
 import os
 
-import models.robustbench_load as ingredient
+import models.robustbench_load as rb_load
 
-# TODO: IMplementare un parametro per caricare un modello robusto con AT
-# REFACTORING-FALL: TODO: Add a parameter for the semantic segmentation
+
 '''
-    name: load_model
-    parameters:
-        - backbone      -> The backbone network architecture
-        - uq_technique  -> The chosen uncertainty quantification technique
-        - dataset       -> The dataset on which the model has been trained on
-        - dropout_rate  -> The chosen dropout rate for the injected/embedded dropout
-
     The purpose of this function is to provide a direct interface for loading the already trained
     uncertainty aware models.
 '''
-
-
-def load_model(backbone, uq_technique="None", dataset="cifar10", \
+def load_model(backbone, uq_technique="None", dataset="cifar10", robustness_level='naive_robust',\
                dropout_rate=None, full_bayesian=False, ensemble_size=5, \
-               transform=None, robustness_level='naive_robust', robust_model=None, device='cpu'):
+               transform=None,  robust_model=None, device='cpu'):
     # Guard for the supported network architectures
     if backbone not in keys.SUPPORTED_BACKBONES:
         raise Exception(f"{backbone} is not a supported network architecture")
@@ -40,7 +30,12 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
 
     model =None
 
-    if robustness_level == "naive_robust":
+    # FOR THE PAPER WE USE THIS <----------------------------------------------
+    if robustness_level == "semi_robust":
+        # Import model from robustbench
+        model = rb_load.get_local_model(robust_model, dataset, device)
+
+    elif robustness_level == "naive_robust":
         # Matching the UQ Technique
         if 'dropout' in uq_technique:
             # Obtaining the correct dropout rate
@@ -113,14 +108,6 @@ def load_model(backbone, uq_technique="None", dataset="cifar10", \
 
         else:
             raise Exception(f"{uq_technique} is not a supported uncertainty quantification technique.")
-
-    elif robustness_level == "semi_robust":
-        # Import model from robustbench
-        model = ingredient.get_local_model(robust_model, dataset, device)
-
-    # elif robustness_level == "full_robust":
-    #     # MODELLI ROBUSTI A BAYESIAN ATTACK
-    #     return
 
     return model
 

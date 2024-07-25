@@ -134,72 +134,9 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
     return train_set, validation_set, test_set
 
 
-class AdversarialDataset(torch.utils.data.Dataset):
-    """
-    This retrieve the saved adversarial examples in the form of <sample_id>.gz
-    """
-
-    def __init__(self, ds_path, transforms=None):
-        self.ds_path = ds_path
-        self.transforms = transforms
-        all_samples = os.listdir(self.ds_path)
-        all_samples.remove('fname_to_target.json')
-        self.n_samples = len(all_samples)
-        with open(join(ds_path, 'fname_to_target.json')) as json_file:
-            self.fname_to_target = json.load(json_file)
-
-    def __len__(self):
-        return self.n_samples
-
-    def __getitem__(self, index):
-        fname = f"{str(index).zfill(10)}.png"
-        file_path = os.path.join(self.ds_path, fname)
-        x = torchvision.io.read_image(file_path) / 255.
-        y = self.fname_to_target[fname]
-        if self.transforms is not None:
-            x = self.transforms(x)
-        return x, y
-
-
-def get_dataset_loader_imagenet(batch_size, n_examples):
-    train_path = '../datasets/imagenet/val'
-
-    transform = transforms.Compose([
-        transforms.ToTensor()
-    ])
-
-    imagenet_data = torchvision.datasets.ImageFolder(train_path, transform=transform)
-
-    imagenet_data_subset = torch.utils.data.Subset(imagenet_data,
-                                                   random.sample(range(1, len(imagenet_data)), n_examples))
-
-    # Resize images to a consistent size
-    resized_transform = transforms.Compose([
-        transforms.Resize((224, 224)),  # Modify the size as needed
-        transforms.ToTensor()
-    ])
-
-    # Apply the resized_transform to the dataset
-    imagenet_data_subset.dataset.transform = resized_transform
-
-    dum = imagenet_data_subset if n_examples > 0 else imagenet_data
-    data_loader = {
-        'val': torch.utils.data.DataLoader(
-            dum,
-            batch_size=batch_size,
-            shuffle=False,
-            num_workers=0
-        )
-    }
-    return data_loader
-
-
 ##################################################################################
 # FILE MANAGEMENT 
 ##################################################################################
-
-get_device = lambda id=0: f"cuda:{id}" if torch.cuda.is_available() else 'cpu'
-
 
 # TODO: Add documentation
 def my_load(path, format='rb'):
@@ -287,70 +224,7 @@ def temperature_scaling(logits, temperature):
 # Utility function for converting logits to probabilities
 def from_logits_to_probs(logits, temperature):
     scaled_logits = temperature_scaling(logits, temperature)
-    return F.softmax(scaled_logits, dim=-1)
-
-
-# NOTE: WARNING! This function needs to be finished
-# TODO: Finish and add documentation
-def plot_uncertainty_distributions(output, target, temperature):
-    # Obtining prediction and uncertainty with correct mask
-    proba = from_logits_to_probs(output, temperature)
-    pred, unc = get_prediction_with_uncertainty(proba)
-    pred = pred.argmax(dim=1, keepdim=True)
-    mask = pred.eq(target.view_as(pred)).view_as(unc)
-
-    # print(mask.shape, unc.shape)
-    correct_samples = unc[mask]
-    incorrect_samples = unc[~mask]
-
-    # Printing the moments of the distribution
-    print(f"max unc {torch.max(unc)} - min unc {torch.min(unc)}")
-    print(f"CORRECT: mean {torch.mean(correct_samples)} - var {torch.var(correct_samples)}")
-    print(f"INCORRECT: mean {torch.mean(incorrect_samples)} - var {torch.var(incorrect_samples)}")
-
-
-# NOTE: WARNING! This function needs to be finished
-# TODO: Finish and add documentation
-def search_for_optimal_calibration(output, target, low_b=1, high_b=3, resolution=30):
-    base_path = os.path.join('results', 'calibration', )
-
-    # Computing the temperatures to be tested
-    interval = high_b - low_b
-    step = interval / resolution
-    temps = np.arange(resolution) * step + low_b
-
-    for b in [10, 25, 50]:
-        eces = []
-        for t in temps:
-            scaled_output = temperature_scaling(output, t)
-            proba = F.softmax(scaled_output, dim=-1)
-            pred, unc = get_prediction_with_uncertainty(proba)
-            pred = pred.argmax(dim=1, keepdim=True)
-            correct = pred.eq(target.view_as(pred)).sum().item()
-            ece = expected_calibration_error(pred, unc, target, bins=b)
-            eces.append(ece)
-        plt.plot(temps, eces)
-        plt.savefig(os.path.join(base_path, f'eces_comparison{b}.png'))
-
-
-##################################################################################
-# VISUALIZATION
-##################################################################################
-import matplotlib.pyplot as plt
-
-
-def create_legend(ax, figsize=(10, 0.5)):
-    # create legend
-    h, l = ax.get_legend_handles_labels()
-    legend_dict = dict(zip(l, h))
-    legend_fig = plt.figure(figsize=figsize)
-
-    legend_fig.legend(legend_dict.values(), legend_dict.keys(), loc='center',
-                      ncol=len(legend_dict.values()), frameon=False)
-    legend_fig.tight_layout()
-
-    return legend_fig
-
+    return torch.nn.functional.softmax(scaled_logits, dim=-1)
 
 
 # -----------------------------------
@@ -391,21 +265,3 @@ def check_kwarg(kwargs):
 
 
     return kwargs
-
-
-
-def print_debug(metric_list, metric_name, number_of_attacks, num_attack_iterations, adv_plots_path):
-    legend = [f"atk_it_{i + 1}" for i in range(number_of_attacks)]
-    for i in range(number_of_attacks):
-        plt.plot(metric_list[i * num_attack_iterations:(i + 1) * num_attack_iterations])
-    plt.legend(legend)
-    title = f'attack_every_{metric_name}'
-    plt.title(title)
-    plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
-    plt.clf()
-
-    plt.plot(metric_list)
-    title = f'attack_{metric_name}'
-    plt.title(title)
-    plt.savefig(f"{os.path.join(adv_plots_path, f'{title}.png')}")
-    plt.clf()

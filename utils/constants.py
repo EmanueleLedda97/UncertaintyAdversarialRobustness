@@ -1,5 +1,9 @@
+# List of supported datasets
+SUPPORTED_DATASETS = ['cifar10', 'cifar100', "imagenet"]
+
+
 # Lists of all the supported Backbones
-SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_resnet',
+SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet152", "resnet_fcn", 'robust_resnet',
                      'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B', 'Swin-L',
                      'RaWideResNet-70-16',
                      'WideResNet-70-16',
@@ -8,8 +12,7 @@ SUPPORTED_RESNETS = ["resnet18", "resnet34", "resnet50", "resnet_fcn", 'robust_r
 SUPPORTED_VGGS = []
 SUPPORTED_BACKBONES = SUPPORTED_RESNETS + SUPPORTED_VGGS
 
-# Lists of supported data sets and UQ methods
-SUPPORTED_DATASETS = ['cifar10', 'cifar100', "imagenet"]
+# Lists of supported UQ methods
 SUPPORTE_UQ_METHODS = ["None", 'embedded_dropout', 'injected_dropout', 'deep_ensemble', 'deterministic_uq']
 
 # Lists of supported experiments
@@ -21,18 +24,12 @@ SUPPORTED_UNDERCONFIDENCE_ATTACKS = ['MaxVar', 'Shake']
 SUPPORTED_OVERCONFIDENCE_ATTACKS = ['MinVar', 'AutoTarget', 'Stab', 'Centroid', 'UST']
 SUPPORTED_ATTACKS = SUPPORTED_UNDERCONFIDENCE_ATTACKS + SUPPORTED_OVERCONFIDENCE_ATTACKS
 SUPPORTED_UPDATE_STRATEGIES = ['pgd', 'fgsm']
-
 SUPPORTED_NORMS = ['Linf', 'L2']
 
 # List of supported dropout rates and ensemble sizes
 SUPPORTED_DROPOUT_RATES = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
 MAXIMUM_ENSEMBLE_SIZE = 5
 
-# Dictionary containing the number of classes for each dataset
-NUBMER_OF_CLASSES_PER_DATASET = {
-    'cifar10': 10,
-    'cifar100': 100
-}
 
 # The last hyperparameters chosen during the optimization process (investigate on these)
 LAST_HYPERPARAMETERS_CHOICES = (2e-3, 150)
@@ -71,66 +68,19 @@ NORMALIZATION_DICT = {
 
 DEFAULT_DROPOUT_RATE = 0.3
 
-
-
-# The order change the display of plots in plot_results.py
-# Architecture order aka how the file are saved in folder
-# CIFAR10_ROBUST_MODELS = ['addepalli2022', 'addepalli2022_towards', 'sehwag2021', # RESNET-18
-#                          'engstrom2019', # RESNET-50
-#                          'sehwag2021Proxy_ResNest152', # RESNET-152
-#                          'Cui2023Decoupled_WRN_28_10', 'gowal2021Improving_28_10',
-#                          'Wang2023Better_WRN_28_10', 'Xu2023Exploring_WRN_28_10', # WRN-28-10
-#                          'Gowal2021Improving_70_16_ddpm_100m', 'kang2021Stable',
-#                          'pang2022Robustness_WRN70_16', 'Rebuffi2021Fixing_70_16_cutmix_extra',
-#                          'Wang2023Better_WRN_70_16', # WRN-70-10
-#                          'Peng2023Robust' #RaWRN-70-16
-#                          ]
-
-# cifar_latex_command_id = ["\\addepallieffID","\\addepallitowID","\sehwagrobustID","\engstromID","\sehwagrobustIDdue","\cuidecoupledID","\gowalimprovingID",
-# "\wangbetterID","\\xuexploringID","\gowalimprovingIDdue","\kangstableID","\pangrobustnessID","\\rebuffifixingID", "\wangbetterIDdue", "\pengrobustID"]
-
-
 # PAPER CITATION ORDER
 CIFAR10_ROBUST_MODELS = ['engstrom2019', 'addepalli2022', 'gowal2021Improving_28_10', 'Gowal2021Improving_70_16_ddpm_100m',
                          'Wang2023Better_WRN_28_10', 'Wang2023Better_WRN_70_16', 'sehwag2021', 'sehwag2021Proxy_ResNest152',
                          'Rebuffi2021Fixing_70_16_cutmix_extra', 'kang2021Stable', 'Peng2023Robust', 'addepalli2022_towards',
                          'Cui2023Decoupled_WRN_28_10', 'Xu2023Exploring_WRN_28_10', 'pang2022Robustness_WRN70_16']
 
-cifar_latex_command_id = ["\engstromID","\\addepallieffID","\gowalimprovingID","\gowalimprovingIDdue",
-"\wangbetterID","\wangbetterIDdue","\sehwagrobustID","\sehwagrobustIDdue",
-"\\rebuffifixingID","\kangstableID","\pengrobustID","\\addepallitowID",
-"\cuidecoupledID","\\xuexploringID","\pangrobustnessID"]
 
+CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
 
-
-
-CIFAR10_DICT_MODELS_TO_ID = dict((name, cifar_latex_command_id[idx]) for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
-
-
-
-# CREA UGUALE PER IMAGENET
-# Architecture order aka how the file are saved in folder
-# IMAGENET_ROBUST_MODELS = ['salman2020R18', # RESNET-18
-#                           'engstrom2019imgnet', 'salman2020R50', 'wong2020', # RESNET-50
-#                           'Liu2023swinB', 'Liu2023swinL', # SWIN
-#                           'Liu2023convNextB', 'Liu2023convNextL', # CONVNEXT
-#                           ]
-# imagenet_latex_command_id = ["\salmanID","\engstromimagenetID","\salmanIDdue","\wongfastID",
-# "\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
 
 # PAPER CITATION ORDER
 IMAGENET_ROBUST_MODELS = ['engstrom2019imgnet', 'salman2020R18', 'salman2020R50', 'wong2020',
                           'Liu2023swinB', 'Liu2023swinL', 'Liu2023convNextB', 'Liu2023convNextL']
-
-imagenet_latex_command_id = ["\engstromimagenetID", "\salmanID","\salmanIDdue","\wongfastID",
-"\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
-
-IMAGENET_DICT_MODELS_TO_ID = dict((name, imagenet_latex_command_id[idx]) for idx, name in enumerate(IMAGENET_ROBUST_MODELS))
-
-
-
-
-CIFAR10_NAIVE_MODELS = ['resnet18', 'resnet34', 'resnet50']
 
 IMAGENET_NAIVE_MODELS = ['resnet18', 'resnet50', 'ConvNeXt-L', 'ConvNeXt-B', 'Swin-B']
 
