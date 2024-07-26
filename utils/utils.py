@@ -138,6 +138,8 @@ def get_dataset_splits(dataset='cifar10', set_normalization=True, ood=False, loa
 # FILE MANAGEMENT 
 ##################################################################################
 
+get_device = lambda id=0: f"cuda:{id}" if torch.cuda.is_available() else 'cpu'
+
 # TODO: Add documentation
 def my_load(path, format='rb'):
     with open(path, format) as f:
