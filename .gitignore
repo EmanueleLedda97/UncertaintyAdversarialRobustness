@@ -41,5 +41,3 @@ models/zip_files/
 .vscode/
 
 figures/
-
-*.ipynb

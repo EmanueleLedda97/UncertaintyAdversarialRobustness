@@ -1,18 +1,11 @@
 
-import matplotlib.pyplot as plt
 from utils.utils import join, my_load
-import utils.constants as const
-import utils.paths as utpaths
 import os
-import seaborn as sns
 import numpy as np
-import pickle
 import torch
-import io
+
 import utils.visualisation as viz
-import scipy
-import math
-import seaborn as sns
+
 from matplotlib.colors import TABLEAU_COLORS
 import utils.utils as utils
 import warnings
@@ -22,8 +15,6 @@ from utils.constants import CIFAR10_ROBUST_MODELS, IMAGENET_ROBUST_MODELS, \
     cifar10_model_dict, imagenet_model_dict
 from matplotlib.lines import Line2D
 import matplotlib.patches as mpatches
-
-from numpy import trapz
 
 
 COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']

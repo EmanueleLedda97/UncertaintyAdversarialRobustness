@@ -102,10 +102,98 @@ cifar_latex_command_id = ["\engstromID","\\addepallieffID","\gowalimprovingID","
 "\cuidecoupledID","\\xuexploringID","\pangrobustnessID"]
 
 
-
-
-CIFAR10_DICT_MODELS_TO_ID = dict((name, cifar_latex_command_id[idx]) for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
-
+# CIFAR10_DICT_MODELS_TO_ID = dict((name, cifar_latex_command_id[idx]) for idx, name in enumerate(CIFAR10_ROBUST_MODELS))
+CIFAR10_DICT_MODELS_TO_ID = {
+'engstrom2019': {"paper_id":'\\engstromID',
+                 "paper_ref":"\\engstrom",
+                 "rb_rank":"15",
+                 "clean_acc": "87.03\%",
+                 "rob_acc": "49.25\%"},
+ 'addepalli2022': {"paper_id":'\\addepallieffID',
+                   "paper_ref":"\\addepallieff",
+                   "rb_rank":"13",
+                   "clean_acc": "85.71\%",
+                  "rob_acc": "52.48\%",
+                   },
+ 'gowal2021Improving_28_10': {"paper_id":'\\gowalimprovingID',
+                              "paper_ref":"\\gowalimproving",
+                              "rb_rank":"9",
+                              "clean_acc":"87.50\%",
+                              "rob_acc":"63.38\%",
+                              },
+ 'Gowal2021Improving_70_16_ddpm_100m': {"paper_id":'\\gowalimprovingIDdue',
+                                        "paper_ref":"\\gowalimproving",
+                                        "rb_rank":"6",
+                                        "clean_acc":"88.74\%",
+                                        "rob_acc":"66.10\%",
+                                        },
+ 'Wang2023Better_WRN_28_10': {"paper_id":'\\wangbetterID',
+                              "paper_ref":"\\wangbetter",
+                              "rb_rank":"4",
+                              "clean_acc":"92.44\%",
+                              "rob_acc":"67.31\%",
+                              },
+ 'Wang2023Better_WRN_70_16': {"paper_id":'\\wangbetterIDdue',
+                              "paper_ref":"\\wangbetterID",
+                              "rb_rank":"2",
+                              "clean_acc":"70.69\%",
+                              "rob_acc":"70.69\%",
+                              },
+ 'sehwag2021': {"paper_id":'\\sehwagrobustID',
+                "paper_ref":"\\sehwagrobust",
+                "rb_rank":"12",
+                "clean_acc":"84.59\%",
+                "rob_acc":"55.54\%",
+                },
+ 'sehwag2021Proxy_ResNest152': {"paper_id":'\\sehwagrobustIDdue',
+                                "paper_ref":"\\sehwagrobust",
+                                "rb_rank":"11",
+                                "clean_acc":"87.30\%",
+                                "rob_acc":"62.79\%",
+                                },
+ 'Rebuffi2021Fixing_70_16_cutmix_extra': {"paper_id":'\\rebuffifixingID',
+                                          "paper_ref":"\\rebuffifixing",
+                                          "rb_rank":"5",
+                                          "clean_acc":"92.23\%",
+                                          "rob_acc":"66.56\%",
+                                          },
+ 'kang2021Stable': {"paper_id":'\\kangstableID',
+                    "paper_ref":"\\kangstable",
+                    "rb_rank":"7",
+                    "clean_acc":"93.73\%",
+                    "rob_acc":"64.20\%",
+                    },
+ 'Peng2023Robust': {"paper_id":'\\pengrobustID',
+                    "paper_ref":"\\pengrobust",
+                    "rb_rank":"1",
+                    "clean_acc":"93.27\%",
+                    "rob_acc":"71.07\%",
+                    },
+ 'addepalli2022_towards': {"paper_id":'\\addepallitowID',
+                           "paper_ref":"\\addepallitow",
+                           "rb_rank":"14",
+                           "clean_acc":"80.24\%",
+                           "rob_acc":"51.06\%",
+                           },
+ 'Cui2023Decoupled_WRN_28_10': {"paper_id":'\\cuidecoupledID',
+                                "paper_ref":"\\cuidecoupled",
+                                "rb_rank":"3",
+                                "clean_acc":"92.16\%",
+                                "rob_acc":"67.73\%",
+                                },
+ 'Xu2023Exploring_WRN_28_10': {"paper_id":'\\xuexploringID',
+                               "paper_ref":"\\xuexploring",
+                               "rb_rank":"8",
+                               "clean_acc":"93.69\%",
+                               "rob_acc":"63.89\%",
+                               },
+ 'pang2022Robustness_WRN70_16': {"paper_id":'\\pangrobustnessID',
+                                 "paper_ref":"\\pangrobustness",
+                                 "rb_rank":"10",
+                                 "clean_acc":"89.01\%",
+                                 "rob_acc":"63.35\%",
+                                 }
+}
 
 
 # CREA UGUALE PER IMAGENET
@@ -125,8 +213,58 @@ IMAGENET_ROBUST_MODELS = ['engstrom2019imgnet', 'salman2020R18', 'salman2020R50'
 imagenet_latex_command_id = ["\engstromimagenetID", "\salmanID","\salmanIDdue","\wongfastID",
 "\liuswinb","\liuswinl","\liuconvnb","\liuconvnl"]
 
-IMAGENET_DICT_MODELS_TO_ID = dict((name, imagenet_latex_command_id[idx]) for idx, name in enumerate(IMAGENET_ROBUST_MODELS))
+# IMAGENET_DICT_MODELS_TO_ID = dict((name, imagenet_latex_command_id[idx]) for idx, name in enumerate(IMAGENET_ROBUST_MODELS))
 
+IMAGENET_DICT_MODELS_TO_ID ={
+'engstrom2019imgnet': {"paper_id":'\\engstromimagenetID',
+                       "paper_ref":"\\engstromimagenet",
+                    "rb_rank":"6",
+                    "clean_acc":"62.56\%",
+                    "rob_acc":"29.22\%"
+                       },
+ 'salman2020R18': {"paper_id":'\\salmanID',
+                   "paper_ref":"\\salman",
+                   "rb_rank":"8",
+                   "clean_acc":"52.92\%",
+                   "rob_acc":"25.32\%"
+                   },
+ 'salman2020R50': {"paper_id":'\\salmanIDdue',
+                   "paper_ref":"\\salman",
+                   "rb_rank":"5",
+                   "clean_acc":"64.02\%",
+                   "rob_acc":"34.96\%"
+                   },
+ 'wong2020': {"paper_id":'\\wongfastID',
+              "paper_ref":"\\wongfast",
+              "rb_rank":"7",
+              "clean_acc":"55.62\%",
+              "rob_acc":"26.24\%"
+              },
+ 'Liu2023swinB': {"paper_id":'\\liuswinb',
+                  "paper_ref":"\\liu",
+                  "rb_rank":"3",
+                  "clean_acc":"76.16\%",
+                  "rob_acc":"56.16\%"
+                  },
+ 'Liu2023swinL': {"paper_id":'\\liuswinl',
+                  "paper_ref":"\\liu",
+                  "rb_rank":"1",
+                  "clean_acc":"78.92\%",
+                  "rob_acc":"59.56\%"
+                  },
+ 'Liu2023convNextB': {"paper_id":'\\liuconvnb',
+                      "paper_ref":"\\liu",
+                      "rb_rank":"4",
+                      "clean_acc":"76.02\%",
+                      "rob_acc":"55.82\%"
+                      },
+ 'Liu2023convNextL': {"paper_id":'\\liuconvnl',
+                      "paper_ref":"\\liu",
+                      "rb_rank":"2",
+                      "clean_acc":"78.02\%",
+                      "rob_acc":"58.48\%"
+                      }
+ }
 
 
 
