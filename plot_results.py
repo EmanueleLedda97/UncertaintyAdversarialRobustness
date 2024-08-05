@@ -19,7 +19,7 @@ import matplotlib.patches as mpatches
 
 COLORS = ['tab:green', 'tab:orange', 'tab:blue', 'tab:red']
 ALL_COLORS = list(TABLEAU_COLORS.keys())
-ALL_MARKERS = list("o*sP^<>1234vXD")
+ALL_MARKERS = list("oXD*sP^<>1234v")
 
 warnings.simplefilter("ignore")
 
@@ -120,16 +120,6 @@ def get_results(*args):
     return eps_to_adv_results_dict
 
 
-def get_bucket_acc(confidences, y_true, y_preds, min_conf=.0, max_conf=.1):
-    bucket_filter = (confidences > min_conf) & (confidences < max_conf)
-    bucket_is_correct = (y_preds == y_true)[bucket_filter]
-    bucket_size = bucket_is_correct.shape[0]
-    bucket_acc = bucket_is_correct.mean()
-    avg_conf = confidences[bucket_filter].mean()
-
-    return bucket_acc, avg_conf, bucket_size
-
-
 def check_exp(paths, verbose=True):
     ok_list = []
     not_ok_list = []
@@ -155,14 +145,6 @@ def check_exp(paths, verbose=True):
         if verbose: print(not_ok)
 
     return ok_list
-
-
-def print_pairwise_distance(eps_to_adv_results_dict):
-    clean_probs = eps_to_adv_results_dict[0]['mean_probs']
-    adv_probs = eps_to_adv_results_dict[4]['mean_probs']
-    pairwise_distance = torch.nn.functional.pairwise_distance(clean_probs, adv_probs)
-    print(pairwise_distance.mean(), pairwise_distance.std())
-    print("")
 
 
 def compute_ece(y_true, out_probs, k, compute_abs=True):
@@ -257,7 +239,7 @@ def fix_values(path, metrics, atk_to_fix):
 
 ######################################################################################################################
 
-def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params, k=15):
+def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, marker, dict_plot_params, k=15):
     ece, bucket_accs, bucket_sizes, avg_conf_list, bin_lowers, bin_uppers, avg_acc_conf = compute_ece(
         y_true, out_probs, k)
 
@@ -274,11 +256,11 @@ def plot_ece_and_hist(y_true, out_probs, ax_up, label, color, dict_plot_params, 
 
     # print(f"{color=} -- {area=}")
 
-    ax_up.plot(avg_conf_list, bucket_accs, label=f"label {ece:.3f}", marker='o',
+    ax_up.plot(avg_conf_list, bucket_accs, label=f"label {ece:.3f}", marker=marker, alpha=0.7,
                color=color, **dict_plot_params)
     # Histogram
     ax_up.fill_between(avg_conf_list, 0, bucket_sizes / bucket_sizes.sum(), alpha=0.3, color=color)
-    ax_up.plot(avg_conf_list, bucket_sizes / bucket_sizes.sum(), alpha=0.5, linestyle='dashed', marker='d',
+    ax_up.plot(avg_conf_list, bucket_sizes / bucket_sizes.sum(), alpha=0.5, linestyle='dashed', marker=marker,
                color=color, **dict_plot_params)
 
     acc, avg_conf = avg_acc_conf
@@ -311,85 +293,6 @@ def plot_ece_hist_original(y_true, out_probs, ax_down, ax_up, label, color, dict
 
 
 # -----------------------------------------------------------------------
-
-def plot_all_scatters(paths, ds="dsname", metric='entropy_of_mean', figsize=(5, 5), figtitle='all_scatter.pdf'):
-    """
-    Scatter plot of point before and after the attack, green are correctly classified samples and
-    red are not correctly classified.
-    Args:
-        paths:
-        metric:
-        figsize:
-        figtitle:
-
-    Returns:
-
-    """
-    nplots = len(paths)
-    ncols = 4 if nplots >= 4 else nplots
-    ncols = min(ncols, nplots)
-    nrows = nplots // ncols + int(nplots % ncols != 0)
-    fig, axs = viz.create_figure(nrows, ncols, figsize=figsize, fontsize=15, squeeze=False)
-
-    if ds not in ["imagenet", "cifar10"]:
-        print("plot_all_scatters Dataset not supported")
-        return
-
-    save_path = f"figures/MI_scatter/{ds_name}/"
-    if not os.path.isdir(save_path):
-        os.makedirs(save_path)
-
-    for plot_i, path in enumerate(paths):
-        try:
-            eps_to_adv_results_dict = get_results(*path.split('/'))
-            model_name = path.split('/')[-3]
-
-            attack_type = path.split('/')[-1]
-
-            eps = 4 if 'imagenet' in path else 8
-            i, j = plot_i // ncols, plot_i % ncols
-
-            ax = axs[i, j]
-
-            metric_clean = eps_to_adv_results_dict[0][metric]
-            metric_adv = fix_values(path, metric, attack_type)
-
-            nsamples = min(metric_clean.shape[0], metric_adv.shape[0])
-            metric_clean = metric_clean[:nsamples]
-            metric_adv = metric_adv[:nsamples]
-
-            # pearson = scipy.stats.pearsonr(metric_clean, metric_adv)
-            # spearman = scipy.stats.spearmanr(metric_clean, metric_adv)
-
-            y = eps_to_adv_results_dict[0]['ground_truth']
-            y_pred = eps_to_adv_results_dict[0]['preds']
-            correct = (y_pred == y).numpy()
-            clean_acc = correct.mean()
-
-            title = f"{model_name}\n"
-            title += f"Accuracy: {clean_acc}\n"
-            # title += f"pearson: {pearson[0]:.2f}, p-val: {pearson[1]:.2f}\n"
-            # title += f"spearman: {spearman[0]:.2f}, p-val: {spearman[1]:.2f}"
-            ax.set_title(title)
-
-
-            ax.scatter(metric_clean[correct], metric_adv[correct], alpha=0.1, label='correct', color='green')
-            ax.scatter(metric_clean[~correct], metric_adv[~correct], alpha=0.1, label='wrong', color='red')
-            ax.set_xlabel('Entropy before attack (H)')
-
-        except Exception as e:
-            print(e)
-            print("")
-
-    for i in range(nrows):
-        axs[i, 0].set_ylabel('Entropy after attack (Hadv)')
-
-    axs[0,0].legend(loc='upper left')
-
-    fig.tight_layout()
-    fig.show()
-    fig.savefig(f"{save_path}{figtitle}.pdf", bbox_inches='tight')
-
 
 def plot_cal_curves_and_hist_single(paths, ds="dsname", figsize=(15, 10), figtitle='calibration_curves'):
     """
@@ -517,21 +420,21 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
         out_probs = eps_to_adv_results_dict[0]['mean_probs']
 
         clean_ece, clean_acc, clean_area = plot_ece_and_hist(y_true, out_probs, ax_up, "clean ECE", COLORS[0],
-                                                             dict_plot_params)
+                                                             ALL_MARKERS[0], dict_plot_params)
 
         # OVER CURVE
         y_true = fix_values(path, 'ground_truth', 'Stab')
         out_probs = fix_values(path, 'mean_probs', 'Stab')
 
         over_ece, over_acc, over_area = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-O", COLORS[1],
-                                                          dict_plot_params)
+                                                          ALL_MARKERS[1], dict_plot_params)
 
         # UNDER
         y_true = fix_values(path, 'ground_truth', 'Shake')
         out_probs = fix_values(path, 'mean_probs', 'Shake')
 
         under_ece, under_acc, under_area = plot_ece_and_hist(y_true, out_probs, ax_up, "Adv-U", COLORS[2],
-                                                             dict_plot_params)
+                                                             ALL_MARKERS[2], dict_plot_params)
 
         models_ece[model_name] = {"clean_ece": clean_ece, "over_ece": over_ece, "under_ece": under_ece,
                                   "clean_acc": clean_acc, "over_acc": over_acc, "under_acc": under_acc,
@@ -562,19 +465,19 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
         if i!= nrows-1:
             ax_up.set_xticklabels([])
 
-    legend_lines = [ Line2D([0], [0], color=COLORS[i], **dict_plot_params) for i in range(3)]
-    labels = ["Clean", "Oatk", "Uatk"]
+    legend_lines = [ Line2D([0], [0], color=COLORS[i], marker=ALL_MARKERS[i], **dict_plot_params) for i in range(3)]
+    labels = ["Clean", "Over", "Under"]
 
-    anchor = (0.5, 1.02) if 'imagenet' in path else (0.5, 0.95)
+    anchor = (0.5, 1.01) if 'imagenet' in path else (0.5, 0.96)
     fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=anchor)
 
     axs[-1,0].set_ylim(0.00001, 1)
     for col in range(ncols):
-        axs[-1, col].set_xlabel('predicted probability')
+        axs[-1, col].set_xlabel('Expected probability')
         axs[-1, col].set_xlim(0, 1)
 
     for row in range(0, nrows):
-        axs[row, 0].set_ylabel('% of correct\npredictions', labelpad=15)
+        axs[row, 0].set_ylabel('Observed probability', labelpad=15)
 
     # Adjust x label for remove plots
     if nplots < ncols*nrows:
@@ -592,146 +495,6 @@ def plot_cal_curves_and_hist_allinone(paths, ncols=5, curvedim=4, figname='calib
     fig.tight_layout()
     fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
     utils.my_save(models_ece, f"{save_path}{figname}.pkl")
-
-
-def plot_entropy_gap_points(paths, ds="cifar"):
-    """
-    Plot scatterplot of model's entropy for different types of attacks.
-    On x axis there is model alias (M*), y axis mean entropy.
-    """
-
-    if ds not in ["imagenet", "cifar"]:
-        print("plot_entropy_gap Dataset not supported")
-        return
-
-    save_path = "figures/entropy_gap/"
-    if not os.path.isdir(save_path):
-        os.makedirs(save_path)
-
-    if ds == "imagenet":
-        paths.pop(0)
-
-    eps = 8 if ds == 'cifar' else 4
-
-    model_dict = {}
-    model_name_list = []
-
-    for i, model in enumerate(paths[0]):
-        path_splitted = model.split('/')
-        model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
-        model_dict[model_name] = {"Clean": 0, "Stab": 0, "Shake": 0, "AutoTarget": 0}
-        # model_name_list.append(model_name)
-        model_name_list.append(f"M{i+1}")
-
-    print(model_name_list)
-
-    for attack_path in paths[::2]:
-        for model in attack_path:
-            path_splitted = model.split('/')
-            model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
-            attack_type = path_splitted[-1]
-
-            res = get_results(*path_splitted)
-
-            model_dict[model_name]["Clean"] = res[0]['entropy_of_mean'].mean().item()
-            model_dict[model_name][attack_type] = fix_values(path, "entropy_of_mean", attack_type).mean().item()
-
-    fig, ax = viz.create_figure(figsize=(15, 15))
-
-    for idx, (key, item) in enumerate(model_dict.items()):
-        print(key, item)
-        ax.plot(idx, item["Clean"], color=COLORS[0], marker=ALL_MARKERS[0], markersize=10)
-        ax.plot(idx, item["Stab"], color=COLORS[1], marker=ALL_MARKERS[1], markersize=10)
-        ax.plot(idx, item["Shake"], color=COLORS[2], marker=ALL_MARKERS[2], markersize=10)
-        ax.plot(idx, item["AutoTarget"], color=COLORS[3], marker=ALL_MARKERS[3], markersize=10)
-
-    labels = ["Clean", "Stab", "Shake", "AutoTarget"]
-    markers = [Line2D([], [], color=COLORS[i], marker=ALL_MARKERS[i], linestyle='None',
-                      markersize=15, label=key) for i, key in enumerate(labels)]
-
-    ax.legend(markers, labels, loc='upper right')
-    title = f"ENTROPY_GAP_POINTS_{ds}"
-    ax.set_title(title)
-
-    ax.set_xticks(range(len(model_name_list)))
-    ax.set_xticklabels(model_name_list, rotation=45, ha="right")
-
-    ax.set_xlabel('Models')
-    ax.set_ylabel('H(x)')
-    ax.grid("on")
-    # fig.subplots_adjust(bottom=0.30)
-    fig.show()
-    fig.savefig(f"{save_path}{title}.pdf", bbox_inches='tight')
-
-
-def plot_entropy_gap_bars(paths, ds="cifar"):
-    """
-    Plot bar plot of model's entropy for different types of attacks.
-    On x axis there is RB model name, y axis mean entropy.
-    """
-
-    save_path = "figures/entropy_gap/"
-    if not os.path.isdir(save_path):
-        os.makedirs(save_path)
-
-    if ds == "imagenet":
-        paths.pop(0)
-
-    eps = 8 if ds == 'cifar' else 4
-
-    model_dict = {}
-    model_name_list = []
-
-    for model in paths[0]:
-        path_splitted = model.split('/')
-        model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
-        model_dict[model_name] = {"Clean": 0, "Stab": 0, "Shake": 0, "AutoTarget": 0}
-        model_name_list.append(model_name)
-
-    print(model_name_list)
-
-    for attack_path in paths[::2]:
-        for model in attack_path:
-            path_splitted = model.split('/')
-            model_name = path_splitted[path_splitted.index('None') + (1 if not 'naive' in model else -1)]
-            attack_type = path_splitted[-1]
-
-            res = get_results(*path_splitted)
-
-
-            model_dict[model_name]["Clean"] = res[0]['entropy_of_mean'].mean().item()
-            model_dict[model_name][attack_type] = fix_values(path, "entropy_of_mean", attack_type).mean().item()
-
-    fig, ax = viz.create_figure(figsize=(15, 15))
-
-    width = 0.25  # the width of the bars
-    multiplier = 0
-    x_ticks = np.arange(len(model_name_list)) * 2
-
-    for idx, (key, item) in enumerate(model_dict.items()):
-        offset = width * multiplier
-
-        print(key, item)
-        ax.bar(x_ticks[idx], item["Clean"], width, color=COLORS[0], label="Clean")
-        ax.bar(x_ticks[idx] + (width * 1), item["Stab"], width, color=COLORS[1], label="Stab")
-        ax.bar(x_ticks[idx] + (width * 2), item["Shake"], width, color=COLORS[2], label="Shake")
-        ax.bar(x_ticks[idx] + (width * 3), item["AutoTarget"], width, color=COLORS[3], label="AutoTarget")
-
-    labels = ["Clean", "Stab", "Shake", "AutoTarget"]
-    markers = [mpatches.Patch(color=COLORS[i], label=key) for i, key in enumerate(labels)]
-
-    ax.legend(markers, labels, loc='upper right')
-
-    title = f"ENTROPY_GAP_BARS_{ds}"
-    ax.set_title(title)
-
-    ax.set_xticks(x_ticks + width * 2)
-    ax.set_xticklabels(model_name_list, rotation=45, ha="right")
-
-    ax.set_xlabel('Models')
-    ax.set_ylabel('H(x)')
-    fig.show()
-    fig.savefig(f"{save_path}{title}.pdf", bbox_inches='tight')
 
 
 def plot_violin_single(paths, ds, figsize=(7, 7), figtitle='violin_plot'):
@@ -847,6 +610,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
     extend = 0.2 # Di quanto allungare il segmento
 
     linewidth = 4
+    marksize= 10
 
 
     for plot_i, path in enumerate(paths):
@@ -886,6 +650,8 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         v1["cmeans"].set_segments(segment)
         v1["cmeans"].set_linewidth(linewidth)
 
+        axs.plot(segment[0][0][0], segment[0][0][1], color=COLORS[0], marker=ALL_MARKERS[0], ms=marksize)
+
         for b in v1['bodies']:
             # get the center
             m = np.mean(b.get_paths()[0].vertices[:, 0])
@@ -906,6 +672,8 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         v2["cmeans"].set_segments(segment)
         v2["cmeans"].set_linewidth(linewidth)
 
+        axs.plot(segment[0][1][0], segment[0][1][1], color=COLORS[1], marker=ALL_MARKERS[1], ms=marksize)
+
         for b in v2['bodies']:
             # get the center
             m = np.mean(b.get_paths()[0].vertices[:, 0])
@@ -925,6 +693,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
         v3["cmeans"].set_segments(segment)
         v3["cmeans"].set_linewidth(linewidth)
 
+        axs.plot(segment[0][1][0], segment[0][1][1], color=COLORS[2], marker=ALL_MARKERS[2], ms=marksize)
 
         for b in v3['bodies']:
             # get the center
@@ -934,7 +703,7 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
             b.set_color(COLORS[2])
 
     # Y-AXIS
-    axs.set_ylabel("H(x)")
+    axs.set_ylabel("Entropy distribution")
     ytick = np.around(np.linspace(0, axs.get_ylim()[1], 7), 1)
     axs.set_yticks(ytick, minor=False)
     axs.set_yticklabels([str(y) for y in ytick], fontdict=None, minor=False)
@@ -942,11 +711,11 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
     # X-AXIS
     axs.set_xlabel("Models")
     axs.set_xticks(np.arange(len(model_name_list)))
-    axs.set_xticklabels(model_name_list, rotation=45, ha="right")
+    axs.set_xticklabels(model_name_list, fontsize=25)
 
     # LEGEND
-    legend_lines = [ Line2D([0], [0], color=COLORS[i], lw=linewidth) for i in range(3)]
-    labels = ["Clean", "Oatk", "Uatk"]
+    legend_lines = [ Line2D([0], [0], color=COLORS[i], marker=ALL_MARKERS[i], ms=linewidth*3, lw=linewidth) for i in range(3)]
+    labels = ["Clean", "Over", "Under"]
 
     fig.legend(legend_lines, labels, loc='upper center', ncols=3, frameon=False, bbox_to_anchor=(0.5, 1.05))
 
@@ -956,7 +725,6 @@ def plot_violin_all(paths, figsize=(7, 16), figname='violin_plot'):
     fig.savefig(f"{save_path}{figname}.pdf", bbox_inches='tight')
 
     utils.my_save(models_avg_entropy, f"{save_path}{figname}.pkl")
-
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -978,7 +746,8 @@ if __name__ == '__main__':
         ds_name = path_list[0].split('/')[3]
         title = f"calibration_curve_{robustness_level}_{ds_name}"
         #plot_cal_curves_and_hist_single(path_list, ds=ds_name, figtitle=title)
-        plot_cal_curves_and_hist_allinone(path_list, ncols=4, curvedim=5, figname=title)
+        plot_cal_curves_and_hist_allinone(path_list, ncols=5 if ds_name =="cifar10" else 4,
+                                          curvedim=5, figname=title)
 
     # ----------------------- VIOLIN PLOTS
     for path_list in paths[:2]:
@@ -990,11 +759,11 @@ if __name__ == '__main__':
 
 
     # ------------------------ MI SAMPLES PLOTS
-    for path_list in paths:
-        robustness_level = dict_terms[path_list[0].split('/')[2]]
-        ds_name = path_list[0].split('/')[3]
-        attack_type = path_list[0].split('/')[-1]
-        title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
+    # for path_list in paths:
+    #     robustness_level = dict_terms[path_list[0].split('/')[2]]
+    #     ds_name = path_list[0].split('/')[3]
+    #     attack_type = path_list[0].split('/')[-1]
+    #     title = f"scatter_{robustness_level}_{ds_name}_{attack_type}"
         #plot_all_scatters(path_list, ds=ds_name, figtitle=title)
 
     # ----------------------- ENTROPY GAP PLOTS
